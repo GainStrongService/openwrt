@@ -256,6 +256,12 @@ ramips_board_detect() {
 	*"OLinuXino-RT5350F-EVB")
 		name="olinuxino-rt5350f-evb"
 		;;
+	*"Oolite-v8 8MB")
+		name="oolite-v8-8mb"
+		;;
+	*"Oolite-v8 16MB")
+		name="oolite-v8-16mb"
+		;;
 	*"Oolite-v8 32MB")
 		name="oolite-v8-32mb"
 		;;
