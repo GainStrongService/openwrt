@@ -6,6 +6,11 @@
 	compatible = "mediatek,mt7621-eval-board", "mediatek,mt7621-soc";
 	model = "Oolite-v8 32MB";
 
+	memory@0 {
+		device_type = "memory";
+		reg = <0x0 0x1c000000>, <0x20000000 0x4000000>;
+	};
+	
 	chosen {
 		bootargs = "console=ttyS0,57600";
 	};
