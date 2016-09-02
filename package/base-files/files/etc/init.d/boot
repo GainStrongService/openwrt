@@ -7,6 +7,7 @@ STOP=98
 uci_apply_defaults() {
 	. /lib/functions/system.sh
 
+    	. /etc/3g_interface.sh
 	cd /etc/uci-defaults || return 0
 	files="$(ls)"
 	[ -z "$files" ] && return 0
