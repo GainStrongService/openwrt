@@ -93,7 +93,7 @@
 	};
 
 	ethernet@1e100000 {
-		mtd-mac-address = <&factory 0xe000>;
+		mtd-mac-address = <&factory 0x04>;
 	};
 
 	gpio-keys-polled {
