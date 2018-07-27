@@ -7,7 +7,6 @@
 
 include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/image.mk
-
 KERNEL_LOADADDR = 0x80060000
 
 DEVICE_VARS += BOARDNAME CMDLINE CONSOLE IMAGE_SIZE LOADER_TYPE
@@ -18,6 +17,7 @@ include ./generic-legacy-devices.mk
 include ./generic-senao.mk
 include ./generic-tp-link.mk
 include ./generic-ubnt.mk
+include ./generic-gainstrong.mk
 endif
 ifeq ($(SUBTARGET),tiny)
 include ./tiny-tp-link.mk
