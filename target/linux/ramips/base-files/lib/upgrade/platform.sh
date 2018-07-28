@@ -226,7 +226,8 @@ platform_check_image() {
 	zbt-wr8305rt|\
 	zorlik,zl5900v2|\
 	zte-q7|\
-	youku-yk1)
+	youku-yk1|\
+        minibox-lora)
 		[ "$magic" != "27051956" ] && {
 			echo "Invalid image type."
 			return 1

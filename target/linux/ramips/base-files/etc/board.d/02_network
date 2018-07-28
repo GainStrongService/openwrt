@@ -391,6 +391,10 @@ ramips_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0:lan:2" "1:lan:1" "4:wan" "6@eth0"
 		;;
+        minibox-lora)
+		ucidef_add_switch "switch0" \
+			"0:lan" "1:lan" "2:lan" "3:lan" "4:wan" "6@eth0"
+                ;;
 	*)
 		RT3X5X=`cat /proc/cpuinfo | egrep "(RT3.5|RT5350)"`
 		if [ -n "${RT3X5X}" ]; then
@@ -572,6 +576,10 @@ ramips_setup_macs()
 	wlr-6000)
 		wan_mac=$(macaddr_add "$(mtd_get_mac_binary factory 32772)" 2)
 		;;
+        minibox-lora)
+                wan_mac=$(mtd_get_mac_binary factory 4)
+                lan_mac=$(mtd_get_mac_binary factory 46)
+                ;;
 	*)
 		lan_mac=$(cat /sys/class/net/eth0/address)
 		wan_mac=$(macaddr_add "$lan_mac" 1)
