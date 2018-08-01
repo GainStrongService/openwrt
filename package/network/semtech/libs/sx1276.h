@@ -343,6 +343,15 @@ void sx1276_set_max_payload_length(radio_modems_t modem, uint8_t max);
 void sx1276_set_public_network(bool enable);
 
 /*!
+ * \brief Reads the current Frequency Error value
+ *
+ * \retval FE Current Frequency Error value in [dBm]
+ *
+ * \NOTE: used with LoRa mode only
+ */
+int sx1276_get_frequency_error(void);
+
+/*!
  * \brief Wait for one radio event happen.
  *
  * \param [OUT] event   pointer of event struct.
