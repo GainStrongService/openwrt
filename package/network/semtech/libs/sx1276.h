@@ -24,6 +24,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define RX_TX_BUFFER_SIZE                           256
 
 #define RADIO_EVENT_RX_ERROR                        (1 << 1)
@@ -360,5 +364,9 @@ int sx1276_get_frequency_error(void);
  * retval isSuccess     [0: timeout, >0: event comes, <0: operation error]
  */
 int sx1276_wait_event(event_data_t *event, int32_t timeout);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __SX1276_H__ */
