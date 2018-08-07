@@ -13,7 +13,7 @@
 #define LORA_DEFAULT_TIMEOUT        500             // 500ms
 #define LORA_DEFAULT_SYMB_TIMEOUT   10              // 10Symbols, NOTE: this value will work with Rx
 #define LORA_DEFAULT_BANDWIDTH      0               // 125kHz
-#define LORA_DEFAULT_DATARATE       6               // 64bits/s
+#define LORA_DEFAULT_DATARATE       6               // 64 chips/symbol
 #define LORA_DEFAULT_CODERATE       1               // 4/5
 #define LORA_DEFAULT_BANDWIDTH_AFC  0               // LoRa: N/A ( set to 0 )
 #define LORA_DEFAULT_PREAMBLE_LEN   8               // 8Bytes
@@ -47,13 +47,13 @@ static void lora_usage(void)
     fprintf(stdout, "\t\t 1: 250 kHz\n");
     fprintf(stdout, "\t\t 2: 500 kHz\n");
     fprintf(stdout, "\t-d VAL\tdatarate\n");
-    fprintf(stdout, "\t\t 6:  64   bits/s\n");
-    fprintf(stdout, "\t\t 7:  128  bits/s\n");
-    fprintf(stdout, "\t\t 8:  256  bits/s\n");
-    fprintf(stdout, "\t\t 9:  512  bits/s\n");
-    fprintf(stdout, "\t\t 10: 1024 bits/s\n");
-    fprintf(stdout, "\t\t 11: 2048 bits/s\n");
-    fprintf(stdout, "\t\t 12: 4096 bits/s\n");
+    fprintf(stdout, "\t\t 6:  64   chips/symbol\n");
+    fprintf(stdout, "\t\t 7:  128  chips/symbol\n");
+    fprintf(stdout, "\t\t 8:  256  chips/symbol\n");
+    fprintf(stdout, "\t\t 9:  512  chips/symbol\n");
+    fprintf(stdout, "\t\t 10: 1024 chips/symbol\n");
+    fprintf(stdout, "\t\t 11: 2048 chips/symbol\n");
+    fprintf(stdout, "\t\t 12: 4096 chips/symbol\n");
     fprintf(stdout, "\t-c VAL\tcoding rate\n");
     fprintf(stdout, "\t\t 1: 4/5\n");
     fprintf(stdout, "\t\t 2: 4/6\n");
