@@ -1,0 +1,8 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2014 OpenWrt.org
+
+START=90
+start(){
+	/bin/led_test.sh &
+	insmod /lib/modules/4.14.34/mt7601u.ko &
+}
