@@ -34,6 +34,7 @@
 #include "dev-wmac.h"
 #include "machtypes.h"
 #include "pci.h"
+#include "eeprom.h"			   
 
 #define OOLITE_V5_GPIO_BTN_RST                   17
 #define OOLITE_V5_GPIO0                         0
@@ -179,8 +180,8 @@ static void __init ap147_gpio_led_setup(int board_version)
 
 static void __init oolite_v5_setup(void)
 {
-	u8 *art = (u8 *) KSEG1ADDR(0x1fff0000);
-
+	//u8 *art = (u8 *) KSEG1ADDR(0x1fff0000);
+	u8 *art = ath79_get_eeprom();
 	ath79_register_m25p80(&oolite_v5_flash_data);
 
 //	oolite_v5_gpio_led_setup();
