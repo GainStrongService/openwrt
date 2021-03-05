@@ -205,6 +205,10 @@ ralink_default_fw_size_32M=33226752
 BuildFirmware/Default32M/squashfs=$(call BuildFirmware/OF,$(1),$(2),$(3),$(ralink_default_fw_size_32M),$(4))
 BuildFirmware/Default32M/initramfs=$(call BuildFirmware/OF/initramfs,$(1),$(2),$(3),$(4))
 
+ralink_default_fw_size_64M=67108864
+BuildFirmware/Default64M/squashfs=$(call BuildFirmware/OF,$(1),$(2),$(3),$(ralink_default_fw_size_64M),$(4))
+BuildFirmware/Default64M/initramfs=$(call BuildFirmware/OF/initramfs,$(1),$(2),$(3),$(4))
+
 # Build images for a custom sized flash layout
 # $(1) = squashfs/initramfs
 # $(2) = lowercase board name
@@ -956,7 +960,7 @@ endif
 #
 
 ifeq ($(SUBTARGET),mt7621)
-  TARGET_DEVICES += mt7621 wsr-600 wsr-1166 dir-860l-b1 firewrt pbr-m1 re6500 zbt-wg2626 oolite-v8-32MB-15.05 oolite-v8-16MB-15.05 oolite-v8-8MB-15.05
+  TARGET_DEVICES += mt7621 wsr-600 wsr-1166 dir-860l-b1 firewrt pbr-m1 re6500 zbt-wg2626 oolite-v8-64MB-15.05 oolite-v8-32MB-15.05 oolite-v8-16MB-15.05 oolite-v8-8MB-15.05
 endif
 
 define Device/mt7621
@@ -1018,6 +1022,10 @@ endef
 define Device/oolite-v8-32MB-15.05
   DTS := Oolite-v8-32MB
   IMAGE_SIZE := $(ralink_default_fw_size_32M)
+endef
+define Device/oolite-v8-64MB-15.05
+  DTS := Oolite-v8-64MB
+  IMAGE_SIZE := $(ralink_default_fw_size_64M)
 endef
 
 #
