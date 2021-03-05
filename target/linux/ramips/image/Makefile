@@ -960,7 +960,7 @@ endif
 #
 
 ifeq ($(SUBTARGET),mt7621)
-  TARGET_DEVICES += mt7621 wsr-600 wsr-1166 dir-860l-b1 firewrt pbr-m1 re6500 zbt-wg2626 oolite-v8-64MB-15.05 oolite-v8-32MB-15.05 oolite-v8-16MB-15.05 oolite-v8-8MB-15.05
+  TARGET_DEVICES += mt7621 oolite-v8-64MB-15.05 oolite-v8-32MB-15.05 oolite-v8-16MB-15.05
 endif
 
 define Device/mt7621
@@ -1011,10 +1011,6 @@ define Device/zbt-wg2626
   IMAGE_SIZE := $(ralink_default_fw_size_16M)
 endef
 
-define Device/oolite-v8-8MB-15.05
-  DTS := Oolite-v8-8MB
-  IMAGE_SIZE := $(ralink_default_fw_size_8M)
-endef
 define Device/oolite-v8-16MB-15.05
   DTS := Oolite-v8-16MB
   IMAGE_SIZE := $(ralink_default_fw_size_16M)
