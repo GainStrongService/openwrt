@@ -84,6 +84,28 @@ define Device/dsa-migration
   DEVICE_COMPAT_MESSAGE := Config cannot be migrated from swconfig to DSA
 endef
 
+###########################################################
+
+define Device/gainstrong_oolite-v8-32m
+  $(Device/dsa-migration)
+  IMAGE_SIZE := 32448k
+  DEVICE_VENDOR := Gainstrong
+  DEVICE_MODEL := Oolite v8
+  DEVICE_VARIANT := 32M
+endef
+TARGET_DEVICES += gainstrong_oolite-v8-32m
+
+define Device/gainstrong_oolite-v8-64m
+  $(Device/dsa-migration)
+  IMAGE_SIZE := 65216k
+  DEVICE_VENDOR := Gainstrong
+  DEVICE_MODEL := Oolite v8
+  DEVICE_VARIANT := 64M
+endef
+TARGET_DEVICES += gainstrong_oolite-v8-64m
+
+###########################################################
+
 define Device/adslr_g7
   $(Device/dsa-migration)
   IMAGE_SIZE := 16064k
