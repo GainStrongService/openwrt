@@ -86,6 +86,15 @@ endef
 
 ###########################################################
 
+define Device/gainstrong_oolite-v8-64m
+  $(Device/dsa-migration)
+  IMAGE_SIZE := 65216k
+  DEVICE_VENDOR := Gainstrong
+  DEVICE_MODEL := Oolite v8
+  DEVICE_VARIANT := 64M
+endef
+TARGET_DEVICES += gainstrong_oolite-v8-64m
+
 define Device/gainstrong_oolite-v8-32m
   $(Device/dsa-migration)
   IMAGE_SIZE := 32448k
@@ -95,14 +104,14 @@ define Device/gainstrong_oolite-v8-32m
 endef
 TARGET_DEVICES += gainstrong_oolite-v8-32m
 
-define Device/gainstrong_oolite-v8-64m
+define Device/gainstrong_oolite-v8-16m
   $(Device/dsa-migration)
-  IMAGE_SIZE := 65216k
+  IMAGE_SIZE := 16064k
   DEVICE_VENDOR := Gainstrong
   DEVICE_MODEL := Oolite v8
-  DEVICE_VARIANT := 64M
+  DEVICE_VARIANT := 16M
 endef
-TARGET_DEVICES += gainstrong_oolite-v8-64m
+TARGET_DEVICES += gainstrong_oolite-v8-16m
 
 ###########################################################
 
