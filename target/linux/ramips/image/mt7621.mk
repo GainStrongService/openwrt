@@ -92,6 +92,9 @@ define Device/gainstrong_oolite-v8-64m
   DEVICE_VENDOR := Gainstrong
   DEVICE_MODEL := Oolite v8
   DEVICE_VARIANT := 64M
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-mt76 kmod-mt7603 \
+  kmod-mt7663-firmware-ap kmod-usb3 \
+  kmod-sdhci-mt7620 kmod-usb-ledtrig-usbport
 endef
 TARGET_DEVICES += gainstrong_oolite-v8-64m
 
@@ -101,6 +104,9 @@ define Device/gainstrong_oolite-v8-32m
   DEVICE_VENDOR := Gainstrong
   DEVICE_MODEL := Oolite v8
   DEVICE_VARIANT := 32M
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-mt76 kmod-mt7603 \
+  kmod-mt7663-firmware-ap kmod-usb3 \
+  kmod-sdhci-mt7620 kmod-usb-ledtrig-usbport
 endef
 TARGET_DEVICES += gainstrong_oolite-v8-32m
 
@@ -110,6 +116,9 @@ define Device/gainstrong_oolite-v8-16m
   DEVICE_VENDOR := Gainstrong
   DEVICE_MODEL := Oolite v8
   DEVICE_VARIANT := 16M
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-mt76 kmod-mt7603 \
+  kmod-mt7663-firmware-ap kmod-usb3 \
+  kmod-sdhci-mt7620 kmod-usb-ledtrig-usbport
 endef
 TARGET_DEVICES += gainstrong_oolite-v8-16m
 
