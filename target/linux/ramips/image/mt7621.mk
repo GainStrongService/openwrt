@@ -88,6 +88,7 @@ endef
 
 define Device/gainstrong_oolite-v8-64m
   $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
   IMAGE_SIZE := 65216k
   DEVICE_VENDOR := Gainstrong
   DEVICE_MODEL := Oolite v8
@@ -100,6 +101,7 @@ TARGET_DEVICES += gainstrong_oolite-v8-64m
 
 define Device/gainstrong_oolite-v8-32m
   $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
   IMAGE_SIZE := 32448k
   DEVICE_VENDOR := Gainstrong
   DEVICE_MODEL := Oolite v8
@@ -112,6 +114,7 @@ TARGET_DEVICES += gainstrong_oolite-v8-32m
 
 define Device/gainstrong_oolite-v8-16m
   $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
   IMAGE_SIZE := 16064k
   DEVICE_VENDOR := Gainstrong
   DEVICE_MODEL := Oolite v8
