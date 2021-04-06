@@ -169,6 +169,55 @@ define Device/seama
   SEAMA_SIGNATURE :=
 endef
 
+define Device/gainstrong_oolite-v5-64m
+  $(Device/tplink-16mlzma)
+  SOC := qca9531
+  IMAGE_SIZE := 65216k
+  DEVICE_VENDOR := Gainstrong
+  DEVICE_MODEL := Oolite v5
+  DEVICE_VARIANT := 64M
+  DEVICE_PACKAGES := kmod-usb2
+  SUPPORTED_DEVICES += oolite-v5-64m
+endef
+TARGET_DEVICES += gainstrong_oolite-v5-64m
+
+define Device/gainstrong_oolite-v5-32m
+  $(Device/tplink-16mlzma)
+  SOC := qca9531
+  IMAGE_SIZE := 32448k
+  DEVICE_VENDOR := Gainstrong
+  DEVICE_MODEL := Oolite v5
+  DEVICE_VARIANT := 32M
+  DEVICE_PACKAGES := kmod-usb2
+  TPLINK_HWID := 0x3C00010C
+  SUPPORTED_DEVICES += oolite-v5-32m
+endef
+TARGET_DEVICES += gainstrong_oolite-v5-32m
+
+define Device/gainstrong_oolite-v5-16m
+  KERNEL := kernel-bin | append-dtb | lzma
+  SOC := qca9531
+  DEVICE_VENDOR := Gainstrong
+  DEVICE_MODEL := Oolite v5
+  DEVICE_VARIANT := 16M
+  DEVICE_PACKAGES := kmod-usb2
+  IMAGE_SIZE := 16192k
+  SUPPORTED_DEVICES += oolite-v5-16m
+endef
+TARGET_DEVICES += gainstrong_oolite-v5-16m
+
+define Device/gainstrong_minibox-v3-16m
+  $(Device/tplink-16mlzma)
+  SOC := qca9531
+  DEVICE_VENDOR := Gainstrong
+  DEVICE_MODEL := Minibox v5
+  DEVICE_VARIANT := 16M
+  DEVICE_PACKAGES := kmod-usb2
+  IMAGE_SIZE := 16192k
+  TPLINK_HWID := 0x3C00010C
+  SUPPORTED_DEVICES += minibox-v3-16m
+endef
+TARGET_DEVICES += gainstrong_minibox-v3-16m
 
 define Device/8dev_carambola2
   SOC := ar9331

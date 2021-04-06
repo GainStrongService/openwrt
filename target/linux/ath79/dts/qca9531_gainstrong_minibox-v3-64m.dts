@@ -1,0 +1,14 @@
+#include "qca9531_gainstrong.dtsi"
+
+/ {
+	model = "Gainstrong Minibox v3 64M";
+	compatible = "gainstrong,minibox-v3-64m", "gainstrong,oolite-v5-64m", "qca,qca9531";
+};
+
+&firmware {
+	reg = <0x020000 0x3fd0000>;
+};
+
+&art {
+	reg = <0x3ff0000 0x010000>;
+};
