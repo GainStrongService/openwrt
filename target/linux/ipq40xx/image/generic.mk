@@ -772,6 +772,45 @@ define Device/unielec_u4019-32m
 endef
 TARGET_DEVICES += unielec_u4019-32m
 
+define Device/gainstrong_mk7e-16m
+	$(call Device/FitImage)
+	DEVICE_VENDOR := Gainstrong
+	DEVICE_MODEL := MK7E
+	DEVICE_VARIANT := 16M
+	BOARD_NAME := mk7e-16m
+	SOC := qcom-ipq4019
+	KERNEL_SIZE := 4096k
+	IMAGE_SIZE := 14848k
+	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
+endef
+TARGET_DEVICES += gainstrong_mk7e-16m
+
+define Device/gainstrong_mk7e-32m
+	$(call Device/FitImage)
+	DEVICE_VENDOR := Gainstrong
+	DEVICE_MODEL := MK7E
+	DEVICE_VARIANT := 32M
+	BOARD_NAME := mk7e-32m
+	SOC := qcom-ipq4019
+	KERNEL_SIZE := 4096k
+	IMAGE_SIZE := 31232k
+	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
+endef
+TARGET_DEVICES += gainstrong_mk7e-32m
+
+define Device/gainstrong_mk7e-64m
+	$(call Device/FitImage)
+	DEVICE_VENDOR := Gainstrong
+	DEVICE_MODEL := MK7E
+	DEVICE_VARIANT := 64M
+	BOARD_NAME := mk7e-64m
+	SOC := qcom-ipq4019
+	KERNEL_SIZE := 4096k
+	IMAGE_SIZE := 64000k
+	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
+endef
+TARGET_DEVICES += gainstrong_mk7e-64m
+
 define Device/zyxel_nbg6617
 	$(call Device/FitImageLzma)
 	DEVICE_VENDOR := ZyXEL
