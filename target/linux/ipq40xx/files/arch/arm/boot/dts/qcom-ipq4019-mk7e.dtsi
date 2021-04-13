@@ -55,17 +55,14 @@
 					partition@e0000 {
 						label = "0:APPSBLENV";
 						reg = <0xe0000 0x10000>;
-						read-only;
 					};
 					partition@f0000 {
 						label = "0:APPSBL";
 						reg = <0xf0000 0x80000>;
-						read-only;
 					};
 					partition@170000 {
 						label = "0:ART";
 						reg = <0x170000 0x10000>;
-						read-only;
 					};
 					firmware: partition@180000 {
 						compatible = "denx,fit";
