@@ -5,7 +5,8 @@
 /dl
 /.config
 /.config.old
-/bin
+/config*
+/bin*
 /build_dir
 /staging_dir
 /tmp
