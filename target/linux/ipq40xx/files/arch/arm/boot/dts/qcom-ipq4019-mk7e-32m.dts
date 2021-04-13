@@ -1,0 +1,10 @@
+#include "qcom-ipq4019-mk7e.dtsi"
+
+/ {
+	model = "Gainstrong MK7E (32M)";
+	compatible = "gainstrong,mk7e-32m","gainstrong,mk7e","qcom,ipq4019";
+};
+
+&firmware {
+	reg = <0x180000 0x1e80000>;
+};
