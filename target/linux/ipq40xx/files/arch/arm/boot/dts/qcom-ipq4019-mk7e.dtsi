@@ -162,9 +162,9 @@
 
 		aliases {
 			led-boot = &led_status;
-			led-failsafe = &led_status;
+			led-failsafe = &led_warning;
 			led-running = &led_status;
-			led-upgrade = &led_status;
+			led-upgrade = &led_warning;
 			serial0 = &blsp1_uart1;
 			serial1 = &blsp1_uart2;
 		};
@@ -174,10 +174,59 @@
 			pinctrl-0 = <&led_pins>;
 			pinctrl-names = "default";
 
-			led_status: led2 {
-				label = "u4019:green:led2";
-				gpios = <&tlmm 68 GPIO_ACTIVE_LOW>;
+			led_warning: rgb_1_red {
+				label = "mk7e:red:rgb1";
+				gpios = <&tlmm 20 GPIO_ACTIVE_LOW>;
 			};
+			rgb_1_green {
+				label = "mk7e:green:rgb1";
+				gpios = <&tlmm 21 GPIO_ACTIVE_LOW>;
+			};
+			led_status: rgb_1_blue {
+				label = "mk7e:blue:rgb1";
+				gpios = <&tlmm 34 GPIO_ACTIVE_LOW>;
+				linux,default-trigger = "phy1tpt";
+			};
+
+			rgb_2_red {
+				label = "mk7e:red:rgb2";
+				gpios = <&tlmm 35 GPIO_ACTIVE_LOW>;
+			};
+			rgb_2_green {
+				label = "mk7e:green:rgb2";
+				gpios = <&tlmm 39 GPIO_ACTIVE_LOW>;
+			};
+			rgb_2_blue {
+				label = "mk7e:blue:rgb2";
+				gpios = <&tlmm 40 GPIO_ACTIVE_LOW>;
+			};
+
+			rgb_3_red {
+				label = "mk7e:red:rgb3";
+				gpios = <&tlmm 45 GPIO_ACTIVE_LOW>;
+			};
+			rgb_3_green {
+				label = "mk7e:green:rgb3";
+				gpios = <&tlmm 46 GPIO_ACTIVE_LOW>;
+			};
+			rgb_3_blue {
+				label = "mk7e:blue:rgb3";
+				gpios = <&tlmm 47 GPIO_ACTIVE_LOW>;
+			};
+
+			rgb_4_red {
+				label = "mk7e:red:rgb4";
+				gpios = <&tlmm 44 GPIO_ACTIVE_LOW>;
+			};
+			rgb_4_green {
+				label = "mk7e:green:rgb4";
+				gpios = <&tlmm 50 GPIO_ACTIVE_LOW>;
+			};
+			rgb_4_blue {
+				label = "mk7e:blue:rgb4";
+				gpios = <&tlmm 49 GPIO_ACTIVE_LOW>;
+			};
+
 		};
 
 		keys {
@@ -185,7 +234,7 @@
 
 			reset {
 				label = "reset";
-				gpios = <&tlmm 18 GPIO_ACTIVE_LOW>;
+				gpios = <&tlmm 53 GPIO_ACTIVE_LOW>;
 				linux,code = <KEY_RESTART>;
 			};
 		};
