@@ -107,6 +107,9 @@ case "$FIRMWARE" in
 	plasmacloud,pa2200 |\
 	qxwlan,e2600ac-c1 |\
 	qxwlan,e2600ac-c2 |\
+	gainstrong,mk7e-16m |\
+	gainstrong,mk7e-32m |\
+	gainstrong,mk7e-64m |\
 	unielec,u4019-32m)
 		caldata_extract "0:ART" 0x1000 0x2f20
 		;;
@@ -211,6 +214,9 @@ case "$FIRMWARE" in
 	plasmacloud,pa2200 |\
 	qxwlan,e2600ac-c1 |\
 	qxwlan,e2600ac-c2 |\
+	gainstrong,mk7e-16m |\
+	gainstrong,mk7e-32m |\
+	gainstrong,mk7e-64m |\
 	unielec,u4019-32m)
 		caldata_extract "0:ART" 0x5000 0x2f20
 		;;
