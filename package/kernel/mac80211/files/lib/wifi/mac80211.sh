@@ -108,7 +108,8 @@ detect_mac80211() {
 
 		mac_last_4="$(awk -F ":" '{printf toupper($5$6)}' /sys/class/ieee80211/${dev}/macaddress)"
 		driver="$(grep ^DRIVER= /sys/class/ieee80211/${dev}/device/uevent | awk -F '=' '{print $2}')"
-		ssid="OpenWrt_${mac_last_4}_${driver}_${band_name}"
+		board_name="$(grep '"id":' /etc/board.json | awk -F '"' '{print $4}' | awk -F ',' '{print $2}')"
+		ssid="${board_name}_${driver}_${band_name}_${mac_last_4}"
 
 		uci -q batch <<-EOF
 			set wireless.radio${devidx}=wifi-device
