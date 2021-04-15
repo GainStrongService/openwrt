@@ -78,7 +78,7 @@
 	wifi@0,0 {
 		compatible = "mediatek,mt76";
 		reg = <0x0 0 0 0 0>;
-		mediatek,mtd-eeprom = <&factory 0x8000>;
+		mediatek,mtd-eeprom = <&factory 0x0>;
 	};
 };
 
@@ -86,12 +86,12 @@
 	wifi@0,0 {
 		compatible = "mediatek,mt76";
 		reg = <0x0 0 0 0 0>;
-		mediatek,mtd-eeprom = <&factory 0x0>;
+		mediatek,mtd-eeprom = <&factory 0x8000>;
 	};
 };
 
 &gmac0 {
-	mtd-mac-address = <&factory 0x4>;
+	mtd-mac-address = <&factory 0x28>;
 };
 
 &switch0 {
