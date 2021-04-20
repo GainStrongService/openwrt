@@ -10,6 +10,26 @@ board_config_update
 board=$(board_name)
 
 case "$board" in
+gainstrong,mk7e-16m |\
+gainstrong,mk7e-32m |\
+gainstrong,mk7e-64m)
+	ucidef_set_led_wlan "5G0R" "5G0R" "red_0"   "phy0tpt"
+	ucidef_set_led_wlan "5G0G" "5G0G" "green_0" "phy0tpt"
+	ucidef_set_led_wlan "5G0B" "5G0B" "blue_0"  "phy0tpt"
+
+	ucidef_set_led_wlan "5G1R" "5G1R" "red_1"   "phy1tpt"
+	ucidef_set_led_wlan "5G1G" "5G1G" "green_1" "phy1tpt"
+	ucidef_set_led_wlan "5G1B" "5G1B" "blue_1"  "phy1tpt"
+	
+	ucidef_set_led_wlan "5G2R" "5G2R" "red_2"   "phy2tpt"
+	ucidef_set_led_wlan "5G2G" "5G2G" "green_2" "phy2tpt"
+	ucidef_set_led_wlan "5G2B" "5G2B" "blue_2"  "phy2tpt"
+	
+	ucidef_set_led_wlan "5G3R" "5G3R" "red_3"   "phy3tpt"
+	ucidef_set_led_wlan "5G3G" "5G3G" "green_3" "phy3tpt"
+	ucidef_set_led_wlan "5G3B" "5G3B" "blue_3"  "phy3tpt"
+	;;
+
 alfa-network,ap120c-ac)
 	ucidef_set_led_netdev "wan" "WAN" "amber:wan" "eth1"
 	;;
