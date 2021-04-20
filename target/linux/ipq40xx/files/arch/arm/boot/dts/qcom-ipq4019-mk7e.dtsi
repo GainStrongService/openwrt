@@ -173,7 +173,7 @@
 			red0   { label = "red_0";   gpios = <&tlmm 20 GPIO_ACTIVE_HIGH>; };
 			red1   { label = "red_1";   gpios = <&tlmm 35 GPIO_ACTIVE_HIGH>; };
 			red2   { label = "red_2";   gpios = <&tlmm 45 GPIO_ACTIVE_HIGH>; };
-			red3   { label = "red_3";   gpios = <&tlmm 44 GPIO_ACTIVE_HIGH>; };
+			red3   { label = "red_3";   gpios = <&tlmm 48 GPIO_ACTIVE_HIGH>; };
 
 			green0 { label = "green_0"; gpios = <&tlmm 21 GPIO_ACTIVE_HIGH>; };
 			green1 { label = "green_1"; gpios = <&tlmm 39 GPIO_ACTIVE_HIGH>; };
