@@ -211,6 +211,7 @@ if VERSIONOPT
 	config VERSION_MANUFACTURER
 		string
 		prompt "Manufacturer name"
+		default "Gainstrong"
 		help
 			This is the manufacturer name embedded in /etc/device_info
 			Useful for OEMs building OpenWrt based firmware
@@ -218,6 +219,7 @@ if VERSIONOPT
 	config VERSION_MANUFACTURER_URL
 		string
 		prompt "Manufacturer URL"
+		default "https://gainstrong.cn/"
 		help
 			This is an URL to the manufacturer's website embedded in /etc/device_info
 			Useful for OEMs building OpenWrt based firmware
@@ -231,12 +233,14 @@ if VERSIONOPT
 	config VERSION_SUPPORT_URL
 		string
 		prompt "Support URL"
+		default "https://gainstrong.cn/"
 		help
 			This an URL to provide users seeking support
 
 	config VERSION_PRODUCT
 		string
 		prompt "Product name"
+		default "Oolite 8 Series"
 		help
 			This is the product name embedded in /etc/device_info
 			Useful for OEMs building OpenWrt based firmware
