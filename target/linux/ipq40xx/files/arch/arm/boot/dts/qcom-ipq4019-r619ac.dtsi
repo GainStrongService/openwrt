@@ -168,7 +168,6 @@
 			partition@f0000 {
 				label = "APPSBL";
 				reg = <0xf0000 0x80000>;
-				read-only;
 			};
 
 			partition@1 {
