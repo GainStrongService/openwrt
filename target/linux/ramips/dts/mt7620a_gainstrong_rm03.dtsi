@@ -31,6 +31,10 @@
 			gpios = <&gpio3 0 GPIO_ACTIVE_HIGH>;
 		};
 
+		4g_slot_control {
+			label = "4g_slot_control";
+			gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+		};
 	};
 };
 
@@ -108,7 +112,7 @@
 
 &state_default {
 	gpio {
-		groups = "i2c", "wled";
+		groups = "i2c", "uartf", "wled";
 		function = "gpio";
 	};
 };
