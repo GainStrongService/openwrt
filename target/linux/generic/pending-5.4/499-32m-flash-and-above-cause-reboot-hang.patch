@@ -1,0 +1,18 @@
+--- linux-5.4.114-ori/drivers/mtd/spi-nor/spi-nor.c	2021-05-06 22:48:44.625517385 +0800
++++ linux-5.4.114-fix/drivers/mtd/spi-nor/spi-nor.c	2021-05-06 22:40:30.784457880 +0800
+@@ -4828,9 +4828,13 @@
+ void spi_nor_restore(struct spi_nor *nor)
+ {
+ 	/* restore the addressing mode */
+-	if (nor->addr_width == 4 && !(nor->flags & SNOR_F_4B_OPCODES) &&
+-	    nor->flags & SNOR_F_BROKEN_RESET)
++	if (nor->addr_width == 4) {
++		dev_info(nor->dev, "%s (current is 4 Byte mode, restore to 3 Byte mode)\n", nor->info->name);
+ 		nor->params.set_4byte(nor, false);
++		dev_info(nor->dev, "%s (mode after change: %d byte mode)\n", nor->info->name, nor->addr_width);
++	} else {
++		dev_info(nor->dev, "%s (current is 3 Byte mode, not need change)\n", nor->info->name);
++	}
+ }
+ EXPORT_SYMBOL_GPL(spi_nor_restore);
+ 
