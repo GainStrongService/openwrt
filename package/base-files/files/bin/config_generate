@@ -49,6 +49,7 @@ generate_static_network() {
 		set network.4G=interface
 		set network.4G.proto='qmi'
 		set network.4G.device='/dev/cdc-wdm0'
+		add_list firewall.cfg03dc81.network='4G'
 	EOF
 		[ -e /proc/sys/net/ipv6 ] && {
 			uci -q batch <<-EOF
