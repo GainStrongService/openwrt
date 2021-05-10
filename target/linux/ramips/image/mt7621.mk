@@ -95,6 +95,62 @@ define Device/dsa-migration
   DEVICE_COMPAT_MESSAGE := Config cannot be migrated from swconfig to DSA
 endef
 
+###########################################################
+
+define Device/gainstrong_oolite-v8-64m
+  $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
+  IMAGE_SIZE := 65216k
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := Oolite V8
+  DEVICE_VARIANT := 64M
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-mt76 kmod-mt7603 \
+  kmod-mt7663-firmware-ap kmod-usb3 \
+  kmod-sdhci-mt7620 kmod-usb-ledtrig-usbport
+endef
+TARGET_DEVICES += gainstrong_oolite-v8-64m
+
+define Device/gainstrong_oolite-v8-32m
+  $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
+  IMAGE_SIZE := 32448k
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := Oolite V8
+  DEVICE_VARIANT := 32M
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-mt7615e kmod-mt7603 \
+  kmod-mt7663-firmware-ap kmod-usb3 \
+  kmod-sdhci-mt7620 kmod-usb-ledtrig-usbport
+endef
+TARGET_DEVICES += gainstrong_oolite-v8-32m
+
+define Device/gainstrong_oolite-v8-16m
+  $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
+  IMAGE_SIZE := 16064k
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := Oolite V8
+  DEVICE_VARIANT := 16M
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-mt76 kmod-mt7603 \
+  kmod-mt7663-firmware-ap kmod-usb3 \
+  kmod-sdhci-mt7620 kmod-usb-ledtrig-usbport
+endef
+TARGET_DEVICES += gainstrong_oolite-v8-16m
+
+define Device/gainstrong_oolite-v8-8m
+  $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
+  IMAGE_SIZE := 7000k
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := Oolite V8
+  DEVICE_VARIANT := 8M
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-mt76 kmod-mt7603 \
+  kmod-mt7663-firmware-ap kmod-usb3 \
+  kmod-sdhci-mt7620 kmod-usb-ledtrig-usbport
+endef
+TARGET_DEVICES += gainstrong_oolite-v8-8m
+
+###########################################################
+
 define Device/adslr_g7
   $(Device/dsa-migration)
   IMAGE_SIZE := 16064k
