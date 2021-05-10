@@ -1,0 +1,12 @@
+
+#include "mt7621_gainstrong_oolite-v8.dtsi"
+
+/ {
+	compatible = "gainstrong,oolite-v8-16m", "gainstrong,oolite-v8", "mediatek,mt7621-soc";
+	model = "Gainstrong Oolite v8 (16M flash)";
+
+};
+
+&firmware {
+	reg = <0x50000 0xfb0000>;
+};
