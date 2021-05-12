@@ -6,7 +6,7 @@
 #include <dt-bindings/soc/qcom,tcsr.h>
 
 / {
-	model = "Gainstrong Mk7E";
+	model = "Gainstrong MK7E";
 	compatible = "gainstrong,mk7e","qcom,ipq4019";
 
 	soc {
