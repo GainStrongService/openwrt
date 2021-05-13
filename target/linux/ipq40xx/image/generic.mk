@@ -785,18 +785,18 @@ define Device/gainstrong_mk7e-16m
 endef
 TARGET_DEVICES += gainstrong_mk7e-16m
 
-define Device/gainstrong_mk7e
+define Device/gainstrong_mk7e-32m
 	$(call Device/FitImage)
 	DEVICE_VENDOR := Gainstrong
 	DEVICE_MODEL := MK7E
 	DEVICE_VARIANT := 32M
-	BOARD_NAME := mk7e
+	BOARD_NAME := mk7e-32m
 	SOC := qcom-ipq4019
 	KERNEL_SIZE := 4096k
 	IMAGE_SIZE := 31232k
 	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
 endef
-TARGET_DEVICES += gainstrong_mk7e
+TARGET_DEVICES += gainstrong_mk7e-32m
 
 define Device/gainstrong_mk7e-64m
 	$(call Device/FitImage)

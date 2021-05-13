@@ -11,7 +11,7 @@ board=$(board_name)
 
 case "$board" in
 gainstrong,mk7e-16m |\
-gainstrong,mk7e |\
+gainstrong,mk7e-32m |\
 gainstrong,mk7e-64m)
 	ucidef_set_led_wlan "5G0R" "5G0R" "red_0"   "phy0tpt"
 	ucidef_set_led_wlan "5G0G" "5G0G" "green_0" "phy0tpt"
