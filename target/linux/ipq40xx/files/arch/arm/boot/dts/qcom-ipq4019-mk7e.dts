@@ -1,7 +1,7 @@
 #include "qcom-ipq4019-mk7e.dtsi"
 
 / {
-	model = "Gainstrong MK7E (32M)";
+	model = "Gainstrong MK7E";
 	compatible = "gainstrong,mk7e-32m","gainstrong,mk7e","qcom,ipq4019";
 };
 
