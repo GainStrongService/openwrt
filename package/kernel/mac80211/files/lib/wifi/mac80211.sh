@@ -107,7 +107,7 @@ detect_mac80211() {
 		fi
 
 		mac_last_4="$(awk -F ":" '{printf toupper($5$6)}' /sys/class/ieee80211/${dev}/macaddress)"
-		board_name="$(awk -F ',' '{print $2}' /tmp/sysinfo/board_name)"
+		board_name="$(awk -F ',' '{print $2}' /tmp/sysinfo/board_name | awk -F '-' '{print $1}')"
 		ssid="${board_name}_P${devidx}_${band_name}_${mac_last_4}"
 		ssid=$(echo $ssid | tr 'a-z' 'A-Z')
 
