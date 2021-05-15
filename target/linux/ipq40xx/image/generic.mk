@@ -772,42 +772,40 @@ define Device/unielec_u4019-32m
 endef
 TARGET_DEVICES += unielec_u4019-32m
 
-define Device/gainstrong_mk7e-16m
+define Device/mk7e-common
 	$(call Device/FitImage)
 	DEVICE_VENDOR := Gainstrong
 	DEVICE_MODEL := MK7E
+	SOC := qcom-ipq4019
+	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
+	DEVICE_PACKAGES := kmod-mt76x2u kmod-mmc kmod-usb3 kmod-usb-storage kmod-usb-storage-uas gdisk pciutils usbutils luci-app-ledtrig-rssi luci-theme-openwrt-2020
+endef
+TARGET_DEVICES += gainstrong_mk7e-16m
+
+define Device/gainstrong_mk7e-16m
+	$(call Device/mk7e-common)
 	DEVICE_VARIANT := 16M
 	BOARD_NAME := mk7e-16m
-	SOC := qcom-ipq4019
 	KERNEL_SIZE := 4096k
 	IMAGE_SIZE := 14848k
-	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
 endef
 TARGET_DEVICES += gainstrong_mk7e-16m
 
 define Device/gainstrong_mk7e-32m
-	$(call Device/FitImage)
-	DEVICE_VENDOR := Gainstrong
-	DEVICE_MODEL := MK7E
+	$(call Device/mk7e-common)
 	DEVICE_VARIANT := 32M
 	BOARD_NAME := mk7e-32m
-	SOC := qcom-ipq4019
 	KERNEL_SIZE := 4096k
 	IMAGE_SIZE := 31232k
-	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
 endef
 TARGET_DEVICES += gainstrong_mk7e-32m
 
 define Device/gainstrong_mk7e-64m
-	$(call Device/FitImage)
-	DEVICE_VENDOR := Gainstrong
-	DEVICE_MODEL := MK7E
+	$(call Device/mk7e-common)
 	DEVICE_VARIANT := 64M
 	BOARD_NAME := mk7e-64m
-	SOC := qcom-ipq4019
 	KERNEL_SIZE := 4096k
 	IMAGE_SIZE := 64000k
-	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
 endef
 TARGET_DEVICES += gainstrong_mk7e-64m
 
