@@ -166,20 +166,20 @@
 			compatible = "gpio-leds";
 
 			red0   { label = "red_0";   gpios = <&tlmm 20 GPIO_ACTIVE_LOW>; };
-			green0 { label = "green_0"; gpios = <&tlmm 21 GPIO_ACTIVE_LOW>; };
-			blue0  { label = "blue_0";  gpios = <&tlmm 34 GPIO_ACTIVE_LOW>; };
+			green0 { label = "green_0"; gpios = <&tlmm 34 GPIO_ACTIVE_LOW>; };
+			blue0  { label = "blue_0";  gpios = <&tlmm 21 GPIO_ACTIVE_LOW>; };
 
 			red1   { label = "red_1";   gpios = <&tlmm 35 GPIO_ACTIVE_LOW>; };
-			green1 { label = "green_1"; gpios = <&tlmm 39 GPIO_ACTIVE_LOW>; };
-			blue1  { label = "blue_1";  gpios = <&tlmm 43 GPIO_ACTIVE_LOW>; };
+			green1 { label = "green_1"; gpios = <&tlmm 43 GPIO_ACTIVE_LOW>; };
+			blue1  { label = "blue_1";  gpios = <&tlmm 39 GPIO_ACTIVE_LOW>; };
 
 			red2   { label = "red_2";   gpios = <&tlmm 45 GPIO_ACTIVE_LOW>; };
-			green2 { label = "green_2"; gpios = <&tlmm 46 GPIO_ACTIVE_LOW>; };
-			blue2  { label = "blue_2";  gpios = <&tlmm 47 GPIO_ACTIVE_LOW>; };
+			green2 { label = "green_2"; gpios = <&tlmm 47 GPIO_ACTIVE_LOW>; };
+			blue2  { label = "blue_2";  gpios = <&tlmm 46 GPIO_ACTIVE_LOW>; };
 
 			red3   { label = "red_3";   gpios = <&tlmm 48 GPIO_ACTIVE_LOW>; };
-			green3 { label = "green_3"; gpios = <&tlmm 52 GPIO_ACTIVE_LOW>; };
-			blue3  { label = "blue_3";  gpios = <&tlmm 57 GPIO_ACTIVE_LOW>; };
+			green3 { label = "green_3"; gpios = <&tlmm 57 GPIO_ACTIVE_LOW>; };
+			blue3  { label = "blue_3";  gpios = <&tlmm 52 GPIO_ACTIVE_LOW>; };
 		};
 
 		keys {
