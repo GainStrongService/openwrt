@@ -1,0 +1,11 @@
+--- linux-5.4.123/drivers/net/usb/cdc_ncm.c	2021-05-28 19:10:27.000000000 +0800
++++ linux-5.4.123/drivers/net/usb/cdc_ncm.c	2021-06-03 09:13:13.279772974 +0800
+@@ -1586,6 +1586,8 @@
+ cdc_ncm_speed_change(struct usbnet *dev,
+ 		     struct usb_cdc_speed_change *data)
+ {
++	return;
++
+ 	uint32_t rx_speed = le32_to_cpu(data->DLBitRRate);
+ 	uint32_t tx_speed = le32_to_cpu(data->ULBitRate);
+ 
