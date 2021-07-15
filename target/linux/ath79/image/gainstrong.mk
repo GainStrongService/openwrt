@@ -3,7 +3,6 @@ define Device/gainstrong-16mlzma
 	SOC := qca9531
 	DEVICE_VENDOR := Gainstrong
 	TPLINK_FLASHLAYOUT := 16Mlzma
-	IMAGE_SIZE := 15692k
 	DEVICE_VARIANT := 16M
 	DEVICE_PACKAGES := kmod-usb2
 endef
@@ -13,7 +12,6 @@ define Device/gainstrong-32mlzma
 	SOC := qca9531
 	DEVICE_VENDOR := Gainstrong
 	TPLINK_FLASHLAYOUT := 32Mlzma
-	IMAGE_SIZE := 32076k
 	DEVICE_VARIANT := 32M
 	DEVICE_PACKAGES := kmod-usb2
 endef
@@ -23,7 +21,6 @@ define Device/gainstrong-64mlzma
 	SOC := qca9531
 	DEVICE_VENDOR := Gainstrong
 	TPLINK_FLASHLAYOUT := 64Mlzma
-	IMAGE_SIZE := 64844k
 	DEVICE_VARIANT := 64M
 	DEVICE_PACKAGES := kmod-usb2
 endef
