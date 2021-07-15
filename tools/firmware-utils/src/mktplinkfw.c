@@ -152,13 +152,13 @@ static struct flash_layout layouts[] = {
 		.rootfs_ofs	= 0x100000,
 	}, {
 		.id		= "16M",
-		.fw_max_len	= 0xf53000,
+		.fw_max_len	= 0xf50000,
 		.kernel_la	= 0x80060000,
 		.kernel_ep	= 0x80060000,
 		.rootfs_ofs	= 0x140000,
 	}, {
 		.id		= "16Mlzma",
-		.fw_max_len	= 0xf53000,
+		.fw_max_len	= 0xf50000,
 		.kernel_la	= 0x80060000,
 		.kernel_ep	= 0x80060000,
 		.rootfs_ofs	= 0x100000,
@@ -170,13 +170,13 @@ static struct flash_layout layouts[] = {
 		.rootfs_ofs	= 0x2a0000,
 	}, {
 		.id		= "32Mlzma",
-		.fw_max_len	= 0x1f53000,
+		.fw_max_len	= 0x1f50000,
 		.kernel_la	= 0x80060000,
 		.kernel_ep	= 0x80060000,
 		.rootfs_ofs	= 0x100000,
 	}, {
 		.id		= "64Mlzma",
-		.fw_max_len	= 0x3f53000,
+		.fw_max_len	= 0x3f50000,
 		.kernel_la	= 0x80060000,
 		.kernel_ep	= 0x80060000,
 		.rootfs_ofs	= 0x100000,
