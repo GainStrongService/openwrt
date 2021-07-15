@@ -74,8 +74,8 @@
 				reg = <0x020000 0xf50000>;
 			};
 
-			config: partition@f70000 {
-				label = "config";
+			data: partition@f70000 {
+				label = "data";
 				reg = <0xf70000 0x080000>;
 			};
 
