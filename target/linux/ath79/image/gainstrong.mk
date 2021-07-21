@@ -25,6 +25,24 @@ define Device/gainstrong-64mlzma
 	DEVICE_PACKAGES := kmod-usb2
 endef
 
+define Device/gainstrong-ar9331-8mlzma
+	$(Device/tplink-v1)
+	SOC := ar9331
+	DEVICE_VENDOR := Gainstrong
+	TPLINK_FLASHLAYOUT := 8Mlzma
+	DEVICE_VARIANT := 8M
+	DEVICE_PACKAGES := kmod-usb2
+endef
+
+define Device/gainstrong-ar9331-16mlzma
+	$(Device/tplink-v1)
+	SOC := ar9331
+	DEVICE_VENDOR := Gainstrong
+	TPLINK_FLASHLAYOUT := 16Mlzma
+	DEVICE_VARIANT := 16M
+	DEVICE_PACKAGES := kmod-usb2
+endef
+
 
 ###### Oolite v5 ################################
 define Device/gainstrong_oolite-v5-16m
@@ -70,3 +88,19 @@ define Device/gainstrong_minibox-v3-64m
 	SUPPORTED_DEVICES += minibox-v3-64m
 endef
 TARGET_DEVICES += gainstrong_minibox-v3-64m
+
+###### Oolite v1 ################################
+define Device/gainstrong_oolite-v1-8m
+	$(Device/gainstrong-ar9331-8mlzma)
+	DEVICE_MODEL :=Oolite v1 series
+	SUPPORTED_DEVICES += oolite-v1-8m
+endef
+TARGET_DEVICES += gainstrong_oolite-v1-8m
+
+define Device/gainstrong_oolite-v1-16m
+	$(Device/gainstrong-ar9331-16mlzma)
+	DEVICE_MODEL :=Oolite v1 series
+	SUPPORTED_DEVICES += oolite-v1-16m
+endef
+TARGET_DEVICES += gainstrong_oolite-v1-16m
+
