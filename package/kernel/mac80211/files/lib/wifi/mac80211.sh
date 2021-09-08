@@ -76,6 +76,7 @@ detect_mac80211() {
 		[ "$found" -gt 0 ] && continue
 
 		mode_band="g"
+		band_name='2G'
 		channel="11"
 		htmode=""
 		ht_capab=""
@@ -84,12 +85,14 @@ detect_mac80211() {
 
 		iw phy "$dev" info | grep -q '\* 5... MHz \[' && {
 			mode_band="a"
+			band_name='5G'
 			channel=$(iw phy "$dev" info | grep '\* 5... MHz \[' | grep '(disabled)' -v -m 1 | sed 's/[^[]*\[\|\].*//g')
 			iw phy "$dev" info | grep -q 'VHT Capabilities' && htmode="VHT80"
 		}
 
 		iw phy "$dev" info | grep -q '\* 5.... MHz \[' && {
 			mode_band="ad"
+			band_name='60G'
 			channel=$(iw phy "$dev" info | grep '\* 5.... MHz \[' | grep '(disabled)' -v -m 1 | sed 's/[^[]*\[\|\|\].*//g')
 			iw phy "$dev" info | grep -q 'Capabilities:' && htmode="HT20"
 		}
@@ -103,6 +106,11 @@ detect_mac80211() {
 			dev_id="set wireless.radio${devidx}.macaddr=$(cat /sys/class/ieee80211/${dev}/macaddress)"
 		fi
 
+		mac_last_4="$(awk -F ":" '{printf toupper($5$6)}' /sys/class/ieee80211/${dev}/macaddress)"
+		board_name="$(awk -F ',' '{print $2}' /tmp/sysinfo/board_name | awk -F '-' '{print $1}')"
+		ssid="ULE_HUB_${mac_last_4}"
+		ssid=$(echo $ssid | tr 'a-z' 'A-Z')
+
 		uci -q batch <<-EOF
 			set wireless.radio${devidx}=wifi-device
 			set wireless.radio${devidx}.type=mac80211
@@ -110,13 +118,13 @@ detect_mac80211() {
 			set wireless.radio${devidx}.hwmode=11${mode_band}
 			${dev_id}
 			${ht_capab}
-			set wireless.radio${devidx}.disabled=1
+			set wireless.radio${devidx}.disabled=0
 
 			set wireless.default_radio${devidx}=wifi-iface
 			set wireless.default_radio${devidx}.device=radio${devidx}
 			set wireless.default_radio${devidx}.network=lan
 			set wireless.default_radio${devidx}.mode=ap
-			set wireless.default_radio${devidx}.ssid=OpenWrt
+			set wireless.default_radio${devidx}.ssid=${ssid}
 			set wireless.default_radio${devidx}.encryption=none
 EOF
 		uci -q commit wireless
