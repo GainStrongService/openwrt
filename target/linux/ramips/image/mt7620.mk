@@ -17,6 +17,33 @@ define Build/elecom-header
 		--owner=0 --group=0 -f $@ -C $(KDIR) v_0.0.0.bin v_0.0.0.md5
 endef
 
+define Device/rm03_common
+  SOC := mt7620a
+  DEVICE_VENDOR := Gainstrong
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci kmod-usb-storage-uas
+endef
+
+define Device/gainstrong_rm03-16m
+  $(Device/rm03_common)
+  IMAGE_SIZE := 16064k
+  DEVICE_MODEL := RM03 (16M Flash)
+endef
+TARGET_DEVICES += gainstrong_rm03-16m
+
+define Device/gainstrong_rm03-32m
+  $(Device/rm03_common)
+  IMAGE_SIZE := 33226752
+  DEVICE_MODEL := RM03 (32M Flash)
+endef
+TARGET_DEVICES += gainstrong_rm03-32m
+
+define Device/gainstrong_rm03-64m
+  $(Device/rm03_common)
+  IMAGE_SIZE := 66781184
+  DEVICE_MODEL := RM03 (64M Flash)
+endef
+TARGET_DEVICES += gainstrong_rm03-64m
+
 define Device/aigale_ai-br100
   SOC := mt7620a
   IMAGE_SIZE := 7936k

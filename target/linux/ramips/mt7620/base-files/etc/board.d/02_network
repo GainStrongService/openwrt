@@ -29,6 +29,9 @@ ramips_setup_interfaces()
 	zbtlink,zbt-we826-32m|\
 	zbtlink,zbt-we826-e|\
 	zbtlink,zbt-wr8305rt|\
+	gainstrong,rm03-16m|\
+	gainstrong,rm03-32m|\
+	gainstrong,rm03-64m|\
 	zyxel,keenetic-omni)
 		ucidef_add_switch "switch0" \
 			"0:lan" "1:lan" "2:lan" "3:lan" "4:wan" "6@eth0"
@@ -329,6 +332,9 @@ ramips_setup_macs()
 		wan_mac=$(macaddr_add "$(mtd_get_mac_binary u-boot 0x1fc20)" 2)
 		;;
 	lb-link,bl-w1200|\
+	gainstrong,rm03-16m|\
+	gainstrong,rm03-32m|\
+	gainstrong,rm03-64m|\
 	phicomm,k2g|\
 	phicomm,psg1218a|\
 	phicomm,psg1218b)
