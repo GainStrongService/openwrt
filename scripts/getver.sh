@@ -55,5 +55,16 @@ try_hg() {
 	[ -n "$REV" ]
 }
 
-try_version || try_git || try_hg || REV="unknown"
+try_gs_custom() {
+	COMMIT_ID="$(git rev-parse --short=7 HEAD)"
+	COMMIT_DATE="$(git show -s --date=format:'%Y%m%d-%H%M' --format=%cd)"
+	IS_DIRTY=""
+	if [ -n "$(git status --porcelain)" ]; then
+		IS_DIRTY="-dirty"
+	fi
+	REV="${COMMIT_DATE}-g${COMMIT_ID}${IS_DIRTY}"
+	[ -n "$COMMIT_ID" ]
+}
+
+try_gs_custom || try_version || try_git || try_hg || REV="unknown"
 echo "$REV"
