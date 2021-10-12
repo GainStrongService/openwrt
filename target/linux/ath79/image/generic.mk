@@ -170,6 +170,18 @@ define Device/seama
 endef
 
 
+define Device/gainstrong_ule-hub
+	$(Device/tplink-v1)
+	SOC := qca9531
+	DEVICE_VENDOR := Gainstrong
+	TPLINK_FLASHLAYOUT := 32Mlzma
+	DEVICE_MODEL := ULE Hub
+	SUPPORTED_DEVICES += ule-hub
+	DEVICE_PACKAGES := kmod-usb2
+endef
+TARGET_DEVICES += gainstrong_ule-hub
+
+
 define Device/8dev_carambola2
   SOC := ar9331
   DEVICE_VENDOR := 8devices
