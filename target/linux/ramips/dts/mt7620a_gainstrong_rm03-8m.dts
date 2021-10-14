@@ -1,0 +1,10 @@
+#include "mt7620a_gainstrong_rm03.dtsi"
+
+/ {
+	compatible = "gainstrong,rm03-8m", "gainstrong,rm03", "ralink,mt7620a-soc";
+	model = "Gainstrong RM03 (8M Flash)";
+};
+
+&firmware {
+		reg = <0x50000 0x7b0000>;
+};
