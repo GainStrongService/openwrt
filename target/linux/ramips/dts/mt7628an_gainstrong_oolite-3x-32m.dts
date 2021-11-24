@@ -1,0 +1,10 @@
+#include "mt7628an_gainstrong_oolite-3x.dtsi"
+
+/ {
+	compatible = "gainstrong,oolite-3x-32m-4byte", "gainstrong,oolite-3x", "mediatek,mt7628an-soc";
+	model = "Gainstrong Oolite 3.X (32M 4Byte)";
+};
+
+&firmware {
+		reg = <0x50000 0x1fb0000>;
+};
