@@ -29,6 +29,25 @@ define Build/ravpower-wd009-factory
 endef
 
 
+define Device/34s_common
+  DEVICE_VENDOR := Gainstrong
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-storage kmod-sdhci-mt7620
+endef
+
+define Device/gainstrong_oolite-3x-32m
+  $(Device/34s_common)
+  IMAGE_SIZE := 33226752
+  DEVICE_MODEL := Oolite 3.X (32M 4Byte)
+endef
+TARGET_DEVICES += gainstrong_oolite-3x-32m
+
+define Device/gainstrong_oolite-3x-64m
+  $(Device/34s_common)
+  IMAGE_SIZE := 66781184
+  DEVICE_MODEL := Oolite 3.X (64M 4Byte)
+endef
+TARGET_DEVICES += gainstrong_oolite-3x-64m
+
 define Device/alfa-network_awusfree1
   IMAGE_SIZE := 7872k
   DEVICE_VENDOR := ALFA Network
