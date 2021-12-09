@@ -203,9 +203,12 @@ define Package/dropbear/install
 	$(INSTALL_DIR) $(1)/etc/dropbear
 	$(INSTALL_DIR) $(1)/lib/preinit
 	$(INSTALL_DATA) ./files/dropbear.failsafe $(1)/lib/preinit/99_10_failsafe_dropbear
-	$(if $(CONFIG_DROPBEAR_ED25519),touch $(1)/etc/dropbear/dropbear_ed25519_host_key)
+	$(if $(CONFIG_DROPBEAR_ED25519),
+		$(INSTALL_CONF) ./files/dropbear_ed25519_host_key $(1)/etc/dropbear/dropbear_ed25519_host_key; \
+		chmod 0600 $(1)/etc/dropbear//dropbear_ed25519_host_key)
 	$(if $(CONFIG_DROPBEAR_ECC),touch $(1)/etc/dropbear/dropbear_ecdsa_host_key)
-	touch $(1)/etc/dropbear/dropbear_rsa_host_key
+	$(INSTALL_CONF) ./files/dropbear_rsa_host_key $(1)/etc/dropbear/dropbear_rsa_host_key
+	chmod 0600 $(1)/etc/dropbear/dropbear_rsa_host_key
 endef
 
 define Package/dropbearconvert/install
