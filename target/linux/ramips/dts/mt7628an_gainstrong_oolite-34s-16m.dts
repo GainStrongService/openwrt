@@ -1,0 +1,10 @@
+#include "mt7628an_gainstrong_oolite-34s.dtsi"
+
+/ {
+	compatible = "gainstrong,oolite-34s-16m", "gainstrong,oolite-34s", "mediatek,mt7628an-soc";
+	model = "Gainstrong Oolite 3.4S (16M Flash)";
+};
+
+&firmware {
+		reg = <0x50000 0xfb0000>;
+};
