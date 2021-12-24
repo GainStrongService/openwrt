@@ -1,0 +1,209 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+
+#include "mt7628an.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+
+/ {
+	aliases {
+		led-boot = &led_system;
+		led-failsafe = &led_system;
+		led-upgrade = &led_system;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led_gpio_0 {
+			label = "led_gpio_0";
+			gpios = <&gpio 0 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_1 {
+			label = "led_gpio_1";
+			gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_2 {
+			label = "led_gpio_2";
+			gpios = <&gpio 2 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_3 {
+			label = "led_gpio_3";
+			gpios = <&gpio 3 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_4 {
+			label = "led_gpio_4";
+			gpios = <&gpio 4 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_5 {
+			label = "led_gpio_5";
+			gpios = <&gpio 5 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_11 {
+			label = "led_gpio_11";
+			gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_14 {
+			label = "led_gpio_14";
+			gpios = <&gpio 14 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_15 {
+			label = "led_gpio_15";
+			gpios = <&gpio 15 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_16 {
+			label = "led_gpio_16";
+			gpios = <&gpio 16 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_17 {
+			label = "led_gpio_17";
+			gpios = <&gpio 17 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_18 {
+			label = "led_gpio_18";
+			gpios = <&gpio 18 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_19 {
+			label = "led_gpio_19";
+			gpios = <&gpio 19 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_20 {
+			label = "led_gpio_20";
+			gpios = <&gpio 20 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_21 {
+			label = "led_gpio_21";
+			gpios = <&gpio 21 GPIO_ACTIVE_LOW>;
+		};
+
+		led_system: led_gpio_37 {
+			label = "led_gpio_37";
+			gpios = <&gpio 37 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_39 {
+			label = "led_gpio_39";
+			gpios = <&gpio 39 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_40 {
+			label = "led_gpio_40";
+			gpios = <&gpio 40 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_41 {
+			label = "led_gpio_41";
+			gpios = <&gpio 41 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_42 {
+			label = "led_gpio_42";
+			gpios = <&gpio 42 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_43 {
+			label = "led_gpio_43";
+			gpios = <&gpio 43 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_44 {
+			label = "led_gpio_44";
+			gpios = <&gpio 44 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_45 {
+			label = "led_gpio_45";
+			gpios = <&gpio 45 GPIO_ACTIVE_LOW>;
+		};
+
+		led_gpio_46 {
+			label = "led_gpio_46";
+			gpios = <&gpio 46 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&gpio 38 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART>;
+		};
+	};
+
+	sdhci@10130000 {
+		status = "okay";
+	};
+};
+
+&state_default {
+	gpio {
+		groups = "gpio", "i2c", "i2s", "uart1", "uart2", "pwm0", "pwm1", "spis", "refclk", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
+		function = "gpio";
+	};
+};
+
+&spi0 {
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "u-boot";
+				reg = <0x0 0x30000>;
+				read-only;
+			};
+
+			partition@30000 {
+				label = "u-boot-env";
+				reg = <0x30000 0x10000>;
+				read-only;
+			};
+
+			factory: partition@40000 {
+				label = "factory";
+				reg = <0x40000 0x10000>;
+				read-only;
+			};
+
+			firmware: partition@50000 {
+				compatible = "denx,uimage";
+				label = "firmware";
+			};
+		};
+	};
+};
+
+&ethernet {
+	mtd-mac-address = <&factory 0x28>;
+};
+
+&wmac {
+	status = "okay";
+};
+
+&pcie {
+	status = "okay";
+};
