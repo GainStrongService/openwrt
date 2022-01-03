@@ -2,7 +2,7 @@
 
 / {
 	compatible = "gainstrong,oolite-34s-16m", "gainstrong,oolite-34s", "mediatek,mt7628an-soc";
-	model = "Gainstrong Oolite 3.4S (16M Flash)";
+	model = "Gainstrong Oolite 3.4S for LoRa Test (16M Flash)";
 };
 
 &firmware {
