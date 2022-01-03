@@ -14,19 +14,44 @@
 	leds {
 		compatible = "gpio-leds";
 
-		led_gpio_0 {
-			label = "led_gpio_0";
-			gpios = <&gpio 0 GPIO_ACTIVE_LOW>;
-		};
-
-		led_gpio_1 {
-			label = "led_gpio_1";
-			gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
-		};
-
 		led_system: led_gpio_37 {
 			label = "led_gpio_37";
-			gpios = <&gpio 37 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 37 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_38 {
+			label = "led_gpio_38";
+			gpios = <&gpio 38 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_39 {
+			label = "led_gpio_39";
+			gpios = <&gpio 39 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_40 {
+			label = "led_gpio_40";
+			gpios = <&gpio 40 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_41 {
+			label = "led_gpio_41";
+			gpios = <&gpio 41 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_42 {
+			label = "led_gpio_42";
+			gpios = <&gpio 42 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_43 {
+			label = "led_gpio_43";
+			gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_44 {
+			label = "led_gpio_44";
+			gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
 		};
 	};
 
@@ -35,7 +60,7 @@
 
 		reset {
 			label = "reset";
-			gpios = <&gpio 38 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_RESTART>;
 		};
 	};
@@ -47,7 +72,7 @@
 
 &state_default {
 	gpio {
-		groups = "gpio", "i2s", "uart1", "uart2", "pwm0", "pwm1", "refclk", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
+		groups = "gpio", "i2c", "i2s", "uart1", "uart2", "pwm0", "pwm1", "refclk", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
 		function = "gpio";
 	};
 };
@@ -110,9 +135,5 @@
 };
 
 &pcie {
-	status = "okay";
-};
-
-&i2c {
 	status = "okay";
 };
