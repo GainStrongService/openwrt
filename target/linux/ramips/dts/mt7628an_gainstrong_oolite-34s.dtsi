@@ -78,8 +78,6 @@
 };
 
 &spi0 {
-	compatible = "ralink,mt76x8-spi";
-
 	status = "okay";
 	pinctrl-names = "default";
 	pinctrl-0 = <&spi_pins>, <&spi_cs1_pins>;
