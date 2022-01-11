@@ -68,6 +68,22 @@
 	sdhci@10130000 {
 		status = "okay";
 	};
+
+	spi-gpio {
+		compatible = "spi-gpio";
+		#address-cells = <0x1>;
+		cs-gpios = <&gpio0 2 0>;
+		gpio-sck = <&gpio0 0 0>;
+		gpio-mosi = <&gpio0 3 0>;
+		gpio-miso = <&gpio0 1 0>;
+		num-chipselects = <1>;
+		spidev@0 {
+			#address-cells = <0x1>;
+			compatible = "spidev";
+			spi-max-frequency = <10000000>;
+			reg = <0>;
+		};
+	};
 };
 
 &state_default {
