@@ -71,15 +71,15 @@
 
 	spi-gpio {
 		compatible = "spi-gpio";
-		#address-cells = <0x1>;
-		cs-gpios = <&gpio0 2 0>;
-		gpio-sck = <&gpio0 0 0>;
-		gpio-mosi = <&gpio0 3 0>;
-		gpio-miso = <&gpio0 1 0>;
+		#address-cells = <1>;
+		cs-gpios = <&gpio 2 0>;
+		gpio-sck = <&gpio 0 0>;
+		gpio-mosi = <&gpio 3 0>;
+		gpio-miso = <&gpio 1 0>;
 		num-chipselects = <1>;
 		spidev@0 {
-			#address-cells = <0x1>;
-			compatible = "spidev";
+			#address-cells = <1>;
+			compatible = "linux,spidev";
 			spi-max-frequency = <10000000>;
 			reg = <0>;
 		};
