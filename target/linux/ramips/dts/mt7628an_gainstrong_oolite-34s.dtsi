@@ -19,25 +19,6 @@
 			gpios = <&gpio 37 GPIO_ACTIVE_HIGH>;
 		};
 
-		led_gpio_38 {
-			label = "led_gpio_38";
-			gpios = <&gpio 38 GPIO_ACTIVE_HIGH>;
-		};
-
-		led_gpio_39 {
-			label = "led_gpio_39";
-			gpios = <&gpio 39 GPIO_ACTIVE_HIGH>;
-		};
-
-		led_gpio_40 {
-			label = "led_gpio_40";
-			gpios = <&gpio 40 GPIO_ACTIVE_HIGH>;
-		};
-
-		led_gpio_41 {
-			label = "led_gpio_41";
-			gpios = <&gpio 41 GPIO_ACTIVE_HIGH>;
-		};
 	};
 
 	keys {
@@ -54,13 +35,29 @@
 		status = "okay";
 	};
 
-	spi-gpio {
+	spi-gpio1 {
 		compatible = "spi-gpio";
 		#address-cells = <1>;
 		cs-gpios = <&gpio 2 0>;
 		gpio-sck = <&gpio 0 0>;
 		gpio-mosi = <&gpio 3 0>;
 		gpio-miso = <&gpio 1 0>;
+		num-chipselects = <1>;
+		spidev@0 {
+			#address-cells = <1>;
+			compatible = "linux,spidev";
+			spi-max-frequency = <10000000>;
+			reg = <0>;
+		};
+	};
+
+	spi-gpio2 {
+		compatible = "spi-gpio";
+		#address-cells = <1>;
+		cs-gpios = <&gpio 40 0>;
+		gpio-sck = <&gpio 38 0>;
+		gpio-mosi = <&gpio 41 0>;
+		gpio-miso = <&gpio 39 0>;
 		num-chipselects = <1>;
 		spidev@0 {
 			#address-cells = <1>;
