@@ -38,21 +38,6 @@
 			label = "led_gpio_41";
 			gpios = <&gpio 41 GPIO_ACTIVE_HIGH>;
 		};
-
-		led_gpio_42 {
-			label = "led_gpio_42";
-			gpios = <&gpio 42 GPIO_ACTIVE_HIGH>;
-		};
-
-		led_gpio_43 {
-			label = "led_gpio_43";
-			gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
-		};
-
-		led_gpio_44 {
-			label = "led_gpio_44";
-			gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
-		};
 	};
 
 	keys {
