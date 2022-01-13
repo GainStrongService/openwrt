@@ -54,6 +54,22 @@
 	spi-gpio2 {
 		compatible = "spi-gpio";
 		#address-cells = <1>;
+		gpio-sck = <&gpio 14 0>;
+		cs-gpios = <&gpio 16 0>;
+		gpio-mosi = <&gpio 17 0>;
+		gpio-miso = <&gpio 15 0>;
+		num-chipselects = <1>;
+		spidev@0 {
+			#address-cells = <1>;
+			compatible = "linux,spidev";
+			spi-max-frequency = <1000000>;
+			reg = <0>;
+		};
+	};
+
+	spi-gpio3 {
+		compatible = "spi-gpio";
+		#address-cells = <1>;
 		gpio-sck = <&gpio 18 0>;
 		cs-gpios = <&gpio 20 0>;
 		gpio-mosi = <&gpio 21 0>;
@@ -67,13 +83,13 @@
 		};
 	};
 
-	spi-gpio3 {
+	spi-gpio4 {
 		compatible = "spi-gpio";
 		#address-cells = <1>;
-		gpio-sck = <&gpio 14 0>;
-		cs-gpios = <&gpio 16 0>;
-		gpio-mosi = <&gpio 17 0>;
-		gpio-miso = <&gpio 15 0>;
+		gpio-sck = <&gpio 38 0>;
+		cs-gpios = <&gpio 40 0>;
+		gpio-mosi = <&gpio 41 0>;
+		gpio-miso = <&gpio 39 0>;
 		num-chipselects = <1>;
 		spidev@0 {
 			#address-cells = <1>;
