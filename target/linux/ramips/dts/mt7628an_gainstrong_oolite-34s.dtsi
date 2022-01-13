@@ -86,7 +86,7 @@
 
 &state_default {
 	gpio {
-		groups = "gpio", "i2c", "i2s", "uart1", "uart2", "pwm0", "pwm1", "refclk", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
+		groups = "gpio", "i2c", "i2s", "spi cs1", "uart1", "uart2", "pwm0", "pwm1", "refclk", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
 		function = "gpio";
 	};
 };
@@ -94,7 +94,6 @@
 &spi0 {
 	status = "okay";
 	pinctrl-names = "default";
-	pinctrl-0 = <&spi_pins>, <&spi_cs1_pins>;
 
 	flash@0 {
 		compatible = "jedec,spi-nor";
@@ -129,14 +128,6 @@
 				label = "firmware";
 			};
 		};
-	};
-
-	spidev@1 {
-		#address-cells = <1>;
-		#size-cells = <1>;
-		compatible = "linux,spidev";
-		reg = <1>;
-		spi-max-frequency = <10000000>;
 	};
 };
 
