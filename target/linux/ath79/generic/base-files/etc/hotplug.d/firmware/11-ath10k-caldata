@@ -110,6 +110,15 @@ case "$FIRMWARE" in
 		caldata_extract "radiocfg" 0x5000 0x844
 		ath10k_patch_mac $(mtd_get_mac_ascii devdata wlan5mac)
 		;;
+	gainstrong,minibox-v3-16m|\
+	gainstrong,minibox-v3-32m|\
+	gainstrong,minibox-v3-64m|\
+	gainstrong,oolite-v5-16m|\
+	gainstrong,oolite-v5-32m|\
+	gainstrong,oolite-v5-64m)
+		caldata_extract "art" 0x5000 0x844
+		ath10k_patch_mac $(mtd_get_mac_binary art 0x5006)
+		;;
 	tplink,archer-a7-v5|\
 	tplink,archer-c2-v3|\
 	tplink,archer-c7-v4|\
