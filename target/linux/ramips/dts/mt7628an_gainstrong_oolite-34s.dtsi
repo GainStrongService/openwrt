@@ -102,7 +102,7 @@
 
 &state_default {
 	gpio {
-		groups = "gpio", "i2c", "i2s", "spi cs1", "uart1", "uart2", "pwm0", "pwm1", "refclk", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
+		groups = "gpio", "i2s", "spi cs1", "uart1", "uart2", "pwm0", "pwm1", "refclk", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
 		function = "gpio";
 	};
 };
@@ -157,4 +157,8 @@
 
 &pcie {
 	status = "okay";
+};
+
+&i2c {
+	status = "okay";	
 };
