@@ -14,19 +14,19 @@
 	leds {
 		compatible = "gpio-leds";
 
-		led_system: led_gpio_42 {
-			label = "led_gpio_42";
-			gpios = <&gpio 42 GPIO_ACTIVE_HIGH>;
-		};
-
-		led_gpio_41 {
-			label = "led_gpio_41";
-			gpios = <&gpio 41 GPIO_ACTIVE_HIGH>;
+		led_system: led_gpio_39 {
+			label = "led_gpio_39";
+			gpios = <&gpio 39 GPIO_ACTIVE_HIGH>;
 		};
 
 		led_gpio_40 {
 			label = "led_gpio_40";
 			gpios = <&gpio 40 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_41 {
+			label = "led_gpio_41";
+			gpios = <&gpio 41 GPIO_ACTIVE_HIGH>;
 		};
 	};
 
@@ -35,7 +35,7 @@
 
 		reset {
 			label = "reset";
-			gpios = <&gpio 44 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_RESTART>;
 		};
 	};
@@ -56,7 +56,7 @@
 		spidev@0 {
 			#address-cells = <1>;
 			compatible = "linux,spidev";
-			spi-max-frequency = <1000000>;
+			spi-max-frequency = <8000000>;
 			reg = <0>;
 		};
 	};
