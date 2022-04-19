@@ -349,13 +349,6 @@
 				function = "refclk";
 			};
 		};
-
-		ephy_pins: ephy {
-			ephy {
-				groups = "ephy";
-				function = "ephy";
-			};
-		};
 	};
 
 	rstctrl: rstctrl {
