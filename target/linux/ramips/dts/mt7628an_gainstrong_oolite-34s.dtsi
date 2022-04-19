@@ -14,11 +14,20 @@
 	leds {
 		compatible = "gpio-leds";
 
-		led_system: led_gpio_37 {
-			label = "led_gpio_37";
-			gpios = <&gpio 37 GPIO_ACTIVE_HIGH>;
+		led_system: led_gpio_42 {
+			label = "led_gpio_42";
+			gpios = <&gpio 42 GPIO_ACTIVE_HIGH>;
 		};
 
+		led_gpio_41 {
+			label = "led_gpio_41";
+			gpios = <&gpio 41 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_40 {
+			label = "led_gpio_40";
+			gpios = <&gpio 40 GPIO_ACTIVE_HIGH>;
+		};
 	};
 
 	keys {
@@ -26,7 +35,7 @@
 
 		reset {
 			label = "reset";
-			gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 44 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_RESTART>;
 		};
 	};
@@ -35,61 +44,14 @@
 		status = "okay";
 	};
 
+
 	spi-gpio1 {
 		compatible = "spi-gpio";
 		#address-cells = <1>;
-		gpio-sck = <&gpio 0 0>;
-		cs-gpios = <&gpio 2 0>;
-		gpio-mosi = <&gpio 3 0>;
-		gpio-miso = <&gpio 1 0>;
-		num-chipselects = <1>;
-		spidev@0 {
-			#address-cells = <1>;
-			compatible = "linux,spidev";
-			spi-max-frequency = <1000000>;
-			reg = <0>;
-		};
-	};
-
-	spi-gpio2 {
-		compatible = "spi-gpio";
-		#address-cells = <1>;
-		gpio-sck = <&gpio 14 0>;
-		cs-gpios = <&gpio 16 0>;
+		cs-gpios = <&gpio 14 0>;
+		gpio-sck = <&gpio 15 0>;
+		gpio-miso = <&gpio 16 0>;
 		gpio-mosi = <&gpio 17 0>;
-		gpio-miso = <&gpio 15 0>;
-		num-chipselects = <1>;
-		spidev@0 {
-			#address-cells = <1>;
-			compatible = "linux,spidev";
-			spi-max-frequency = <1000000>;
-			reg = <0>;
-		};
-	};
-
-	spi-gpio3 {
-		compatible = "spi-gpio";
-		#address-cells = <1>;
-		gpio-sck = <&gpio 18 0>;
-		cs-gpios = <&gpio 20 0>;
-		gpio-mosi = <&gpio 21 0>;
-		gpio-miso = <&gpio 19 0>;
-		num-chipselects = <1>;
-		spidev@0 {
-			#address-cells = <1>;
-			compatible = "linux,spidev";
-			spi-max-frequency = <1000000>;
-			reg = <0>;
-		};
-	};
-
-	spi-gpio4 {
-		compatible = "spi-gpio";
-		#address-cells = <1>;
-		gpio-sck = <&gpio 38 0>;
-		cs-gpios = <&gpio 40 0>;
-		gpio-mosi = <&gpio 41 0>;
-		gpio-miso = <&gpio 39 0>;
 		num-chipselects = <1>;
 		spidev@0 {
 			#address-cells = <1>;
@@ -102,7 +64,7 @@
 
 &state_default {
 	gpio {
-		groups = "gpio", "i2s", "spi cs1", "uart1", "uart2", "pwm0", "pwm1", "refclk", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
+		groups = "gpio", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
 		function = "gpio";
 	};
 };
@@ -152,10 +114,6 @@
 };
 
 &wmac {
-	status = "okay";
-};
-
-&pcie {
 	status = "okay";
 };
 
