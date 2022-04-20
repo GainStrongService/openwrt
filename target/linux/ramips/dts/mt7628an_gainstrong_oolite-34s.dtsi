@@ -6,6 +6,7 @@
 
 / {
 	aliases {
+		// keep the same device path with Raspberry Pi
 		spi0 = &spi1;
 		i2c1 = &i2c;
 
