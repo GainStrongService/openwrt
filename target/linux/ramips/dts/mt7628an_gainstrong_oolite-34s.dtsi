@@ -130,3 +130,7 @@
 &i2c {
 	status = "okay";	
 };
+
+&uart2 {
+	status = "okay";	
+};
