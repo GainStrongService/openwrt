@@ -40,18 +40,13 @@
 		};
 	};
 
-	sdhci@10130000 {
-		status = "okay";
-	};
-
-
-	spi-gpio1 {
+	spi-gpio0 {
 		compatible = "spi-gpio";
 		#address-cells = <1>;
-		cs-gpios = <&gpio 14 0>;
-		gpio-sck = <&gpio 15 0>;
-		gpio-miso = <&gpio 16 0>;
-		gpio-mosi = <&gpio 17 0>;
+		cs-gpios = <&gpio 1 0>;
+		gpio-sck = <&gpio 3 0>;
+		gpio-miso = <&gpio 0 0>;
+		gpio-mosi = <&gpio 2 0>;
 		num-chipselects = <1>;
 		spidev@0 {
 			#address-cells = <1>;
@@ -110,12 +105,7 @@
 };
 
 &ethernet {
-	mtd-mac-address = <&factory 0x28>;
-};
-
-&esw {
-	mediatek,portmap = <0x7>;
-	mediatek,portdisable = <0x3a>;
+	mtd-mac-address = <&factory 0x4>;
 };
 
 &wmac {
