@@ -74,7 +74,7 @@
 
 &state_default {
 	gpio {
-		groups = "gpio", "i2s", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
+		groups = "gpio", "i2s", "refclk", "spi cs1", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
 		function = "gpio";
 	};
 };
