@@ -38,22 +38,6 @@
 			linux,code = <KEY_RESTART>;
 		};
 	};
-	// //verified
-	// spi1 {
-	// 	compatible = "spi-gpio";
-	// 	#address-cells = <1>;
-	// 	cs-gpios = <&gpio 2 0>;
-	// 	gpio-sck = <&gpio 0 0>;
-	// 	gpio-miso = <&gpio 1 0>;
-	// 	gpio-mosi = <&gpio 3 0>;
-	// 	num-chipselects = <1>;
-	// 	spidev@0 {
-	// 		#address-cells = <1>;
-	// 		compatible = "linux,spidev";
-	// 		spi-max-frequency = <1000000>;
-	// 		reg = <0>;
-	// 	};
-	// };
 
 	spi1: spi-gpio0 {
 		compatible = "spi-gpio";
