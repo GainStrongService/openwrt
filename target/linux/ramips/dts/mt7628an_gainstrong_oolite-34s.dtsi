@@ -6,6 +6,9 @@
 
 / {
 	aliases {
+		spi0 = &spi1;
+		i2c1 = &i2c;
+
 		led-boot = &led_system;
 		led-failsafe = &led_system;
 		led-upgrade = &led_system;
@@ -23,11 +26,6 @@
 			label = "led_gpio_40";
 			gpios = <&gpio 40 GPIO_ACTIVE_HIGH>;
 		};
-
-		led_gpio_41 {
-			label = "led_gpio_41";
-			gpios = <&gpio 41 GPIO_ACTIVE_HIGH>;
-		};
 	};
 
 	keys {
@@ -39,11 +37,27 @@
 			linux,code = <KEY_RESTART>;
 		};
 	};
+	// //verified
+	// spi1 {
+	// 	compatible = "spi-gpio";
+	// 	#address-cells = <1>;
+	// 	cs-gpios = <&gpio 2 0>;
+	// 	gpio-sck = <&gpio 0 0>;
+	// 	gpio-miso = <&gpio 1 0>;
+	// 	gpio-mosi = <&gpio 3 0>;
+	// 	num-chipselects = <1>;
+	// 	spidev@0 {
+	// 		#address-cells = <1>;
+	// 		compatible = "linux,spidev";
+	// 		spi-max-frequency = <1000000>;
+	// 		reg = <0>;
+	// 	};
+	// };
 
-	spi-gpio0 {
+	spi1: spi-gpio0 {
 		compatible = "spi-gpio";
 		#address-cells = <1>;
-		cs-gpios = <&gpio 1 0>;
+		cs-gpios = <&gpio 41 0>;
 		gpio-sck = <&gpio 3 0>;
 		gpio-miso = <&gpio 0 0>;
 		gpio-mosi = <&gpio 2 0>;
@@ -59,7 +73,7 @@
 
 &state_default {
 	gpio {
-		groups = "gpio", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
+		groups = "gpio", "i2s", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
 		function = "gpio";
 	};
 };
