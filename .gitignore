@@ -30,3 +30,4 @@ git-src
 .cproject
 .ccache
 .vscode
+/package/helium/helium_gateway/files/helium_gateway
