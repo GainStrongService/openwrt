@@ -1,0 +1,6 @@
+#include "qca9531_gainstrong.dtsi"
+
+/ {
+	model = "Gainstrong Oolite v5 16M";
+	compatible = "gainstrong,oolite-v5-16m", "gainstrong,minibox-v3-16m", "qca,qca9531";
+};
