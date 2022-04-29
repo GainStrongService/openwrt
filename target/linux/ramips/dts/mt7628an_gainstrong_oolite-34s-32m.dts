@@ -1,8 +1,8 @@
 #include "mt7628an_gainstrong_oolite-34s.dtsi"
 
 / {
-	compatible = "gainstrong,oolite-34s-32m", "gainstrong,oolite-34s", "mediatek,mt7628an-soc";
-	model = "Gainstrong Oolite 3.4S (32M Flash)";
+	compatible = "gainstrong,hnt-light", "gainstrong,oolite-34s", "mediatek,mt7628an-soc";
+	model = "HNT Light Hotspot";
 };
 
 &firmware {
