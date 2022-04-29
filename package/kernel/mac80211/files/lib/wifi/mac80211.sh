@@ -170,7 +170,7 @@ detect_mac80211() {
 
 		mac_last_4="$(awk -F ":" '{printf toupper($5$6)}' /sys/class/ieee80211/phy0/macaddress)"
 		board_name="$(awk -F ',' '{print $2}' /tmp/sysinfo/board_name)"
-		ssid="${board_name}_${mode_band}_${mac_last_4}"
+		ssid="${board_name}_${mac_last_4}"
 		ssid=$(echo $ssid | tr 'a-z' 'A-Z')
 
 		uci -q batch <<-EOF
