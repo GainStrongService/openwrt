@@ -260,6 +260,38 @@ define Device/k2p
 endef
 TARGET_DEVICES += k2p
 
+define Device/oolite-v8-8m
+  DTS := OOLITE8-8M
+  IMAGE_SIZE := $(ralink_default_fw_size_8M)
+  DEVICE_TITLE := GainStrong Oolite v8 (8M flash)
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-usb3 kmod-sdhci-mt7620
+endef
+TARGET_DEVICES += oolite-v8-8m
+
+define Device/oolite-v8-16m
+  DTS := OOLITE8-16M
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
+  DEVICE_TITLE := GainStrong Oolite v8 (16M flash)
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-usb3 kmod-sdhci-mt7620
+endef
+TARGET_DEVICES += oolite-v8-16m
+
+define Device/oolite-v8-32m
+  DTS := OOLITE8-32M
+  IMAGE_SIZE := $(ralink_default_fw_size_32M)
+  DEVICE_TITLE := GainStrong Oolite v8 (32M flash)
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-usb3 kmod-sdhci-mt7620
+endef
+TARGET_DEVICES += oolite-v8-32m
+
+define Device/oolite-v8-64m
+  DTS := OOLITE8-64M
+  IMAGE_SIZE := $(ralink_default_fw_size_64M)
+  DEVICE_TITLE := GainStrong Oolite v8 (64M flash)
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-usb3 kmod-sdhci-mt7620
+endef
+TARGET_DEVICES += oolite-v8-64m
+
 define Device/xiaomi_mir3p
   DTS := MIR3P
   BLOCKSIZE := 128k

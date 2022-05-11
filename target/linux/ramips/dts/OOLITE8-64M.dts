@@ -1,0 +1,13 @@
+/dts-v1/;
+
+#include "OOLITE8.dtsi"
+
+/ {
+	compatible = "gainstrong,oolite-v8-64m", "gainstrong,oolite-v8", "mediatek,mt7621-soc";
+	model = "GainStrong Oolite v8 (64M flash)";
+
+};
+
+&firmware {
+	reg = <0x50000 0x3fb0000>;
+};

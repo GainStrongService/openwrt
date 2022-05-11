@@ -77,6 +77,10 @@ ramips_setup_interfaces()
 	mr-102n)
 		ucidef_set_interface_lan "eth0.2"
 		;;
+	gainstrong,oolite-v8-8m|\
+	gainstrong,oolite-v8-16m|\
+	gainstrong,oolite-v8-32m|\
+	gainstrong,oolite-v8-64m|\
 	3g-6200n|\
 	ai-br100|\
 	alfa-network,ac1200rm|\
