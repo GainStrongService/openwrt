@@ -1,0 +1,16 @@
+#include "mt7628an_gainstrong_oolite-3x.dtsi"
+
+/ {
+	compatible = "gainstrong,oolite-3x-16m", "gainstrong,oolite-3x", "mediatek,mt7628an-soc";
+	model = "Gainstrong Oolite 3.X - MT750 Teton (16M Flash)";
+
+    chosen {
+		bootargs = "console=ttyS0,115200";
+	};
+
+
+};
+
+&firmware {
+		reg = <0x50000 0xfb0000>;
+};
