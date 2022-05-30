@@ -2,7 +2,7 @@
 
 / {
 	compatible = "gainstrong,oolite-3x-16m", "gainstrong,oolite-3x", "mediatek,mt7628an-soc";
-	model = "Gainstrong Oolite 3.X - MT750 Teton (16M Flash)";
+	model = "Teton TR-750 - GainStrong Test Firmware";
 
     chosen {
 		bootargs = "console=ttyS0,115200";
