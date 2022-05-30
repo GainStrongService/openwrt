@@ -33,9 +33,10 @@
 			label = "led_gpio_0_USB";
 			gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
 		};
+
 		led_gpio_37 {
 			label = "led_gpio_37_SDCard";
-			gpios = <&gpio 37 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio 37 GPIO_ACTIVE_LOW>;
 		};
 
 		led_system: led_gpio_39 {
@@ -78,13 +79,15 @@
 		power_button {
 			label = "PowerButton-gpio-40";
 			gpios = <&gpio 40 GPIO_ACTIVE_LOW>;
-			linux,code = <BTN_POWER>;
+			linux,code = <BTN_1>;
+			linux,input-type = <EV_SW>;
 		};
 
 		charging {
 			label = "Charging-gpio-41";
 			gpios = <&gpio 40 GPIO_ACTIVE_LOW>;
-			linux,code = <BTN_POWER>;
+			linux,code = <BTN_2>;
+			linux,input-type = <EV_SW>;
 		};
 	};
 
