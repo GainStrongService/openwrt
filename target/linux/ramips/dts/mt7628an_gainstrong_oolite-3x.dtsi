@@ -14,9 +14,55 @@
 	leds {
 		compatible = "gpio-leds";
 
-		led_system: led_gpio_44 {
-			label = "led_gpio_44";
-			gpios = <&gpio 44 GPIO_ACTIVE_LOW>;
+		led_gpio_3 {
+			label = "led_gpio_3_Ethernet";
+			gpios = <&gpio 3 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_1 {
+			label = "led_gpio_1_WiFi_5G";
+			gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_44 {
+			label = "led_gpio_44_WiFi_2G";
+			gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_0 {
+			label = "led_gpio_0_USB";
+			gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
+		};
+		led_gpio_37 {
+			label = "led_gpio_37_SDCard";
+			gpios = <&gpio 37 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_system: led_gpio_39 {
+			label = "led_gpio_39_PowerGreen";
+			gpios = <&gpio 39 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_gpio_2 {
+			label = "led_gpio_2_PowerRed";
+			gpios = <&gpio 2 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	gpio_export {
+		compatible = "gpio-export";
+		#size-cells = <0>;
+
+		usbpower {
+			gpio-export,name = "usbpower";
+			gpio-export,output = <1>;
+			gpios = <&gpio 11 GPIO_ACTIVE_HIGH>;
+		};
+
+		power_control {
+			gpio-export,name = "power_control";
+			gpio-export,output = <1>;
+			gpios = <&gpio 43 GPIO_ACTIVE_LOW>;
 		};
 	};
 
@@ -28,6 +74,18 @@
 			gpios = <&gpio 38 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_RESTART>;
 		};
+
+		power_button {
+			label = "PowerButton-gpio-40";
+			gpios = <&gpio 40 GPIO_ACTIVE_LOW>;
+			linux,code = <BTN_POWER>;
+		};
+
+		charging {
+			label = "Charging-gpio-41";
+			gpios = <&gpio 40 GPIO_ACTIVE_LOW>;
+			linux,code = <BTN_POWER>;
+		};
 	};
 
 	sdhci@10130000 {
@@ -37,7 +95,7 @@
 
 &state_default {
 	gpio {
-		groups = "gpio", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
+		groups = "gpio", "i2s", "refclk", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
 		function = "gpio";
 	};
 };
