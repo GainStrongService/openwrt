@@ -1,0 +1,111 @@
+From 2ecc0adbc3636203408a7d7e3804bc2945b16973 Mon Sep 17 00:00:00 2001
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+Date: Sun, 28 Mar 2021 17:54:10 +0200
+Subject: [PATCH] bq2429x: fix a long lasting charging issue
+
+If USB is unplugged and replugged this is detected by a
+worker function.
+
+A general problem after plugging in USB power is to
+correctly set the charger to limit the current it wants
+to draw from the USB power source.
+
+USB2 did define 100mA and allwas to increase to 500mA after
+negotiations.
+
+Usually, PC host ports always supply at least 500 mA or even more
+even if not asked.
+
+Contrary to that, USB wall chargers do not negotiate but have special
+ID pins or a resistor across the power supply pins to descibe if they
+can provide 500mA, 1A or 2A etc.
+
+The bq2429x chip is capable of detecting such special cases and
+set an initial input_current_limit.
+
+But there are cases where this does not work or is not approriate.
+
+To be able to control this situation from user-space the bq2429x
+driver has two distinct mechanisms to define a limit current that
+is to be applied and overrides the automatic detection.
+
+Setting can be done either through
+
+	echo 20000000 >/sys/class/power_supply/bq24297/device/max_current
+	echo 20000000 >/sys/class/power_supply/bq24297/input_current_limit
+
+where the first is to be considered obsolete and may be deprecated.
+The current can be increased up to 3A.
+
+A value of 0 completely isolates charging which is mainly useful for
+debugging.
+
+Now there is a minor bug in setting input_current_limit. It does not
+save the new setting for an unplug/replug case while device/max_current
+works as intended.
+
+Hence an unplug+replug (which may also be spuriously detected depending
+on main processor's power drain) event sets the charger to the last value
+written by device/max_current which is usually 0mA after driver initialization.
+
+Even worse there is another bug. Setting the limit to 0mA disables
+the input completely by setting EN_HIZ. In this state, the VBUS
+detection fails so it is impossible to charge the device. Even
+worsei, this state only ends if input_current_limit is set from user
+space or all charging power AND battery are removed. In theory it
+should also end after plugging/unplugging an OTG cable or device
+but that has not been tested.
+
+So we do two fixes:
+a) make setting input_current_limit also store the value
+b) update the input current limit only if it is not 0mA, i.e.
+   explicitly set
+   This has the good side effect that the automatic detecion by
+   the bq24297 takes priority again
+
+Note, that it is possible to define a non-0mA default by
+device tree:
+
+	ti,usb-input-current-microamp = <500000>;
+
+But this also disables the automatic detection.
+
+Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+---
+ drivers/power/supply/bq2429x_charger.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/power/supply/bq2429x_charger.c b/drivers/power/supply/bq2429x_charger.c
+index 792525a5a1a41..4676406ae8576 100644
+--- a/drivers/power/supply/bq2429x_charger.c
++++ b/drivers/power/supply/bq2429x_charger.c
+@@ -892,9 +892,10 @@ static void bq2429x_input_available(struct bq2429x_device_info *di, bool state)
+ 			else
+ 				bq2429x_set_input_current_limit_uA(di,
+ 					di->usb_input_current_uA);
+-		} else
++		} else if(di->usb_input_current_uA) {
+ 			bq2429x_set_input_current_limit_uA(di,
+ 					di->usb_input_current_uA);
++		}
+ 
+ 		bq2429x_set_charge_current_uA(di, di->chg_current_uA);
+ 		bq2429x_set_charge_mode(di, CHARGE_MODE_CONFIG_CHARGE_BATTERY);
+@@ -1407,12 +1408,16 @@ static int bq2429x_set_property(struct power_supply *psy,
+ 				const union power_supply_propval *val)
+ {
+ 	struct bq2429x_device_info *di = power_supply_get_drvdata(psy);
++	int ret;
+ 
+ 	dev_dbg(di->dev, "%s,line=%d prop=%d\n", __func__, __LINE__, psp);
+ 
+ 	switch (psp) {
+ 	case POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT:
+-		return bq2429x_set_input_current_limit_uA(di, val->intval);
++		ret = bq2429x_set_input_current_limit_uA(di, val->intval);
++		if (ret >= 0)
++			di->usb_input_current_uA = val->intval;	/* restore after unplug/replug */
++		return ret;
+ 	default:
+ 		return -EPERM;
+ 	}

@@ -176,6 +176,30 @@
       reg = <0x55>;
       monitored-battery = <&bat>;
     };
+
+	/* charger */
+	bq24297@6b {
+		compatible = "ti,bq24297";
+		reg = <0x6b>;
+		monitored-battery = <&bat>;
+		/* interrupts are broken */
+		regulators {
+			vsys_reg: vsys_regulator {
+				regulator-compatible = "bq2429x-vsys";
+				regulator-name = "vsys";
+				regulator-min-microvolt = <3500000>;
+				regulator-max-microvolt = <4200000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+			otg_reg: otg_regulator {
+				regulator-compatible = "bq2429x-otg";
+				regulator-name = "otg";
+				regulator-min-microvolt = <4900000>;
+				regulator-max-microvolt = <5100000>;
+			};
+		};
+	};
 };
 
 &sdhci {
