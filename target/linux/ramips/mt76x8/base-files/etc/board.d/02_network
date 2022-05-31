@@ -9,6 +9,13 @@ ramips_setup_interfaces()
 	local board="$1"
 
 	case $board in
+	gainstrong,oolite-v3x-8m|\
+	gainstrong,oolite-v3x-16m|\
+	gainstrong,oolite-v3x-32m|\
+	gainstrong,oolite-v3x-64m)
+		ucidef_add_switch "switch0" \
+			"0:lan" "6@eth0"
+		;;
 	alfa-network,awusfree1|\
 	d-team,pbr-d1|\
 	glinet,microuter-n300|\

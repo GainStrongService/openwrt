@@ -29,6 +29,43 @@ define Build/ravpower-wd009-factory
 endef
 
 
+define Device/oolite_v3x_common
+  DEVICE_VENDOR := GainStrong
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-storage kmod-sdhci-mt7620
+endef
+
+define Device/gainstrong_oolite-v3x-8m
+  $(Device/oolite_v3x_common)
+  IMAGE_SIZE := 7876k
+  DEVICE_MODEL := Oolite V3.X
+  DEVICE_VARIANT := 8M Flash
+endef
+TARGET_DEVICES += gainstrong_oolite-v3x-8m
+
+define Device/gainstrong_oolite-v3x-16m
+  $(Device/oolite_v3x_common)
+  IMAGE_SIZE := 16064k
+  DEVICE_MODEL := Oolite V3.X
+  DEVICE_VARIANT := 16M Flash
+endef
+TARGET_DEVICES += gainstrong_oolite-v3x-16m
+
+define Device/gainstrong_oolite-v3x-32m
+  $(Device/oolite_v3x_common)
+  IMAGE_SIZE := 32448k
+  DEVICE_MODEL := Oolite V3.X
+  DEVICE_VARIANT := 32M Flash
+endef
+TARGET_DEVICES += gainstrong_oolite-v3x-32m
+
+define Device/gainstrong_oolite-v3x-64m
+  $(Device/oolite_v3x_common)
+  IMAGE_SIZE := 65216k
+  DEVICE_MODEL := Oolite V3.X
+  DEVICE_VARIANT := 64M Flash
+endef
+TARGET_DEVICES += gainstrong_oolite-v3x-64m
+
 define Device/alfa-network_awusfree1
   IMAGE_SIZE := 7872k
   DEVICE_VENDOR := ALFA Network
