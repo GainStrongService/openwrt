@@ -1,0 +1,18 @@
+--- linux-5.4.194/drivers/power/supply/bq2429x_charger.c	2022-05-31 22:57:29.592566100 +0800
++++ linux-5.4.194/drivers/power/supply/bq2429x_charger2.c	2022-05-31 22:55:22.034177347 +0800
+@@ -173,6 +173,7 @@
+ #define NTC_FAULT_MASK	0x3
+ 
+ /* REG0a vendor status register value */
++#define CHIP_BQ24295		0xC0
+ #define CHIP_BQ24296		0x20
+ #define CHIP_BQ24297		0x60
+ #define CHIP_MP2624		0x04
+@@ -1663,6 +1664,7 @@
+ 	}
+ 
+ 	switch (ret) {
++	case CHIP_BQ24295:
+ 	case CHIP_BQ24296:
+ 	case CHIP_BQ24297:
+ 	case CHIP_MP2624:
