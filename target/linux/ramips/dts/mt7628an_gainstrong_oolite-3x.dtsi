@@ -200,6 +200,12 @@
 			};
 		};
 	};
+
+
+    atsha204a@64 {
+        compatible = "atmel,atsha204a";
+        reg = <0x64>;
+    };
 };
 
 &sdhci {
