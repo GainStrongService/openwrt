@@ -67,6 +67,7 @@
 				label = "firmware";
 			};
 
+			// Whole flash size, available for full flash backup
 			all: partition@all {
 				label = "all";
 				read-only;
@@ -78,12 +79,16 @@
 
 &pcie {
 	status = "okay";
-	reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>,
-	              <&gpio  8 GPIO_ACTIVE_LOW>,
-	              <&gpio  7 GPIO_ACTIVE_LOW>;
+	reset-gpios =
+		// MT7603 and MT7613 on Oolite V8.1 share GPIO 19 reset, and can only be reset once, so the second reset GPIO must be left empty
+		<&gpio 19 GPIO_ACTIVE_LOW>,
+	    <>,
+		// GPIO 7 is used to reset the SATA controller on the development board
+	    <&gpio 7 GPIO_ACTIVE_LOW>;
 };
 
 &pcie0 {
+	// MT7603 on Oolite V8.1 PCIe 0
 	wifi@0,0 {
 		compatible = "mediatek,mt76";
 		reg = <0x0 0 0 0 0>;
@@ -92,6 +97,7 @@
 };
 
 &pcie1 {
+	// MT7613 on Oolite V8.1 PCIe 1
 	wifi@0,0 {
 		compatible = "mediatek,mt76";
 		reg = <0x0 0 0 0 0>;
