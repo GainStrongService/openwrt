@@ -1,7 +1,7 @@
 #include "mt7628an_gainstrong_oolite-34s.dtsi"
 
 / {
-	compatible = "gainstrong,hnt-light", "gainstrong,oolite-34s", "mediatek,mt7628an-soc";
+	compatible = "gainstrong,hnt-light-hotspot", "gainstrong,oolite-34s", "mediatek,mt7628an-soc";
 	model = "HNT Light Hotspot";
 };
 
