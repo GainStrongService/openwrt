@@ -12,6 +12,7 @@ ramips_setup_interfaces()
 	gainstrong,oolite-34s-8m|\
 	gainstrong,oolite-34s-16m|\
 	gainstrong,oolite-34s-32m|\
+	gainstrong,hnt-light-hotspot|\
 	gainstrong,oolite-34s-64m)
 		ucidef_add_switch "switch0" \
 			 "0:wan" "1:wan" "2:wan" "3:lan" "4:lan" "6@eth0"
