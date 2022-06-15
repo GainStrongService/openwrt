@@ -166,10 +166,14 @@
     #size-cells = <0>;
 	clock-frequency = <0x186a0>;
     bat: battery {
-      compatible = "simple-battery";
-      voltage-min-design-microvolt = <3200000>;
-      energy-full-design-microwatt-hours = <5290000>;
-      charge-full-design-microamp-hours = <1430000>;
+		compatible = "simple-battery";
+		voltage-min-design-microvolt = <3200000>;
+		energy-full-design-microwatt-hours = <12580000>;
+		charge-full-design-microamp-hours = <3400000>;
+		precharge-current-microamp = <256000>;
+		charge-term-current-microamp = <128000>;
+		constant-charge-current-max-microamp = <1200000>;
+		constant-charge-voltage-max-microvolt = <4200000>;
     };
 
     bq27510g3: fuel-gauge@55 {
