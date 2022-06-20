@@ -17,14 +17,9 @@
 	leds {
 		compatible = "gpio-leds";
 
-		led_system: led_gpio_39 {
-			label = "led_gpio_39";
-			gpios = <&gpio 39 GPIO_ACTIVE_HIGH>;
-		};
-
-		led_gpio_40 {
-			label = "led_gpio_40";
-			gpios = <&gpio 40 GPIO_ACTIVE_HIGH>;
+		led_system: led_gpio_44 {
+			label = "led_gpio_44";
+			gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
 		};
 	};
 
@@ -33,7 +28,7 @@
 
 		reset {
 			label = "reset";
-			gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 38 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_RESTART>;
 		};
 	};
@@ -53,11 +48,22 @@
 			reg = <0>;
 		};
 	};
+
+	gpio-export {
+		compatible = "gpio-export";
+		#size-cells = <0>;
+
+		bluetooth-wakeup {
+			gpio-export,name = "bluetooth-wakeup";
+			gpio-export,output = <1>;
+			gpios = <&gpio 40 GPIO_ACTIVE_LOW>;
+		};
+	};
 };
 
 &state_default {
 	gpio {
-		groups = "gpio", "i2s", "perst", "refclk", "spi cs1", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
+		groups = "gpio", "i2s", "perst", "spi cs1", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
 		function = "gpio";
 	};
 };
