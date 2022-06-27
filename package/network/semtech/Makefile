@@ -42,7 +42,7 @@ define Package/lora-sx1276/install
 	$(INSTALL_DIR) $(1)/lib/semtech
 
 	$(CP) ./drivers/99-lora-sx1276 $(1)/etc/modules.d/99-lora-sx1276
-	$(CP) ./drivers/lora-sx1276.ko_4.14.34 $(1)/lib/modules/$(LINUX_VERSION)/lora-sx1276.ko
+	$(CP) ./drivers/lora-sx1276.ko_4.14.206 $(1)/lib/modules/$(LINUX_VERSION)/lora-sx1276.ko
 	$(CP) ./libs/libsx1276.so $(1)/lib/semtech
 	$(CP) ./libs/libsx1276.a $(1)/lib/semtech
 	$(CP) ./libs/sx1276.h $(1)/lib/semtech
