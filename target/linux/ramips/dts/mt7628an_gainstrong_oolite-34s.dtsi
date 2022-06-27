@@ -41,12 +41,15 @@
 		gpio-miso = <&gpio 0 0>;
 		gpio-mosi = <&gpio 2 0>;
 		num-chipselects = <1>;
-		spidev@0 {
-			#address-cells = <1>;
-			compatible = "linux,spidev";
-			spi-max-frequency = <10000000>;
+
+		sx1278@0 {
+			compatible = "semtech,sx1276";
+			spi-max-frequency = <15200>;
 			reg = <0>;
-		};
+			clock-frequency = <32000000>;
+			minimal-RF-channel = /bits/ 8 <11>;
+			maximum-RF-channel = /bits/ 8 <11>;
+		};		
 	};
 
 	gpio-export {
