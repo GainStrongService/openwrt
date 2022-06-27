@@ -1,0 +1,34 @@
+--- a/drivers/net/ieee802154/sx1278.c	2022-06-27 09:11:14.215636000 +0800
++++ b/drivers/net/ieee802154/sx1278.c	2022-06-27 10:40:17.111885157 +0800
+@@ -46,6 +46,9 @@
+ #include <linux/regmap.h>
+ #include <net/mac802154.h>
+ 
++
++typedef struct timer_list *compat_timer_arg_t;
++
+ /*------------------------------ LoRa Functions ------------------------------*/
+ 
+ #ifndef F_XOSC
+@@ -1420,7 +1423,7 @@
+  * @arg:	the general argument for this callback function
+  */
+ static void
+-sx1278_timer_isr(unsigned long arg)
++sx1278_timer_isr(compat_timer_arg_t arg)
+ {
+ 	struct sx1278_phy *phy = (struct sx1278_phy *)arg;
+ 
+@@ -1484,10 +1487,9 @@
+ 
+ 	INIT_WORK(&phy->irqwork, sx1278_timer_irqwork);
+ 
+-	init_timer(&phy->timer);
+ 	phy->timer.expires = jiffies_64 + HZ;
+-	phy->timer.function = sx1278_timer_isr;
+-	phy->timer.data = (unsigned long)phy;
++	timer_setup(&phy->timer, sx1278_timer_isr, (unsigned long)phy);
++	
+ 
+ 	spin_lock_init(&phy->buf_lock);
+ 
