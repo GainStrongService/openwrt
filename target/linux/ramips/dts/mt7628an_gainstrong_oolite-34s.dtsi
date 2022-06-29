@@ -86,7 +86,7 @@
 		#size-cells = <1>;
 		reg = <1>;
 		compatible = "semtech,sx1276";
-		spi-max-frequency = <40000000>;
+		spi-max-frequency = <15200>;
 		clock-frequency = <32000000>;
 		minimal-RF-channel = /bits/ 8 <11>;
 		maximum-RF-channel = /bits/ 8 <11>;
