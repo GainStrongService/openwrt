@@ -7,7 +7,7 @@
 / {
 	aliases {
 		// keep the same device path with Raspberry Pi
-		spi0 = &spi1;
+		//spi0 = &spi1;
 
 		led-boot = &led_system;
 		led-failsafe = &led_system;
@@ -32,36 +32,6 @@
 			linux,code = <KEY_RESTART>;
 		};
 	};
-
-	spi1: spi-gpio0 {
-		compatible = "spi-gpio";
-		#address-cells = <1>;
-		cs-gpios = <&gpio 41 0>;
-		gpio-sck = <&gpio 3 0>;
-		gpio-miso = <&gpio 0 0>;
-		gpio-mosi = <&gpio 2 0>;
-		num-chipselects = <1>;
-
-		sx1278@0 {
-			compatible = "semtech,sx1276";
-			spi-max-frequency = <15200>;
-			reg = <0>;
-			clock-frequency = <32000000>;
-			minimal-RF-channel = /bits/ 8 <11>;
-			maximum-RF-channel = /bits/ 8 <11>;
-		};		
-	};
-
-	gpio-export {
-		compatible = "gpio-export";
-		#size-cells = <0>;
-
-		bluetooth-wakeup {
-			gpio-export,name = "bluetooth-wakeup";
-			gpio-export,output = <1>;
-			gpios = <&gpio 40 GPIO_ACTIVE_LOW>;
-		};
-	};
 };
 
 &state_default {
@@ -74,7 +44,7 @@
 &spi0 {
 	status = "okay";
 	pinctrl-names = "default";
-
+	pinctrl-0 = <&spi_pins>, <&spi_cs1_pins>;
 	flash@0 {
 		compatible = "jedec,spi-nor";
 		reg = <0>;
@@ -109,6 +79,17 @@
 				label = "firmware";
 			};
 		};
+	};
+
+	sx1276@1 {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		reg = <1>;
+		compatible = "semtech,sx1276";
+		spi-max-frequency = <40000000>;
+		clock-frequency = <32000000>;
+		minimal-RF-channel = /bits/ 8 <11>;
+		maximum-RF-channel = /bits/ 8 <11>;
 	};
 };
 
