@@ -22,9 +22,9 @@
 		};
 
 		// 低电平亮
-		led_gpio_45 {
-			label = "led_gpio_45_WiFi_5G";
-			gpios = <&gpio 45 GPIO_ACTIVE_LOW>;
+		led_gpio_46 {
+			label = "led_gpio_46_WiFi_5G";
+			gpios = <&gpio 46 GPIO_ACTIVE_LOW>;
 			default-state = "on";
 		};
 
