@@ -49,17 +49,16 @@
 			default-state = "on";
 		};
 
-		// 低电平亮
-		led_system: led_gpio_39 {
+		// 低电平亮，默认不开启
+		led_gpio_39 {
 			label = "led_gpio_39_PowerGreen";
 			gpios = <&gpio 39 GPIO_ACTIVE_LOW>;
-			default-state = "on";
 		};
 
-		// 低电平亮，默认不开启
-		led_gpio_2 {
+		// 低电平亮
+		led_system: led_gpio_2 {
 			label = "led_gpio_2_PowerRed";
-			gpios = <&gpio 2 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
 		};
 	};
 
@@ -71,7 +70,7 @@
 		usbpower {
 			gpio-export,name = "usbpower";
 			gpio-export,output = <1>;
-			gpios = <&gpio 11 GPIO_ACTIVE_HIGH;
+			gpios = <&gpio 11 GPIO_ACTIVE_HIGH>;
 		};
 
 		// 低电平断系统电源
