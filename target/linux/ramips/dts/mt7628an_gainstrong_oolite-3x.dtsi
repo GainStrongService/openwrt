@@ -190,8 +190,8 @@
 		constant-charge-voltage-max-microvolt = <4200000>;
     };
 
-    bq27510g3: fuel-gauge@55 {
-      compatible = "ti,bq27510g3";
+    bq27546: fuel-gauge@55 {
+      compatible = "ti,bq27546";
       reg = <0x55>;
       monitored-battery = <&bat>;
     };
