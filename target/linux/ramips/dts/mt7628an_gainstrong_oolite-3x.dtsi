@@ -197,8 +197,8 @@
     };
 
 	/* charger */
-	bq24297@6b {
-		compatible = "ti,bq24297";
+	mp2731@6b {
+		compatible = "mps,mp2624";
 		reg = <0x6b>;
 		monitored-battery = <&bat>;
 		/* interrupts are broken */
