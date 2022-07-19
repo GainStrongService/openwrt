@@ -190,6 +190,7 @@
 
 &i2c {
 	status = "okay";
+	clock-frequency = <100000>;
     
 	bq27546@55 {
 		compatible = "ti,bq27546";
