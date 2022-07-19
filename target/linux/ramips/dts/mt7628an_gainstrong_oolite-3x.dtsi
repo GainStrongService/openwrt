@@ -108,6 +108,19 @@
 	sdhci@10130000 {
 		status = "okay";
 	};
+
+
+	bat: battery {
+		compatible = "simple-battery";
+		voltage-min-design-microvolt = <3200000>;
+		energy-full-design-microwatt-hours = <12580000>;
+		charge-full-design-microamp-hours = <3400000>;
+		precharge-current-microamp = <256000>;
+		charge-term-current-microamp = <128000>;
+		constant-charge-current-max-microamp = <1200000>;
+		constant-charge-voltage-max-microvolt = <4200000>;
+	};
+
 };
 
 &state_default {
@@ -174,18 +187,14 @@
 	};
 };
 
+
 &i2c {
 	status = "okay";
-
-    bat: battery {
-		compatible = "simple-battery";
-		voltage-min-design-microvolt = <3200000>;
-		energy-full-design-microwatt-hours = <12580000>;
-		charge-full-design-microamp-hours = <3400000>;
-		precharge-current-microamp = <256000>;
-		charge-term-current-microamp = <128000>;
-		constant-charge-current-max-microamp = <1200000>;
-		constant-charge-voltage-max-microvolt = <4200000>;
+    
+	bq27546@55 {
+		compatible = "ti,bq27546";
+		reg = <0x55>;
+		monitored-battery = <&bat>;
     };
 
 	/* charger */
@@ -211,7 +220,6 @@
 			};
 		};
 	};
-
 
     atsha204a@64 {
         compatible = "atmel,atsha204a";
