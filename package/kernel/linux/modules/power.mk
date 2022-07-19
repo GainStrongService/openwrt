@@ -17,6 +17,7 @@ define KernelPackage/bq27xxx
           CONFIG_BATTERY_BQ27XXX_DT_UPDATES_NVM=y \
           CONFIG_BATTERY_BQ27XXX_I2C=y
   FILES:=$(LINUX_DIR)/drivers/power/supply/bq27xxx_battery_i2c.ko
+  AUTOLOAD:=$(call AutoProbe,bq27xxx_battery_i2c)
 endef
 
 define KernelPackage/bq27xxx/description
@@ -33,6 +34,7 @@ define KernelPackage/bq2429x
   DEPENDS:=+kmod-i2c-core
   KCONFIG:=CONFIG_CHARGER_BQ2429X
   FILES:=$(LINUX_DIR)/drivers/power/supply/bq2429x_charger.ko
+  AUTOLOAD:=$(call AutoProbe,bq2429x_charger)
 endef
 
 define KernelPackage/bq2429x/description
