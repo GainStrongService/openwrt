@@ -34,12 +34,12 @@ define Device/34s_common
   DEVICE_PACKAGES := kmod-usb2 kmod-usb-storage kmod-sdhci-mt7620
 endef
 
-define Device/gainstrong_oolite-3x-16m
+define Device/teton_tr750
   $(Device/34s_common)
   IMAGE_SIZE := 16064k
   DEVICE_MODEL := Oolite 3.X (16M)
 endef
-TARGET_DEVICES += gainstrong_oolite-3x-16m
+TARGET_DEVICES += teton_tr750
 
 define Device/gainstrong_oolite-3x-32m
   $(Device/34s_common)
