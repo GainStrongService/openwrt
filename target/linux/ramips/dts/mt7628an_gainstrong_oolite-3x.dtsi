@@ -162,6 +162,10 @@
 				compatible = "denx,uimage";
 				label = "firmware";
 			};
+
+			all: partition@all {
+				label = "all";
+			};
 		};
 	};
 };
