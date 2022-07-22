@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cp Oolite-3.X.config .config
+cp Teteon-TR750.config .config
 VERSION=Gainstrong-$(./scripts/getver.sh)
 echo "CONFIG_KERNEL_BUILD_DOMAIN=\"$VERSION\"" >> .config
 make package/symlinks
