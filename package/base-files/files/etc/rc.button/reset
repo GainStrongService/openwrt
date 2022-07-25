@@ -17,9 +17,7 @@ timeout)
 released)
 	if [ "$SEEN" -lt 1 ]
 	then
-		echo "REBOOT" > /dev/console
-		sync
-		reboot
+		echo "RESET KEY PRESSED" > /dev/console
 	elif [ "$SEEN" -ge 5 -a -n "$OVERLAY" ]
 	then
 		echo "FACTORY RESET" > /dev/console
