@@ -11,10 +11,7 @@ ramips_setup_interfaces()
 	case $board in
 	teton,tr750|\
 	gainstrong,oolite-3x-32m-4byte|\
-	gainstrong,oolite-3x-64m-4byte)
-		ucidef_add_switch "switch0" \
-			"0:lan" "6@eth0"
-		;;
+	gainstrong,oolite-3x-64m-4byte|\
 	alfa-network,awusfree1|\
 	d-team,pbr-d1|\
 	glinet,microuter-n300|\
