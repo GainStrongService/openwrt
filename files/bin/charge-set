@@ -6,8 +6,8 @@
 # Change Max Input Current to 2.1A
 i2cset -y 0 0x4b 0x0 0x60
 
-# Change Max Charge Current to 1640mA
-i2cset -y 0 0x4b 0x5 0xA1
+# Change Max Charge Current to 1000mA
+i2cset -y 0 0x4b 0x5 0x91
 
 # Disable WatchDog Timer
 i2cset -y 0 0x4b 0x8 0x85
