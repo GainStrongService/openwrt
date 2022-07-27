@@ -1,0 +1,5 @@
+#!/bin/ash
+
+/bin/charge-set
+
+exit 0
