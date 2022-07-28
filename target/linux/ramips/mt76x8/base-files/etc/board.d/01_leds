@@ -8,6 +8,10 @@ board=$(board_name)
 board_config_update
 
 case $board in
+teton,tr750)
+	ucidef_set_led_netdev "wlan2g" "wlan2g" "led_gpio_44_WiFi_2G" "wlan0"
+	ucidef_set_led_netdev "wlan5g" "wlan5g" "led_gpio_46_WiFi_5G" "wlan1"
+	;;
 alfa-network,awusfree1)
 	ucidef_set_led_netdev "wifi_led" "wifi" "blue:wlan" "wlan0"
 	;;
