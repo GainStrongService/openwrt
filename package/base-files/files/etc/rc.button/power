@@ -2,6 +2,11 @@
 
 [ "${ACTION}" = "released" ] || exit 0
 
-exec /sbin/poweroff
+if [ "$SEEN" -ge 3 ]
+then
+        echo "POWER KEY PRESSED MORE THAN 3S" > /dev/console
+else
+        echo "POWER KEY PRESSED ${SEEN}S" > /dev/console
+fi
 
 return 0
