@@ -6,8 +6,11 @@
 # reset all register value to default (refer datasheet page 30)
 i2cset -y 0 0x4b 0x1 0x86
 
-# change max charge current to 520mA (refer datasheet page 32)
-i2cset -y 0 0x4b 0x5 0x85
+# change minimum input voltage to 4.7V (refer datasheet page 30)
+i2cset -y 0 0x4b 0x1 0xa
+
+# change max charge current to 1600mA (refer datasheet page 32)
+i2cset -y 0 0x4b 0x5 0xa0
 
 # change max input current to 2.1A (refer datasheet page 30)
 i2cset -y 0 0x4b 0x0 0x60
