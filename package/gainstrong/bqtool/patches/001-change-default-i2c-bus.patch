@@ -1,0 +1,11 @@
+--- bqtool-2017.03.16/interface-linux-i2c.c	2017-03-17 06:26:54.000000000 +0800
++++ bqtool-2017.03.16/interface-linux-i2c.c.mod	2022-07-29 15:43:05.275332199 +0800
+@@ -24,7 +24,7 @@
+ #include <sys/ioctl.h>
+ #include <fcntl.h>
+ 
+-#define I2C_BUS			2
++#define I2C_BUS			0
+ #define I2C_DEV_FILE_BASE	"/dev/i2c-"
+ #define I2C_SLAVE_ADDR_DEFUALT	0xAA
+ #define SYSFS_POLL_INTVL "/sys/module/bq27x00_battery/parameters/poll_interval"
