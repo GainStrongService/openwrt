@@ -22,13 +22,11 @@
 		led_gpio_46 {
 			label = "led_gpio_46_WiFi_5G";
 			gpios = <&gpio 46 GPIO_ACTIVE_LOW>;
-			default-state = "on";
 		};
 
 		led_gpio_44 {
 			label = "led_gpio_44_WiFi_2G";
 			gpios = <&gpio 44 GPIO_ACTIVE_LOW>;
-			default-state = "on";
 		};
 
 		led_gpio_0 {
