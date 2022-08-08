@@ -982,12 +982,11 @@ $(eval $(call KernelPackage,crypto-xts))
 define KernelPackage/atmel_sha204a
   SUBMENU:=$(CRYPTO_MENU)
   TITLE:=ATMEL SHA204A support
-  DEPENDS:=+kmod-i2c-core
+  DEPENDS:=+kmod-i2c-core +kmod-lib-crc16
   KCONFIG:= \
     CONFIG_CRYPTO_HW=y \
     CONFIG_CRYPTO_DEV_ATMEL_SHA204A=y
   FILES:= \
-    $(LINUX_DIR)/lib/crc16.ko \
     $(LINUX_DIR)/drivers/char/hw_random/rng-core.ko \
     $(LINUX_DIR)/drivers/crypto/atmel-i2c.ko \
     $(LINUX_DIR)/drivers/crypto/atmel-sha204a.ko
