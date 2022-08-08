@@ -14,48 +14,41 @@
 	leds {
 		compatible = "gpio-leds";
 
-		// 低电平亮
 		led_gpio_3 {
 			label = "led_gpio_3_Ethernet";
 			gpios = <&gpio 3 GPIO_ACTIVE_LOW>;
 			default-state = "on";
 		};
 
-		// 低电平亮
 		led_gpio_46 {
 			label = "led_gpio_46_WiFi_5G";
 			gpios = <&gpio 46 GPIO_ACTIVE_LOW>;
 			default-state = "on";
 		};
 
-		// 低电平亮
 		led_gpio_44 {
 			label = "led_gpio_44_WiFi_2G";
 			gpios = <&gpio 44 GPIO_ACTIVE_LOW>;
 			default-state = "on";
 		};
 
-		// 低电平亮
 		led_gpio_0 {
 			label = "led_gpio_0_USB";
 			gpios = <&gpio 0 GPIO_ACTIVE_LOW>;
 			default-state = "on";
 		};
 
-		// 高电平亮
 		led_gpio_37 {
 			label = "led_gpio_37_SDCard";
 			gpios = <&gpio 37 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
 
-		// 低电平亮，默认不开启
 		led_gpio_39 {
 			label = "led_gpio_39_PowerGreen";
 			gpios = <&gpio 39 GPIO_ACTIVE_LOW>;
 		};
 
-		// 低电平亮
 		led_system: led_gpio_2 {
 			label = "led_gpio_2_PowerRed";
 			gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
@@ -66,14 +59,12 @@
 		compatible = "gpio-export";
 		#size-cells = <0>;
 
-		// 高电平开启USB供电
 		usbpower {
 			gpio-export,name = "usbpower";
 			gpio-export,output = <1>;
 			gpios = <&gpio 11 GPIO_ACTIVE_HIGH>;
 		};
 
-		// 低电平断系统电源
 		power_control {
 			gpio-export,name = "power_control";
 			gpio-export,output = <1>;
@@ -90,14 +81,12 @@
 			linux,code = <KEY_RESTART>;
 		};
 
-		// 关机键
 		power {
 			label = "power";
 			gpios = <&gpio 40 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_POWER>;
 		};
 
-		// 未知用途输入GPIO
 		wps {
 			label = "wps";
 			gpios = <&gpio 41 GPIO_ACTIVE_LOW>;
