@@ -31,7 +31,7 @@ endef
 
 define Device/34s_common
   DEVICE_VENDOR := Gainstrong
-  DEVICE_PACKAGES := kmod-usb2 kmod-usb-storage kmod-sdhci-mt7620
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci kmod-usb-storage kmod-sdhci-mt7620
 endef
 
 define Device/teton_tr750
