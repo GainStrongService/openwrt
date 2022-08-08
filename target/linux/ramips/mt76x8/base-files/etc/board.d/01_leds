@@ -9,6 +9,7 @@ board_config_update
 
 case $board in
 teton,tr750)
+	ucidef_set_led_netdev "ethernet" "ethernet" "led_gpio_3_Ethernet" "eth0"
 	ucidef_set_led_netdev "wlan2g" "wlan2g" "led_gpio_44_WiFi_2G" "wlan0"
 	ucidef_set_led_netdev "wlan5g" "wlan5g" "led_gpio_46_WiFi_5G" "wlan1"
 	;;

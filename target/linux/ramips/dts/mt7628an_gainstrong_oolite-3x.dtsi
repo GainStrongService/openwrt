@@ -17,7 +17,6 @@
 		led_gpio_3 {
 			label = "led_gpio_3_Ethernet";
 			gpios = <&gpio 3 GPIO_ACTIVE_LOW>;
-			default-state = "on";
 		};
 
 		led_gpio_46 {
@@ -35,7 +34,7 @@
 		led_gpio_0 {
 			label = "led_gpio_0_USB";
 			gpios = <&gpio 0 GPIO_ACTIVE_LOW>;
-			default-state = "on";
+			linux,default-trigger = "usbport";
 		};
 
 		led_gpio_37 {
