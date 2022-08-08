@@ -44,14 +44,14 @@
 			default-state = "on";
 		};
 
-		led_gpio_39 {
+		led_system: led_gpio_39 {
 			label = "led_gpio_39_PowerGreen";
-			gpios = <&gpio 39 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 39 GPIO_ACTIVE_HIGH>;
 		};
 
-		led_system: led_gpio_2 {
+		led_gpio_2 {
 			label = "led_gpio_2_PowerRed";
-			gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio 2 GPIO_ACTIVE_LOW>;
 		};
 	};
 
