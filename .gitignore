@@ -32,5 +32,6 @@ git-src
 .cproject
 .ccache
 .vscode*
+/files/build
 
 .config.tmp
