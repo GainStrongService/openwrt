@@ -9,7 +9,10 @@ ramips_setup_interfaces()
 	local board="$1"
 
 	case $board in
-	teton,tr750|\
+	teton,tr750)
+		ucidef_add_switch "switch0" \
+			"1:lan" "0:wan" "6@eth0"
+		;;
 	gainstrong,oolite-3x-32m-4byte|\
 	gainstrong,oolite-3x-64m-4byte|\
 	alfa-network,awusfree1|\
