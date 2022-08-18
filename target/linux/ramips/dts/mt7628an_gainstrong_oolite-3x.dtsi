@@ -133,16 +133,19 @@
 			partition@0 {
 				label = "u-boot";
 				reg = <0x0 0x30000>;
+				//read-only;  //recommend to enable this option for release firmware
 			};
 
 			partition@30000 {
 				label = "u-boot-env";
 				reg = <0x30000 0x10000>;
+				//read-only;  //recommend to enable this option for release firmware
 			};
 
 			factory: partition@40000 {
 				label = "factory";
 				reg = <0x40000 0x10000>;
+				//read-only;  //recommend to enable this option for release firmware
 			};
 
 			firmware: partition@50000 {
@@ -152,6 +155,7 @@
 
 			all: partition@all {
 				label = "all";
+				//read-only;  //recommend to enable this option for release firmware
 			};
 		};
 	};
