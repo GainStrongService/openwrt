@@ -62,9 +62,21 @@
 				read-only;
 			};
 
-			firmware: partition@50000 {
+			partition@50000 {
 				compatible = "denx,uimage";
 				label = "firmware";
+				reg = <0x50000 0x7b0000>;
+			};
+
+			// 8MB size to save MTK SDK firmware
+			mtksdk: partition@800000 {
+				label = "mtk-sdk";
+				reg = <0x800000 0x800000>;
+				read-only;
+			};
+
+			unused: partition@1000000 {
+				label = "unused";
 			};
 
 			// Whole flash size, available for full flash backup

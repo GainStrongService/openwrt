@@ -7,9 +7,8 @@
 
 };
 
-&firmware {
-	reg = <0x50000 0x7b0000>;
-};
+/delete-node/ &unused;
+/delete-node/ &mtksdk;
 
 &all {
 	reg = <0x0 0x800000>;
