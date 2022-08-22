@@ -10,6 +10,10 @@
 /delete-node/ &unused;
 /delete-node/ &mtksdk;
 
+&firmware {
+	reg = <0x50000 0x7b0000>;
+};
+
 &all {
 	reg = <0x0 0x800000>;
 };
