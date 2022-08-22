@@ -53,7 +53,6 @@
 			partition@30000 {
 				label = "u-boot-env";
 				reg = <0x30000 0x10000>;
-				read-only;
 			};
 
 			factory: partition@40000 {
@@ -72,7 +71,6 @@
 			mtksdk: partition@a00000 {
 				label = "mtk-sdk";
 				reg = <0xa00000 0x600000>;
-				read-only;
 			};
 
 			unused: partition@1000000 {
