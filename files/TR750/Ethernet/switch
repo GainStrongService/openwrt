@@ -1,0 +1,11 @@
+#!/bin/ash
+
+if [ $1 == "wan" ]; then
+    cp /TR750/Ethernet/network.wan /etc/config.network
+    /etc/init.d/network restart
+elif [ $1 == "lan" ]; then
+    cp /TR750/Ethernet/network.lan /etc/config.network
+    /etc/init.d/network restart
+else
+    echo "Parameter must be wan or lan"
+fi
