@@ -2,28 +2,8 @@
 
 . /lib/functions.sh
 
-OVERLAY="$( grep ' /overlay ' /proc/mounts )"
+# also see /sys/kernel/debug/gpio
 
-case "$ACTION" in
-pressed)
-	[ -z "$OVERLAY" ] && return 0
-
-	return 5
-;;
-timeout)
-	. /etc/diag.sh
-	set_state failsafe
-;;
-released)
-	if [ "$SEEN" -lt 1 ]
-	then
-		echo "RESET KEY PRESSED" > /dev/console
-	elif [ "$SEEN" -ge 5 -a -n "$OVERLAY" ]
-	then
-		echo "FACTORY RESET" > /dev/console
-		jffs2reset -y && reboot &
-	fi
-;;
-esac
+echo "reset key $ACTION after $SEEN seconds" >> /tmp/reset_key_operation.log
 
 return 0
