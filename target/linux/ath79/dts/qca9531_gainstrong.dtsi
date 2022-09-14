@@ -34,17 +34,6 @@
 		led_system: system {
 			label = "blue:system";
 			gpios = <&gpio 13 GPIO_ACTIVE_LOW>;
-			default-state = "on";
-		};
-
-		wan {
-			label = "green:wan";
-			gpios = <&gpio 15 GPIO_ACTIVE_LOW>;
-		};
-
-		lan {
-			label = "green:lan";
-			gpios = <&gpio 16 GPIO_ACTIVE_LOW>;
 		};
 	};
 };

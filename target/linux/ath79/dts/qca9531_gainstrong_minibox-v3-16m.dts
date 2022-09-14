@@ -1,6 +1,11 @@
 #include "qca9531_gainstrong.dtsi"
 
 / {
-	model = "GainStrong Minibox V3.X (16M flash)";
+	model = "MiniBox Printer Server";
 	compatible = "gainstrong,minibox-v3-16m", "gainstrong,oolite-v5-16m", "qca,qca9531";
+};
+
+&led_system {
+	label = "green:system";
+	gpios = <&gpio 14 GPIO_ACTIVE_LOW>;
 };
