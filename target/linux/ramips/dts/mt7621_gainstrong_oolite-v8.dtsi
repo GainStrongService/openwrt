@@ -64,7 +64,7 @@
 			firmware: partition@50000 {
 				compatible = "denx,uimage";
 				label = "firmware";
-				reg = <0x50000 0x9b0000>;
+				reg = <0x50000 0xfb0000>;
 			};
 
 			// 6MB size to save MTK SDK firmware
