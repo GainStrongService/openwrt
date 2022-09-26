@@ -175,3 +175,7 @@
 &i2c {
 	status = "okay";
 };
+
+&i2s {
+	status = "okay";
+};
