@@ -534,3 +534,14 @@ define KernelPackage/sound-hda-intel/description
 endef
 
 $(eval $(call KernelPackage,sound-hda-intel))
+
+define KernelPackage/sound-soc-max98357a
+  TITLE:=SND_SOC_MAX98357A
+  KCONFIG:=CONFIG_SND_SOC_MAX98357A
+  FILES:=$(LINUX_DIR)/sound/soc/codecs/snd-soc-max98357a.ko
+  AUTOLOAD:=$(call AutoLoad,57,snd-soc-max98357a)
+  DEPENDS:=+kmod-sound-soc-core
+  $(call AddDepends/sound)
+endef
+
+$(eval $(call KernelPackage,sound-soc-max98357a))
