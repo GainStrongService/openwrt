@@ -115,6 +115,10 @@
 	};
 };
 
+&pcie2 {
+	status = "disabled";
+};
+
 &factory {
 	compatible = "nvmem-cells";
 	#address-cells = <1>;
