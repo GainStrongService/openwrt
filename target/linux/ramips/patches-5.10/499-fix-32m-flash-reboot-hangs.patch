@@ -1,0 +1,15 @@
+--- linux-5.10.146/drivers/mtd/spi-nor/core.c	2022-10-06 20:07:51.304650237 +0800
++++ linux-5.10.146/drivers/mtd/spi-nor/core.c.mod	2022-10-06 20:11:07.501118459 +0800
+@@ -3049,9 +3049,10 @@
+ void spi_nor_restore(struct spi_nor *nor)
+ {
+ 	/* restore the addressing mode */
+-	if (nor->addr_width == 4 && !(nor->flags & SNOR_F_4B_OPCODES) &&
+-	    nor->flags & SNOR_F_BROKEN_RESET)
++	if (nor->addr_width == 4) {
++		dev_info(nor->dev, "%s (flash current is in 4byte mode, restore to 3byte mode)\n", nor->info->name);
+ 		nor->params->set_4byte_addr_mode(nor, false);
++	}
+ }
+ EXPORT_SYMBOL_GPL(spi_nor_restore);
+ 
