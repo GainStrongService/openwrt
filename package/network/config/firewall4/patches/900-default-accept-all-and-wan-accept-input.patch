@@ -1,0 +1,22 @@
+--- firewall4-2023-03-23-04a06bd7/root/etc/config/firewall	2023-05-08 21:41:15.257272415 +0800
++++ firewall4-2023-03-23-04a06bd7/root/etc/config/firewall.mod	2023-05-08 21:41:52.877271635 +0800
+@@ -1,8 +1,8 @@
+ config defaults
+ 	option syn_flood	1
+-	option input		REJECT
++	option input		ACCEPT
+ 	option output		ACCEPT
+-	option forward		REJECT
++	option forward		ACCEPT
+ # Uncomment this line to disable ipv6 rules
+ #	option disable_ipv6	1
+ 
+@@ -17,7 +17,7 @@
+ 	option name		wan
+ 	list   network		'wan'
+ 	list   network		'wan6'
+-	option input		REJECT
++	option input		ACCEPT
+ 	option output		ACCEPT
+ 	option forward		REJECT
+ 	option masq		1
