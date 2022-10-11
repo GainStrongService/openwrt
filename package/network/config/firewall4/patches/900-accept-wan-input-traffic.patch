@@ -1,0 +1,11 @@
+--- firewall4-2022-09-01-f5fcdcf2/root/etc/config/firewall	2022-09-01 18:19:14.000000000 +0800
++++ firewall4-2022-09-01-f5fcdcf2/root/etc/config/firewall.mod	2022-10-11 17:09:04.849561140 +0800
+@@ -17,7 +17,7 @@
+ 	option name		wan
+ 	list   network		'wan'
+ 	list   network		'wan6'
+-	option input		REJECT
++	option input		ACCEPT
+ 	option output		ACCEPT
+ 	option forward		REJECT
+ 	option masq		1
