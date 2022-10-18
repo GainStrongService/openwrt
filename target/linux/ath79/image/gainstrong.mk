@@ -31,7 +31,7 @@ define Device/gainstrong-ar9331-8mlzma
 	DEVICE_VENDOR := Gainstrong
 	TPLINK_FLASHLAYOUT := 8Mlzma
 	DEVICE_VARIANT := 8M
-	DEVICE_PACKAGES := kmod-usb2
+	DEVICE_PACKAGES := kmod-usb-chipidea2
 endef
 
 define Device/gainstrong-ar9331-16mlzma
@@ -40,7 +40,7 @@ define Device/gainstrong-ar9331-16mlzma
 	DEVICE_VENDOR := Gainstrong
 	TPLINK_FLASHLAYOUT := 16Mlzma
 	DEVICE_VARIANT := 16M
-	DEVICE_PACKAGES := kmod-usb2
+	DEVICE_PACKAGES := kmod-usb-chipidea2
 endef
 
 
