@@ -1,0 +1,7 @@
+#include "ar9331_gainstrong_oolite-v1.dtsi"
+
+/ {
+	model = "Oolite V1.X flash 16M";
+	compatible = "gainstrong,oolite-v1-16m", "gainstrong,oolite-v1", "qca,ar9331";
+};
+

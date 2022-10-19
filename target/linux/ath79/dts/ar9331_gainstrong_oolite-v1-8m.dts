@@ -1,0 +1,26 @@
+#include "ar9331_gainstrong_oolite-v1.dtsi"
+
+/ {
+	model = "Oolite V1.X flash 8M";
+	compatible = "gainstrong,oolite-v1-8m", "gainstrong,oolite-v1", "qca,ar9331";
+};
+
+&firmware {
+	reg = <0x20000 0x7c0000>;
+};
+
+&customer_firmware {
+	reg = <0x20000 0x7c0000>;
+};
+
+&env {
+	reg = <0x7e0000 0x10000>;
+};
+
+&art {
+	reg = <0x7f0000 0x10000>;
+};
+
+&all {
+	reg = <0x0 0x800000>;
+};
