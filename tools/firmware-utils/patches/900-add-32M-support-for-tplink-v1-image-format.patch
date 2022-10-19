@@ -1,0 +1,21 @@
+--- firmware-utils-2022-04-25-ddc3e00e/src/mktplinkfw.c	2022-10-19 21:38:26.805128761 +0800
++++ firmware-utils-2022-04-25-ddc3e00e/src/mktplinkfw.c.mod	2022-10-19 21:39:41.987866367 +0800
+@@ -166,6 +166,18 @@
+ 		.kernel_ep	= 0xc0000000,
+ 		.rootfs_ofs	= 0x2a0000,
+ 	}, {
++		.id		= "32Mlzma",
++		.fw_max_len	= 0x1fd0000,
++		.kernel_la	= 0x80060000,
++		.kernel_ep	= 0x80060000,
++		.rootfs_ofs	= 0x100000,
++	}, {
++		.id		= "64Mlzma",
++		.fw_max_len	= 0x3fd0000,
++		.kernel_la	= 0x80060000,
++		.kernel_ep	= 0x80060000,
++		.rootfs_ofs	= 0x100000,
++	}, {
+ 		/* terminating entry */
+ 	}
+ };
