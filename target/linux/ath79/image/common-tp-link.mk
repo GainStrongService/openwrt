@@ -9,7 +9,9 @@ define Device/tplink-v1
   LOADER_TYPE := gz
   KERNEL := kernel-bin | append-dtb | lzma
   KERNEL_INITRAMFS := kernel-bin | append-dtb | lzma | tplink-v1-header
+  IMAGES += factory.bin
   IMAGE/sysupgrade.bin := tplink-v1-image sysupgrade | append-metadata
+  IMAGE/factory.bin := tplink-v1-image factory
 endef
 
 define Device/tplink-v2
