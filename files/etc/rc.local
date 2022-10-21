@@ -2,4 +2,6 @@
 
 /bin/charge-set
 
+/TR750/battery/LowPowerCheck.sh &
+
 exit 0
