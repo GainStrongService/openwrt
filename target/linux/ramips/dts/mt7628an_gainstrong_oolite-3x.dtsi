@@ -90,6 +90,13 @@
 			gpios = <&gpio 41 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_WPS_BUTTON>;
 		};
+
+		soc {
+			label = "soc";
+			gpios = <&gpio 42 GPIO_ACTIVE_LOW>;
+			linux,code = <BTN_0>;
+			linux,input-type = <EV_SW>;
+		};
 	};
 
 	sdhci@10130000 {
