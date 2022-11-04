@@ -1,0 +1,91 @@
+diff -ur linux-5.4.203/drivers/power/supply/bq27xxx_battery.c linux-5.4.203/drivers/power/supply/bq27xxx_battery.c
+--- linux-5.4.203/drivers/power/supply/bq27xxx_battery.c	2022-07-02 22:28:53.000000000 +0800
++++ linux-5.4.203/drivers/power/supply/bq27xxx_battery.c	2022-11-04 11:38:32.078066023 +0800
+@@ -120,6 +120,8 @@
+ 	BQ27XXX_DM_BLOCK,	/* Data Block */
+ 	BQ27XXX_DM_DATA,	/* Block Data */
+ 	BQ27XXX_DM_CKSUM,	/* Block Data Checksum */
++	BQ27XXX_REG_SOC1_SET,	/* SOC1 Set Threshold is normally set to 10% of Design Capacity. bq27546-G1 Technical Reference Manual.pdf page 68*/
++	BQ27XXX_REG_SOC1_CLEAR,	/* SOC1 Clear Threshold is normally set to 5% above the SOC1 Set Threshold; that is, 15% of Design Capacity. */
+ 	BQ27XXX_REG_MAX,	/* sentinel */
+ };
+ 
+@@ -387,6 +389,8 @@
+ 		[BQ27XXX_REG_SOC] = 0x2c,
+ 		[BQ27XXX_REG_DCAP] = 0x3c,
+ 		[BQ27XXX_REG_AP] = 0x24,
++		[BQ27XXX_REG_SOC1_SET] = 0x24,
++		[BQ27XXX_REG_SOC1_CLEAR] = 0x26,
+ 		BQ27XXX_DM_REG_ROWS,
+ 	},
+ #define bq27542_regs bq27541_regs
+@@ -629,6 +633,9 @@
+ 	POWER_SUPPLY_PROP_POWER_AVG,
+ 	POWER_SUPPLY_PROP_HEALTH,
+ 	POWER_SUPPLY_PROP_MANUFACTURER,
++	POWER_SUPPLY_PROP_SOC1_STATUS,
++	POWER_SUPPLY_PROP_SOC1_SET,
++	POWER_SUPPLY_PROP_SOC1_CLEAR,
+ };
+ #define bq27542_props bq27541_props
+ #define bq27546_props bq27541_props
+@@ -1534,6 +1541,17 @@
+ 		return flags & (BQ27XXX_FLAG_SOC1 | BQ27XXX_FLAG_SOCF);
+ }
+ 
++/*
++ * Returns true if soc1 flag is high, see bq27546-G1 Technical Reference Manual.pdf page 19
++ */
++static bool bq27xxx_battery_read_soc1(struct bq27xxx_device_info *di, u16 flags)
++{
++	if (di->opts & BQ27XXX_O_ZERO)
++		return flags & (BQ27000_FLAG_EDV1);
++	else
++		return flags & (BQ27XXX_FLAG_SOC1);
++}
++
+ static int bq27xxx_battery_read_health(struct bq27xxx_device_info *di)
+ {
+ 	/* Unlikely but important to return first */
+@@ -1846,6 +1864,15 @@
+ 	case POWER_SUPPLY_PROP_MANUFACTURER:
+ 		val->strval = BQ27XXX_MANUFACTURER;
+ 		break;
++	case POWER_SUPPLY_PROP_SOC1_STATUS:
++		ret = bq27xxx_simple_value(bq27xxx_battery_read_soc1(di, di->cache.flags), val);
++		break;
++	case POWER_SUPPLY_PROP_SOC1_SET:
++		ret = bq27xxx_simple_value(bq27xxx_read(di, BQ27XXX_REG_SOC1_SET, false), val);
++		break;
++	case POWER_SUPPLY_PROP_SOC1_CLEAR:
++		ret = bq27xxx_simple_value(bq27xxx_read(di, BQ27XXX_REG_SOC1_CLEAR, false), val);
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+diff -ur linux-5.4.203/drivers/power/supply/power_supply_sysfs.c linux-5.4.203/drivers/power/supply/power_supply_sysfs.c
+--- linux-5.4.203/drivers/power/supply/power_supply_sysfs.c	2022-07-02 22:28:53.000000000 +0800
++++ linux-5.4.203/drivers/power/supply/power_supply_sysfs.c	2022-11-04 11:05:23.452103880 +0800
+@@ -310,6 +310,9 @@
+ 	POWER_SUPPLY_ATTR(model_name),
+ 	POWER_SUPPLY_ATTR(manufacturer),
+ 	POWER_SUPPLY_ATTR(serial_number),
++	POWER_SUPPLY_ATTR(soc1_status),
++	POWER_SUPPLY_ATTR(soc1_set),
++	POWER_SUPPLY_ATTR(soc1_clear),
+ };
+ 
+ static struct attribute *
+diff -ur linux-5.4.203/include/linux/power_supply.h linux-5.4.203/include/linux/power_supply.h
+--- linux-5.4.203/include/linux/power_supply.h	2022-07-02 22:28:53.000000000 +0800
++++ linux-5.4.203/include/linux/power_supply.h	2022-11-04 11:04:58.704236502 +0800
+@@ -162,6 +162,9 @@
+ 	POWER_SUPPLY_PROP_MODEL_NAME,
+ 	POWER_SUPPLY_PROP_MANUFACTURER,
+ 	POWER_SUPPLY_PROP_SERIAL_NUMBER,
++	POWER_SUPPLY_PROP_SOC1_STATUS,
++	POWER_SUPPLY_PROP_SOC1_SET,
++	POWER_SUPPLY_PROP_SOC1_CLEAR,
+ };
+ 
+ enum power_supply_type {
