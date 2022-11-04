@@ -1,5 +1,5 @@
 * Texas Instruments Data Flash File
-* File created Fri Jul 29 12:08:29 2022
+* File created Fri Nov 04 14:12:13 2022
 *
 * Device Number 546
 * Firmware Version 2.01
@@ -13,7 +13,7 @@
 * Field Order: Class name, Subclass name, Parameter name, Parameter Value, Display Units
 "Calibration","Data","CC Gain","9.999","mOhm"
 "Calibration","Data","CC Delta","10.001","mOhm"
-"Calibration","Data","CC Offset","-1389","-"
+"Calibration","Data","CC Offset","-1371","-"
 "Calibration","Data","Board Offset","21","Counts"
 "Calibration","Data","Int Temp Offset","0.0","°C"
 "Calibration","Data","Ext Temp Offset","0.0","°C"
@@ -74,10 +74,10 @@
 "Configuration","Safety","OT Dsg Recovery","55.0","°C"
 "Configuration","Manufacturer Data","Pack Lot Code","2022","Hex"
 "Configuration","Manufacturer Data","PCB Lot Code","0000","Hex"
-"Configuration","Manufacturer Data","Firmware Version","0729","Hex"
+"Configuration","Manufacturer Data","Firmware Version","1104","Hex"
 "Configuration","Manufacturer Data","Hardware Revision","0000","Hex"
 "Configuration","Manufacturer Data","Cell Revision","0000","Hex"
-"Configuration","Manufacturer Data","DF Config Version","0002","Hex"
+"Configuration","Manufacturer Data","DF Config Version","0003","Hex"
 "Configuration","Integrity Data","All DF Checksum","0000","Hex"
 "Configuration","Integrity Data","Static Chem DF Checksum","7c23","Hex"
 "Configuration","Integrity Data","Static DF Checksum","0000","Hex"
@@ -92,8 +92,8 @@
 "Configuration","Data","ISD I Filter","127","Num"
 "Configuration","Data","Min ISD Time","7","hour"
 "Configuration","Data","Design Energy Scale","1","Num"
-"Configuration","Discharge","SOC1 Set Threshold","150","mAh"
-"Configuration","Discharge","SOC1 Clear Threshold","175","mAh"
+"Configuration","Discharge","SOC1 Set Threshold","170","mAh"
+"Configuration","Discharge","SOC1 Clear Threshold","272","mAh"
 "Configuration","Discharge","SOCF Set Threshold","75","mAh"
 "Configuration","Discharge","SOCF Clear Threshold","100","mAh"
 "Configuration","Discharge","BL Set Volt Threshold","2500","mV"
