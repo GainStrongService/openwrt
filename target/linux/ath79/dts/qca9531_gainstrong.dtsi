@@ -33,22 +33,22 @@
 
 		green {
 			label = "green:onboard";
-			gpios = <&gpio 4 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 4 GPIO_ACTIVE_HIGH>;
 		};
 
 		led_system: blue {
 			label = "blue:onboard";
-			gpios = <&gpio 14 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 14 GPIO_ACTIVE_HIGH>;
 		};
 
 		lan {
 			label = "green:lan";
-			gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 11 GPIO_ACTIVE_HIGH>;
 		};
 
 		wan {
 			label = "green:wan";
-			gpios = <&gpio 12 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 12 GPIO_ACTIVE_HIGH>;
 		};
 
 	};
