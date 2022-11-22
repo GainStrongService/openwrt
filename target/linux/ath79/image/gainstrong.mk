@@ -13,7 +13,6 @@ define Device/gainstrong-16mlzma
 	DEVICE_VENDOR := Gainstrong
 	TPLINK_FLASHLAYOUT := 16Mlzma
 	DEVICE_VARIANT := 16M
-	DEVICE_PACKAGES := kmod-usb2
 endef
 
 define Device/gainstrong-32mlzma
