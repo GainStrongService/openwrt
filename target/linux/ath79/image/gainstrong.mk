@@ -75,7 +75,7 @@ TARGET_DEVICES += gainstrong_minibox-v3-8m
 
 define Device/gainstrong_minibox-v3-16m
 	$(Device/gainstrong-16mlzma)
-	DEVICE_MODEL := Minibox v3
+	DEVICE_MODEL := CeilingAP V1
 	SUPPORTED_DEVICES += minibox-v3-16m
 endef
 TARGET_DEVICES += gainstrong_minibox-v3-16m

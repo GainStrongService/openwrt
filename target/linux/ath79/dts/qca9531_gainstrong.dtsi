@@ -103,19 +103,11 @@
 	mtd-cal-data = <&art 0x1000>;
 };
 
-&usb_phy {
-	status = "okay";
-};
-
-&usb0 {
-	status = "okay";
-};
-
 &pcie0 {
 	status = "okay";
 
 	wifi@0,0 {
-		compatible = "pci168c,0050";
+		compatible = "pci168c,003c";
 		reg = <0x0000 0 0 0 0>;
 	};
 };
