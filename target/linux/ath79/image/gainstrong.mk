@@ -73,12 +73,12 @@ define Device/gainstrong_minibox-v3-8m
 endef
 TARGET_DEVICES += gainstrong_minibox-v3-8m
 
-define Device/gainstrong_minibox-v3-16m
+define Device/gainstrong_ceiling-ap-v1
 	$(Device/gainstrong-16mlzma)
 	DEVICE_MODEL := CeilingAP V1
-	SUPPORTED_DEVICES += minibox-v3-16m
+	SUPPORTED_DEVICES += ceiling-ap-v1
 endef
-TARGET_DEVICES += gainstrong_minibox-v3-16m
+TARGET_DEVICES += gainstrong_ceiling-ap-v1
 
 define Device/gainstrong_minibox-v3-32m
 	$(Device/gainstrong-32mlzma)

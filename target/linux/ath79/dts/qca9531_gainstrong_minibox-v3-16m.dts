@@ -1,6 +1,0 @@
-#include "qca9531_gainstrong.dtsi"
-
-/ {
-	model = "Gainstrong CeilingAP V1 16M";
-	compatible = "gainstrong,ceilingap-v1-16m", "gainstrong,minibox-v3-16m", "gainstrong,oolite-v5-16m", "qca,qca9531";
-};
