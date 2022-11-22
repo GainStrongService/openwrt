@@ -31,21 +31,26 @@
 	leds: leds {
 		compatible = "gpio-leds";
 
-		led_system: system {
-			label = "blue:system";
-			gpios = <&gpio 13 GPIO_ACTIVE_LOW>;
-			default-state = "on";
+		green {
+			label = "green:onboard";
+			gpios = <&gpio 4 GPIO_ACTIVE_LOW>;
 		};
 
-		wan {
-			label = "green:wan";
-			gpios = <&gpio 15 GPIO_ACTIVE_LOW>;
+		led_system: blue {
+			label = "blue:onboard";
+			gpios = <&gpio 14 GPIO_ACTIVE_LOW>;
 		};
 
 		lan {
 			label = "green:lan";
-			gpios = <&gpio 16 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
 		};
+
+		wan {
+			label = "green:wan";
+			gpios = <&gpio 12 GPIO_ACTIVE_LOW>;
+		};
+
 	};
 };
 
