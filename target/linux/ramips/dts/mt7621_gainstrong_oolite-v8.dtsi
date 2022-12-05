@@ -171,3 +171,7 @@
 		function = "gpio";
 	};
 };
+
+&i2s {
+	status = "okay";
+}
