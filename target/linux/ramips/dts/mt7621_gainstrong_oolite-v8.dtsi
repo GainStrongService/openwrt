@@ -24,6 +24,28 @@
 			gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
 		};
 	};
+
+	// sound {
+	// 	compatible = "simple-audio-card";
+	// 	simple-audio-card,name = "Audio-I2S";
+	// 	simple-audio-card,format = "i2s";
+	// 	simple-audio-card,bitclock-master = <&dailink0_master>;
+	// 	simple-audio-card,frame-master = <&dailink0_master>;
+	// 	simple-audio-card,widgets =
+	// 		"Headphone", "Headphones";
+	// 	simple-audio-card,routing =
+	// 		"Headphones", "HP_L",
+	// 		"Headphones", "HP_R";
+	// 	simple-audio-card,mclk-fs = <256>;
+
+	// 	simple-audio-card,cpu {
+	// 		sound-dai = <&i2s>;
+	// 	};
+
+	// 	dailink0_master: simple-audio-card,codec {
+	// 		sound-dai = <&codec>;
+	// 	};
+	// };
 };
 
 &sdhci {
@@ -174,4 +196,9 @@
 
 &i2s {
 	status = "okay";
-}
+
+	max98357a {
+		compatible = "maxim,max98357a";
+		//sdmode-gpios = <&qcom_pinmux 25 0>;
+	};
+};
