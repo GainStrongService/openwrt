@@ -6,7 +6,7 @@
 /.config
 /.config.old
 /.toolchain_build_ver
-/bin
+/bin*
 /build_dir
 /staging_dir
 /tmp
@@ -32,3 +32,5 @@ git-src
 .cproject
 .ccache
 .vscode*
+
+.config.tmp
