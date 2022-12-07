@@ -7,6 +7,10 @@ board=$(board_name)
 board_config_update
 
 case $board in
+gainstrong,gs-4gr11)
+	ucidef_set_led_netdev "4g" "4g" "led_lte" "3g-4G"
+	ucidef_set_led_netdev "wifi_led" "wifi" "led_wifi" "wlan0"
+	;;
 alfa-network,awusfree1)
 	ucidef_set_led_netdev "wifi_led" "wifi" "blue:wlan" "wlan0"
 	;;

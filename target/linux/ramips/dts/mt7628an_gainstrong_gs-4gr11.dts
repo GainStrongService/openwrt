@@ -1,0 +1,152 @@
+#include "mt7628an.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+
+/ {
+	compatible = "gainstrong,gs-4gr11", "mediatek,mt7628an-soc";
+	model = "GS-4GR11";
+
+	aliases {
+		led-boot = &led_system;
+		led-failsafe = &led_system;
+		led-upgrade = &led_system;
+	};
+
+	watchdog {
+		compatible = "linux,wdt-gpio";
+		gpios = <&gpio 2 1>;
+		hw_algo = "toggle";
+		hw_margin_ms = <1600>;
+		always-running = <1>;
+		status = "okay";
+	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&gpio 38 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART>;
+		};
+
+		sim-exists {
+			label = "BTN_0";
+			gpios = <&gpio 11 1>;
+			linux,code = <0x100>;
+		};
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led_system: wifi {
+			label = "led_wifi";
+			gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
+		};
+
+		lte {
+			label = "led_lte";
+			gpios = <&gpio 0 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	gpio-export {
+		compatible = "gpio-export";
+		#size-cells = <0>;
+
+		4g-enable {
+			gpio-export,name = "4g-enable";
+			gpio-export,output = <1>;
+			gpios = <&gpio 3 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+};
+
+&state_default {
+	gpio {
+		groups = "gpio","perst","refclk","wdt","i2c","i2s","wled_an";
+		function = "gpio";
+	};
+	p4led_an{
+				ralink,group = "p4led_an";
+				ralink,function = "p4led_an";
+	};
+	p1led_an{
+				ralink,group = "p1led_an";
+				ralink,function = "p1led_an";
+	};
+};
+
+&spi0 {
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "u-boot";
+				reg = <0x0 0x30000>;
+				read-only;
+			};
+
+			partition@30000 {
+				label = "u-boot-env";
+				reg = <0x30000 0x10000>;
+			};
+
+			factory: partition@40000 {
+				label = "factory";
+				reg = <0x40000 0x10000>;
+				read-only;
+			};
+
+			partition@50000 {
+				compatible = "denx,uimage";
+				reg = <0x50000 0xfb0000>;
+				label = "firmware";
+			};
+
+			all {
+				reg = <0x0 0x1000000>;
+				label = "all";
+			};
+		};
+	};
+};
+
+&ethernet {
+	status = "okay";
+
+	nvmem-cells = <&macaddr_factory_4>;
+	nvmem-cell-names = "mac-address";
+	mac-address-increment = <1>;
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_4: macaddr@4 {
+		reg = <0x4 0x6>;
+	};
+};
+
+&wmac {
+	status = "okay";
+	mediatek,mtd-eeprom = <&factory 0x0>;
+};
+
+&uart1 {
+	status = "okay";
+};

@@ -28,6 +28,13 @@ define Build/ravpower-wd009-factory
 	@mv $@.new $@
 endef
 
+define Device/gainstrong_gs-4gr11
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := 4GR11
+  DEVICE_PACKAGES := kmod-usb2
+  IMAGE_SIZE := 16064k
+endef
+TARGET_DEVICES += gainstrong_gs-4gr11
 
 define Device/alfa-network_awusfree1
   IMAGE_SIZE := 7872k
