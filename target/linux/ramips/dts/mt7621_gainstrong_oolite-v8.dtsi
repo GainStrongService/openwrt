@@ -110,7 +110,7 @@
 };
 
 &pcie {
-	status = "okay";
+	status = "disabled";
 	reset-gpios =
 		// MT7603 and MT7613 on Oolite V8.1 share GPIO 19 reset, and can only be reset once, so the second reset GPIO must be left empty
 		<&gpio 19 GPIO_ACTIVE_LOW>,
