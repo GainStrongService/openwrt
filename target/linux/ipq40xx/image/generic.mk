@@ -124,6 +124,18 @@ define Build/wrgg-image
 	mv $@.new $@
 endef
 
+define Device/gainstrong_oolite-ipq4019
+	$(call Device/FitImage)
+	DEVICE_VENDOR := GainStrong
+	DEVICE_MODEL := Oolite-IPQ4019
+	SOC := qcom-ipq4019
+	KERNEL_SIZE := 4096k
+	IMAGE_SIZE := 31232k
+	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
+	DEVICE_PACKAGES := ipq-wifi-gainstrong_oolite-ipq4019 kmod-mmc
+endef
+TARGET_DEVICES += gainstrong_oolite-ipq4019
+
 define Device/8dev_habanero-dvk
 	$(call Device/FitImageLzma)
 	DEVICE_VENDOR := 8devices

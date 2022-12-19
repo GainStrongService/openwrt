@@ -80,6 +80,7 @@ case "$FIRMWARE" in
 	openmesh,a42 |\
 	openmesh,a62 |\
 	plasmacloud,pa1200 |\
+	gainstrong,oolite-ipq4019 |\
 	plasmacloud,pa2200)
 		caldata_extract "0:ART" 0x1000 0x2f20
 		;;
@@ -164,6 +165,7 @@ case "$FIRMWARE" in
 	openmesh,a42 |\
 	openmesh,a62 |\
 	plasmacloud,pa1200 |\
+	gainstrong,oolite-ipq4019 |\
 	plasmacloud,pa2200)
 		caldata_extract "0:ART" 0x5000 0x2f20
 		;;
