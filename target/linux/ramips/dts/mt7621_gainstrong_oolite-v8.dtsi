@@ -56,6 +56,22 @@
 	};
 };
 
+&pinctrl {
+	i2s_pins: i2s {
+		i2s {
+			groups = "uart3";
+			function = "i2s";
+		};
+	};
+};
+
+&i2s {
+	#sound-dai-cells = <0>;
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2s_pins>;
+};
+
 &sdhci {
 	status = "okay";
 };
@@ -189,21 +205,4 @@
 		groups = "jtag", "wdt";
 		function = "gpio";
 	};
-};
-
-
-&pinctrl {
-	i2s_pins: i2s {
-		i2s {
-			groups = "uart3";
-			function = "i2s";
-		};
-	};
-};
-
-&i2s {
-	#sound-dai-cells = <0>;
-	status = "okay";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2s_pins>;
 };
