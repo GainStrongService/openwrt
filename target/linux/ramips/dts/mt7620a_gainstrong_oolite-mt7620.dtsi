@@ -71,7 +71,7 @@
 	#sound-dai-cells = <0>;
 	status = "okay";
 	pinctrl-names = "default";
-	pinctrl-0 = <&pcm_i2s_pins>;
+	pinctrl-0 = <&gpio_i2s_pins>;
 };
 
 &spi0 {
