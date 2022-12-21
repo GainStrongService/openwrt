@@ -56,14 +56,18 @@
 	// };
 };
 
-&pinctrl {
+&state_default {
+	gpio {
+		groups = "jtag", "wdt";
+		function = "gpio";
+	};
+
 	i2s_pins: i2s {
-		i2s {
-			groups = "uart3";
-			function = "i2s";
-		};
+		groups = "uart3";
+		function = "i2s";
 	};
 };
+
 
 &i2s {
 	#sound-dai-cells = <0>;
@@ -200,9 +204,3 @@
 	};
 };
 
-&state_default {
-	gpio {
-		groups = "jtag", "wdt";
-		function = "gpio";
-	};
-};
