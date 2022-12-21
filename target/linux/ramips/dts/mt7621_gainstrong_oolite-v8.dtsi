@@ -33,7 +33,7 @@
 	sound {
 		compatible = "simple-audio-card";
 		pinctrl-names = "default";
-		pinctrl-0 = <&sdmode_en>;
+		// pinctrl-0 = <&sdmode_en>;
 		simple-audio-card,name = "Board Audio";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,widgets = "Speaker", "Speakers";
