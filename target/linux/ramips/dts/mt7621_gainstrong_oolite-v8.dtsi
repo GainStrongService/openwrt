@@ -32,21 +32,25 @@
 
 	sound {
 		compatible = "simple-audio-card";
-		pinctrl-names = "default";
-		// pinctrl-0 = <&sdmode_en>;
-		simple-audio-card,name = "Board Audio";
+		simple-audio-card,name = "Audio-I2S";
 		simple-audio-card,format = "i2s";
-		simple-audio-card,widgets = "Speaker", "Speakers";
-		simple-audio-card,routing = "Speakers", "Speaker";
-		simple-audio-card,bitclock-master = <&cpu_dai>;
-		simple-audio-card,frame-master = <&cpu_dai>;
-		cpu_dai: simple-audio-card,cpu {
+		simple-audio-card,bitclock-master = <&dailink0_master>;
+		simple-audio-card,frame-master = <&dailink0_master>;
+		simple-audio-card,widgets =
+			"Microphone", "Microphone Jack",
+			"Headphone", "Headphone Jack";
+		simple-audio-card,routing =
+			"LINPUT1", "Microphone Jack",
+			"RINPUT1", "Microphone Jack",
+			"Headphone Jack", "HP_L",
+			"Headphone Jack", "HP_R";
+		simple-audio-card,mclk-fs = <256>;
+
+		simple-audio-card,cpu {
 			sound-dai = <&i2s>;
-			system-clock-frequency = <&sound_osc 0>;
-			dai-tdm-slot-num = <2>;
-			dai-tdm-slot-width = <16>;
 		};
-		codec_dai: simple-audio-card,codec {
+
+		dailink0_master: simple-audio-card,codec {
 			sound-dai = <&codec>;
 		};
 	};
