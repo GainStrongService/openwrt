@@ -81,6 +81,10 @@ ramips_setup_interfaces()
 	domywifi,dm203|\
 	domywifi,dw22d|\
 	edimax,ew-7478apc|\
+	gainstrong,oolite-mt7620-8m|\
+	gainstrong,oolite-mt7620-16m|\
+	gainstrong,oolite-mt7620-32m|\
+	gainstrong,oolite-mt7620-64m|\
 	glinet,gl-mt300a|\
 	glinet,gl-mt300n|\
 	glinet,gl-mt750|\
@@ -360,6 +364,13 @@ ramips_setup_macs()
 	phicomm,psg1218b)
 		wan_mac=$(mtd_get_mac_binary factory 0x2e)
 		label_mac=$wan_mac
+		;;
+	gainstrong,oolite-mt7620-8m|\
+	gainstrong,oolite-mt7620-16m|\
+	gainstrong,oolite-mt7620-32m|\
+	gainstrong,oolite-mt7620-64m)
+		label_mac=$(macaddr_add "$(mtd_get_mac_binary factory 0x4)")
+		wan_mac=$(macaddr_add "$label_mac" 2)
 		;;
 	lenovo,newifi-y1|\
 	lenovo,newifi-y1s|\

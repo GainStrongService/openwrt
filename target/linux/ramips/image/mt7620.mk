@@ -17,6 +17,40 @@ define Build/elecom-header
 		--owner=0 --group=0 -f $@ -C $(KDIR) v_0.0.0.bin v_0.0.0.md5
 endef
 
+define Device/oolite-mt7620_common
+  SOC := mt7620a
+  DEVICE_VENDOR := GainStrong
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci kmod-sound-core kmod-sound-mt7620 kmod-i2c-ralink
+endef
+
+define Device/gainstrong_oolite-mt7620-8m
+  $(Device/oolite-mt7620_common)
+  IMAGE_SIZE := 7872k
+  DEVICE_MODEL := Oolite-MT7620 (8M Flash)
+endef
+TARGET_DEVICES += gainstrong_oolite-mt7620-8m
+
+define Device/gainstrong_oolite-mt7620-16m
+  $(Device/oolite-mt7620_common)
+  IMAGE_SIZE := 16064k
+  DEVICE_MODEL := Oolite-MT7620 (16M Flash)
+endef
+TARGET_DEVICES += gainstrong_oolite-mt7620-16m
+
+define Device/gainstrong_oolite-mt7620-32m
+  $(Device/oolite-mt7620_common)
+  IMAGE_SIZE := 33226752
+  DEVICE_MODEL := Oolite-MT7620 (32M Flash)
+endef
+TARGET_DEVICES += gainstrong_oolite-mt7620-32m
+
+define Device/gainstrong_oolite-mt7620-64m
+  $(Device/oolite-mt7620_common)
+  IMAGE_SIZE := 66781184
+  DEVICE_MODEL := Oolite-MT7620 (64M Flash)
+endef
+TARGET_DEVICES += gainstrong_oolite-mt7620-64m
+
 define Device/aigale_ai-br100
   SOC := mt7620a
   IMAGE_SIZE := 7936k

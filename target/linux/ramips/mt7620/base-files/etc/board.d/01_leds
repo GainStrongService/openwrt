@@ -57,7 +57,10 @@ zbtlink,zbt-we826-32m|\
 zbtlink,zbt-wr8305rt|\
 zyxel,keenetic-omni|\
 zyxel,keenetic-omni-ii|\
-zyxel,keenetic-viva)
+zyxel,keenetic-viva|\
+gainstrong,oolite-mt7620-16m|\
+gainstrong,oolite-mt7620-32m|\
+gainstrong,oolite-mt7620-64m)
 	ucidef_set_led_netdev "wifi_led" "wifi" "green:wifi" "wlan0"
 	;;
 dlink,dwr-118-a1)

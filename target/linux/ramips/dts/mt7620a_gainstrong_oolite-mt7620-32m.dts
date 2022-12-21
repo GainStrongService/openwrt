@@ -1,0 +1,10 @@
+#include "mt7620a_gainstrong_oolite-mt7620.dtsi"
+
+/ {
+	compatible = "gainstrong,oolite-mt7620-32m", "gainstrong,oolite-mt7620", "ralink,mt7620a-soc";
+	model = "GainStrong Oolite-MT7620 (32M Flash)";
+};
+
+&firmware {
+		reg = <0x50000 0x1fb0000>;
+};
