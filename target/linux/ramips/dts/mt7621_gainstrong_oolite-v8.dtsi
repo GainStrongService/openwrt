@@ -58,13 +58,22 @@
 	};
 };
 
+&pinctrl {
+	i2s_pins: i2s {
+		i2s {
+			groups = "uart3";
+			function = "i2s";
+		};
+	};
+};
+
 &state_default {
 	gpio {
 		groups = "jtag", "wdt";
 		function = "gpio";
 	};
 
-	i2s_pins: i2s {
+	i2s_pins2: i2s {
 		groups = "uart3";
 		function = "i2s";
 	};
@@ -75,6 +84,7 @@
 	#sound-dai-cells = <0>;
 	status = "okay";
 	pinctrl-names = "default";
+	pinctrl-0 = <&i2s_pins>;
 };
 
 &sdhci {
