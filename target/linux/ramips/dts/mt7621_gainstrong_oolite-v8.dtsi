@@ -28,6 +28,7 @@
 	codec: max98357a {
 		compatible = "maxim,max98357a";
 		#sound-dai-cells = <0>;
+		status = "okay";
 	};
 
 	sound {
