@@ -25,35 +25,48 @@
 		};
 	};
 
-	codec: max98357a {
+	max98357a_nsd: max98357a {
 		compatible = "maxim,max98357a";
 		#sound-dai-cells = <0>;
 		status = "okay";
 	};
 
-	sound {
-		status = "okay";
-		compatible = "simple-audio-card";
-		simple-audio-card,name = "Audio-I2S";
-		simple-audio-card,format = "i2s";
-		simple-audio-card,bitclock-master = <&dailink0_master>;
-		simple-audio-card,frame-master = <&dailink0_master>;
-		simple-audio-card,widgets =
-			"Microphone", "Microphone Jack",
-			"Headphone", "Headphone Jack";
-		simple-audio-card,routing =
-			"LINPUT1", "Microphone Jack",
-			"RINPUT1", "Microphone Jack",
-			"Headphone Jack", "HP_L",
-			"Headphone Jack", "HP_R";
-		simple-audio-card,mclk-fs = <256>;
+	// sound {
+	// 	status = "okay";
+	// 	compatible = "simple-audio-card";
+	// 	simple-audio-card,name = "Audio-I2S";
+	// 	simple-audio-card,format = "i2s";
+	// 	simple-audio-card,bitclock-master = <&dailink0_master>;
+	// 	simple-audio-card,frame-master = <&dailink0_master>;
+	// 	simple-audio-card,widgets =
+	// 		"Microphone", "Microphone Jack",
+	// 		"Headphone", "Headphone Jack";
+	// 	simple-audio-card,routing =
+	// 		"LINPUT1", "Microphone Jack",
+	// 		"RINPUT1", "Microphone Jack",
+	// 		"Headphone Jack", "HP_L",
+	// 		"Headphone Jack", "HP_R";
+	// 	simple-audio-card,mclk-fs = <256>;
 
+	// 	simple-audio-card,cpu {
+	// 		sound-dai = <&i2s>;
+	// 	};
+
+	// 	dailink0_master: simple-audio-card,codec {
+	// 		sound-dai = <&codec>;
+	// 	};
+	// };
+
+	sound {
+		compatible = "simple-audio-card";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,name = "MAX98357A";
+		status = "okay";
 		simple-audio-card,cpu {
 			sound-dai = <&i2s>;
 		};
-
-		dailink0_master: simple-audio-card,codec {
-			sound-dai = <&codec>;
+		simple-audio-card,codec {
+			sound-dai = <&max98357a_nsd>;
 		};
 	};
 };
