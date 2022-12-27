@@ -59,13 +59,16 @@
 
 	sound {
 		compatible = "simple-audio-card";
+		simple-audio-card,name = "Audio-I2S";
 		simple-audio-card,format = "i2s";
-		simple-audio-card,name = "MAX98357A";
-		status = "okay";
-		simple-audio-card,cpu {
+		simple-audio-card,bitclock-master = <&cpu_dai_master>;
+		simple-audio-card,frame-master = <&cpu_dai_master>;
+		simple-audio-card,widgets =
+			"Speaker", "External Speaker";
+		cpu_dai_master: simple-audio-card,cpu {
 			sound-dai = <&i2s>;
 		};
-		simple-audio-card,codec {
+		dailink0_master: simple-audio-card,codec {
 			sound-dai = <&max98357a_nsd>;
 		};
 	};
