@@ -68,6 +68,8 @@ static int asoc_simple_parse_dai(struct device_node *node,
 	 *    if he unbinded CPU or Codec.
 	 */
 	ret = snd_soc_of_get_dai_name(node, &dlc->dai_name);
+	printk(KERN_ERR
+			"snd_soc_of_get_dai_name %d,  %s\n", ret, dlc->dai_name);
 	if (ret < 0)
 		return ret;
 
