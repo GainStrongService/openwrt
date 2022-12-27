@@ -440,10 +440,18 @@ static int simple_for_each_link(struct asoc_simple_priv *priv,
 			if (dpcm_selectable &&
 			    (num > 2 ||
 			     adata.convert_rate || adata.convert_channels))
+			{
 				ret = func_dpcm(priv, np, codec, li, is_top);
+				printk(KERN_ERR
+			       "func_dpcm %d\n", ret);
+			}
 			/* else normal sound */
-			else
+			else{
 				ret = func_noml(priv, np, codec, li, is_top);
+				printk(KERN_ERR
+			       "func_noml %d\n", ret);
+
+			}
 
 			if (ret < 0) {
 				of_node_put(codec);
