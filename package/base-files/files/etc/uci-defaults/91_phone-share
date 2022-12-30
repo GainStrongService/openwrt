@@ -1,0 +1,11 @@
+# /etc/config/network
+uci set network.phone=interface
+uci set network.phone.proto='dhcp'
+uci set network.phone.device='usb0'
+uci set network.phone.metric=10
+
+uci add_list firewall.cfg03dc81.network='phone'
+
+uci commit
+
+exit 0
