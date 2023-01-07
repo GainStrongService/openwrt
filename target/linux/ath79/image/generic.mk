@@ -1258,6 +1258,15 @@ define Device/extreme-networks_ws-ap3805i
 endef
 TARGET_DEVICES += extreme-networks_ws-ap3805i
 
+define Device/gainstrong_oolite-v9.0
+  SOC := ar9344
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := Oolite V9.0
+  DEVICE_PACKAGES := kmod-usb-chipidea2
+  IMAGE_SIZE := 16000k
+endef
+TARGET_DEVICES += gainstrong_oolite-v9.0
+
 define Device/glinet_6408
   $(Device/tplink-8mlzma)
   SOC := ar9331
