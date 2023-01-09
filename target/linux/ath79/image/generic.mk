@@ -1262,7 +1262,7 @@ define Device/gainstrong_oolite-v9.0
   SOC := ar9344
   DEVICE_VENDOR := GainStrong
   DEVICE_MODEL := Oolite V9.0
-  DEVICE_PACKAGES := kmod-usb-chipidea2
+  DEVICE_PACKAGES := kmod-usb2
   IMAGE_SIZE := 16000k
 endef
 TARGET_DEVICES += gainstrong_oolite-v9.0
