@@ -1,0 +1,18 @@
+#!/bin/sh
+
+. /lib/functions.sh
+
+case "$ACTION" in
+pressed)
+	echo "SIM card inserted" > /dev/console
+;;
+released)
+	echo "SIM card removed" > /dev/console
+;;
+esac
+
+echo 1 > /sys/class/gpio/4g-enable/value
+sleep 1
+echo 0 > /sys/class/gpio/4g-enable/value
+
+return 0
