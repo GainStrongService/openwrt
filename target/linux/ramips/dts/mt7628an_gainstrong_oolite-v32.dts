@@ -31,11 +31,75 @@
 			gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
 		};
 	};
+
+	spi-gpio1 {
+		compatible = "spi-gpio";
+		#address-cells = <1>;
+		gpio-sck = <&gpio 0 0>;
+		cs-gpios = <&gpio 2 0>;
+		gpio-mosi = <&gpio 3 0>;
+		gpio-miso = <&gpio 1 0>;
+		num-chipselects = <1>;
+		spidev@0 {
+			#address-cells = <1>;
+			compatible = "linux,spidev";
+			spi-max-frequency = <1000000>;
+			reg = <0>;
+		};
+	};
+
+	spi-gpio2 {
+		compatible = "spi-gpio";
+		#address-cells = <1>;
+		gpio-sck = <&gpio 14 0>;
+		cs-gpios = <&gpio 16 0>;
+		gpio-mosi = <&gpio 17 0>;
+		gpio-miso = <&gpio 15 0>;
+		num-chipselects = <1>;
+		spidev@0 {
+			#address-cells = <1>;
+			compatible = "linux,spidev";
+			spi-max-frequency = <1000000>;
+			reg = <0>;
+		};
+	};
+
+	spi-gpio3 {
+		compatible = "spi-gpio";
+		#address-cells = <1>;
+		gpio-sck = <&gpio 18 0>;
+		cs-gpios = <&gpio 20 0>;
+		gpio-mosi = <&gpio 21 0>;
+		gpio-miso = <&gpio 19 0>;
+		num-chipselects = <1>;
+		spidev@0 {
+			#address-cells = <1>;
+			compatible = "linux,spidev";
+			spi-max-frequency = <1000000>;
+			reg = <0>;
+		};
+	};
+
+	// spi-gpio4 {
+	// 	compatible = "spi-gpio";
+	// 	#address-cells = <1>;
+	// 	gpio-sck = <&gpio 38 0>;
+	// 	cs-gpios = <&gpio 40 0>;
+	// 	gpio-mosi = <&gpio 41 0>;
+	// 	gpio-miso = <&gpio 39 0>;
+	// 	num-chipselects = <1>;
+	// 	spidev@0 {
+	// 		#address-cells = <1>;
+	// 		compatible = "linux,spidev";
+	// 		spi-max-frequency = <1000000>;
+	// 		reg = <0>;
+	// 	};
+	// };
 };
 
 &state_default {
 	gpio {
-		groups = "wdt", "wled_an";
+		groups = "gpio", "i2c", "i2s", "spi cs1", "uart1", "uart2", "pwm0", "pwm1", "refclk", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "wled_an";
 		function = "gpio";
 	};
 };
@@ -114,6 +178,6 @@
 
 // 注意：GPIO14-29（含SD接口）不能与LAN1-LAN4同时启用
 // Note: GPIO14-29 (including SD interface) cannot be enabled simultaneously with LAN1-LAN4
-// &sdhci {
-// 	status = "okay";
-// };
+&sdhci {
+	status = "okay";
+};
