@@ -28,6 +28,13 @@ define Build/ravpower-wd009-factory
 	@mv $@.new $@
 endef
 
+define Device/gainstrong_minibox-v2
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := Minibox V2.0
+  DEVICE_PACKAGES := kmod-usb2
+  IMAGE_SIZE := 16064k
+endef
+TARGET_DEVICES += gainstrong_minibox-v2
 
 define Device/alfa-network_awusfree1
   IMAGE_SIZE := 7872k
