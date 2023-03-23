@@ -2,3 +2,5 @@ src-git-full packages https://git.openwrt.org/feed/packages.git^2048c5bbf6c482e4
 src-git-full luci https://git.openwrt.org/project/luci.git^396f4048bd1f4cae7cb6f085d360081d81ad2d9a
 src-git-full routing https://git.openwrt.org/feed/routing.git^1a87333f268bcf0a11e3a665a357cb0d4ec2d680
 src-git-full telephony https://git.openwrt.org/feed/telephony.git^49abbb97e113ce7a35fe632acf6a8fff48dba5ec
+src-git 3ginfo https://github.com/4IceG/luci-app-3ginfo-lite.git^068eccf6f819e99d90ee46306081ef9adefc369c
+src-git smstool https://github.com/4IceG/luci-app-sms-tool.git^e25fbd8b15a5392a35f124fcfa37bf7a178494fe
