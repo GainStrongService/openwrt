@@ -215,6 +215,9 @@ ath79_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0@eth0" "1:wan" "2:lan"
 		;;
+	gainstrong,oolitebox-v1-16m|\
+	gainstrong,oolitebox-v1-32m|\
+	gainstrong,oolitebox-v1-64m|\
 	comfast,cf-e560ac|\
 	qca,ap143-8m|\
 	qca,ap143-16m|\

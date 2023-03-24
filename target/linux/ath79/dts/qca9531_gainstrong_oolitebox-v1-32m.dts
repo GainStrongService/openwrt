@@ -1,0 +1,18 @@
+#include "qca9531_gainstrong_oolitebox-v1.dtsi"
+
+/ {
+	model = "GainsStrong OoliteBox V1.0";
+	compatible = "gainstrong,oolitebox-v1-32m", "qca,qca9531";
+};
+
+&firmware {
+	reg = <0x20000 0x1fc0000>;
+};
+
+&ubootenv {
+	reg = <0x1fe0000 0x10000>;
+};
+
+&art {
+	reg = <0x1ff0000 0x10000>;
+};
