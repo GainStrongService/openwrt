@@ -23,6 +23,8 @@
 
 	leds {
 		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&jtag_disable_pins>;
 
 		4g {
 			label = "green:4g";
