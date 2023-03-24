@@ -8,6 +8,7 @@
 		led-boot = &led_system;
 		led-failsafe = &led_system;
 		led-upgrade = &led_system;
+		led-running = &led_system;
 	};
 
 	keys: keys {
@@ -65,7 +66,6 @@
 		led_system: system {
 			label = "green:system";
 			gpios = <&gpio 13 GPIO_ACTIVE_LOW>;
-			default-state = "on";
 		};
 	};
 
