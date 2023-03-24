@@ -63,6 +63,7 @@
 		led_system: system {
 			label = "green:system";
 			gpios = <&gpio 13 GPIO_ACTIVE_LOW>;
+			default-state = "on";
 		};
 	};
 
