@@ -1,7 +1,7 @@
 #include "qca9531_gainstrong_oolitebox-v1.dtsi"
 
 / {
-	model = "GainsStrong OoliteBox V1.0";
+	model = "GainStrong OoliteBox V1.0";
 	compatible = "gainstrong,oolitebox-v1-32m", "qca,qca9531";
 };
 
