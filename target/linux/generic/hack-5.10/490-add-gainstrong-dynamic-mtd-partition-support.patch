@@ -1,0 +1,72 @@
+--- linux-5.10.176/drivers/mtd/parsers/ofpart_core.c	2023-03-30 18:39:19.650255028 +0800
++++ linux-5.10.176/drivers/mtd/parsers/ofpart_core-mod.c	2023-03-30 18:41:42.969605425 +0800
+@@ -103,6 +103,8 @@
+ 		const __be32 *reg;
+ 		int len;
+ 		int a_cells, s_cells;
++		bool dynamic_end, tail_partition;
++		uint64_t reg_offset, reg_size, part_offset, part_size;
+ 
+ 		if (!dedicated && node_has_compatible(pp))
+ 			continue;
+@@ -129,15 +131,48 @@
+ 			goto ofpart_fail;
+ 		}
+ 
+-		parts[i].offset = of_read_number(reg, a_cells);
+-		parts[i].size = of_read_number(reg + a_cells, s_cells);
+-		parts[i].of_node = pp;
++		/* 
++		 * 当设置动态结尾，reg的size参数用于表示分区到闪存结束位置的偏移值。
++		 * 当设置尾部分区属性时，reg的offset参数用于表示分区的起始位置是相对于于闪存结尾的便宜量。
++		 * 
++		 * When setting the dynamic-end attribute, 
++		 * the size parameter of reg is used to indicate the offset value 
++		 * of the partition to the end of the flash memory. 
++		 * When setting the tail-partition attribute, 
++		 * the offset parameter of reg is used to indicate that 
++		 * the starting position of the partition is relative to 
++		 * the end of the flash memory.
++		 */
++		dynamic_end = of_get_property(pp, "dynamic-end", &len);
++		tail_partition = of_get_property(pp, "tail-partition", &len);
++
++		reg_offset = of_read_number(reg, a_cells);
++		reg_size = of_read_number(reg + a_cells, s_cells);
+ 
+ 		partname = of_get_property(pp, "label", &len);
+ 		if (!partname)
+ 			partname = of_get_property(pp, "name", &len);
+ 		parts[i].name = partname;
+ 
++		if (tail_partition) {
++			part_offset = master->size - reg_offset;
++			part_size = reg_size;
++			printk(KERN_NOTICE "Tail part, %s: %#llx-%#llx, size: %#llx\n",
++				partname, part_offset, part_offset + part_size, part_size);
++		} else if (dynamic_end) {
++			part_offset = reg_offset;
++			part_size = master->size - reg_offset - reg_size;
++			printk(KERN_NOTICE "Dynamic end part, %s: %#llx-%#llx, size: %#llx\n",
++				partname, part_offset, part_offset + part_size, part_size);
++		} else {
++			part_offset = reg_offset;
++			part_size = reg_size;
++		}
++		parts[i].offset = part_offset;
++		parts[i].size = part_size;
++
++		parts[i].of_node = pp;
++
+ 		if (of_get_property(pp, "read-only", &len))
+ 			parts[i].mask_flags |= MTD_WRITEABLE;
+ 
+@@ -172,6 +207,8 @@
+ static const struct of_device_id parse_ofpart_match_table[] = {
+ 	/* Generic */
+ 	{ .compatible = "fixed-partitions" },
++	/* Shenzhen GainStrong customization */
++	{ .compatible = "gainstrong-dynamic-mtd" },
+ 	/* Customized */
+ 	{ .compatible = "brcm,bcm4908-partitions", .data = &bcm4908_partitions_quirks, },
+ 	{ .compatible = "linksys,ns-partitions", .data = &linksys_ns_partitions_quirks, },
