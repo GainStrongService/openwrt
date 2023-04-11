@@ -1,0 +1,123 @@
+#include "mt7628an.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+
+/ {
+	compatible = "gainstrong,oolite-v3.4", "mediatek,mt7628an-soc";
+	model = "GainStrong Oolite V3.4";
+
+	aliases {
+		led-boot = &led_system;
+		led-failsafe = &led_system;
+		led-running = &led_system;
+		led-upgrade = &led_system;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led_system: led_system {
+			label = "led_system";
+			gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
+		};
+	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&gpio 38 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART>;
+		};
+	};
+};
+
+&spi0 {
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <80000000>;
+
+		partitions {
+			compatible = "gainstrong-dynamic-mtd";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "u-boot";
+				reg = <0x0 0x30000>;
+			};
+
+			partition@30000 {
+				label = "u-boot-env";
+				reg = <0x30000 0x10000>;
+			};
+
+			factory: partition@40000 {
+				label = "factory";
+				reg = <0x40000 0x10000>;
+			};
+
+			partition@50000 {
+				compatible = "denx,uimage";
+				dynamic-end;
+				reg = <0x50000 0x0>;
+				label = "firmware";
+			};
+
+			all {
+				reg = <0x0 0x0>;
+				label = "all";
+			};
+		};
+	};
+};
+
+&state_default {
+	gpio {
+		groups = "wdt", "wled_an";
+		function = "gpio";
+	};
+};
+
+&wmac {
+	status = "okay";
+	mediatek,mtd-eeprom = <&factory 0x0>;
+};
+
+&i2c {
+	status = "okay";
+};
+
+&i2s {
+	status = "okay";
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_4: macaddr@4 {
+		reg = <0x4 0x6>;
+	};
+};
+
+&ethernet {
+	status = "okay";
+
+	nvmem-cells = <&macaddr_factory_4>;
+	nvmem-cell-names = "mac-address";
+};
+
+&pcie {
+	status = "okay";
+};
+
+&sdhci {
+	status = "okay";	
+};
