@@ -88,7 +88,7 @@
 	flash@0 {
 		compatible = "jedec,spi-nor";
 		reg = <0>;
-		spi-max-frequency = <10000000>;
+		spi-max-frequency = <80000000>;
 
 		partitions {
 			compatible = "fixed-partitions";
@@ -114,12 +114,12 @@
 
 			partition@50000 {
 				compatible = "denx,uimage";
-				reg = <0x50000 0xfb0000>;
+				reg = <0x50000 0x0>;
 				label = "firmware";
 			};
 
 			all {
-				reg = <0x0 0x1000000>;
+				reg = <0x0 0x0>;
 				label = "all";
 			};
 		};
