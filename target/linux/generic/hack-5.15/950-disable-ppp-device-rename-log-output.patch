@@ -1,0 +1,11 @@
+--- linux-5.15.110/net/core/dev.c	2023-05-06 10:12:11.784513893 +0800
++++ linux-5.15.110/net/core/dev.c.mod	2023-05-06 10:12:46.096514536 +0800
+@@ -1253,7 +1253,7 @@
+ 		return err;
+ 	}
+ 
+-	if (oldname[0] && !strchr(oldname, '%'))
++	if (oldname[0] && !strchr(oldname, '%') && !strstr(oldname, "ppp"))
+ 		netdev_info(dev, "renamed from %s\n", oldname);
+ 
+ 	old_assign_type = dev->name_assign_type;
