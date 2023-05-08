@@ -7,7 +7,7 @@
 
 / {
         compatible = "gainstrong,minibox-lora", "mediatek,mt7628an-soc";
-        model = "MiniBox-LoRa (16M)";
+        model = "MiniBox LoRa";
 
         chosen {
                 bootargs = "console=ttyS0,57600";
@@ -167,7 +167,7 @@
 
                 partition@50000 {
                         label = "firmware";
-                        reg = <0x50000 0xfb0000>;
+                        reg = <0x50000 0x0>;
                 };
         };
 

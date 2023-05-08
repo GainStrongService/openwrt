@@ -721,9 +721,9 @@ ramips_board_detect() {
 	*"YK1")
 		name="youku-yk1"
 		;;
-        *"MiniBox-LoRa (16M)")
-                name="minibox-lora"
-                ;;
+	*"MiniBox LoRa")
+			name="minibox-lora"
+			;;
 	esac
 
 	# use generic board detect if no name is set

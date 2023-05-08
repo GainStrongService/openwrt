@@ -315,8 +315,8 @@ TARGET_DEVICES += zbtlink_zbt-we1226
 
 define Device/MiniBox-LoRa
   DTS := MINIBOX-LORA
-  IMAGE_SIZE := $(ralink_default_fw_size_16M)
-  DEVICE_TITLE := MiniBox-LoRa
+  IMAGE_SIZE := $(ralink_default_fw_size_32M)
+  DEVICE_TITLE := MiniBox LoRa
   DEVICE_PACKAGES := atftp atftpd kmod-usb2 kmod-usb-ohci kmod-usb-storage kmod-usb-storage-extras \
       kmod-nls-cp437 kmod-nls-iso8859-1 kmod-nls-utf8 kmod-fs-ext4 kmod-fs-ntfs kmod-fs-vfat \
       usbutils badblocks e2fsprogs luci lora-sx1276
