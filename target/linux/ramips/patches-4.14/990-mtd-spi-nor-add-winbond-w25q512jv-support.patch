@@ -1,0 +1,12 @@
+--- linux-4.14.206/drivers/mtd/spi-nor/spi-nor.c	2023-05-08 17:09:49.369610389 +0800
++++ linux-4.14.206/drivers/mtd/spi-nor/spi-nor.c.mod	2023-05-08 17:10:05.265610059 +0800
+@@ -1176,6 +1176,9 @@
+ 	{ "w25q80bl", INFO(0xef4014, 0, 64 * 1024,  16, SECT_4K) },
+ 	{ "w25q128", INFO(0xef4018, 0, 64 * 1024, 256, SECT_4K) },
+ 	{ "w25q256", INFO(0xef4019, 0, 64 * 1024, 512, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ | SPI_NOR_4B_READ_OP) },
++	{ "w25q512jv", INFO(0xef4020, 0, 64 * 1024, 1024,
++			SECT_4K | SPI_NOR_QUAD_READ | SPI_NOR_DUAL_READ |
++			SPI_NOR_HAS_TB | SPI_NOR_HAS_LOCK) },
+ 	{ "w25m512jv", INFO(0xef7119, 0, 64 * 1024, 1024,
+ 			SECT_4K | SPI_NOR_QUAD_READ | SPI_NOR_DUAL_READ) },
+ 
