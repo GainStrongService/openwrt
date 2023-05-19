@@ -1,0 +1,22 @@
+--- a/mt7915/init.c
++++ b/mt7915/init.c
+@@ -672,6 +672,7 @@ mt7915_register_ext_phy(struct mt7915_de
+ {
+ 	struct mt76_phy *mphy = phy->mt76;
+ 	int ret;
++	uint32_t *mac_addr_last_4_bytes;
+ 
+ 	INIT_DELAYED_WORK(&mphy->mac_work, mt7915_mac_work);
+ 
+@@ -685,8 +686,9 @@ mt7915_register_ext_phy(struct mt7915_de
+ 	if (!is_valid_ether_addr(mphy->macaddr)) {
+ 		memcpy(mphy->macaddr, dev->mt76.eeprom.data + MT_EE_MAC_ADDR,
+ 		       ETH_ALEN);
+-		mphy->macaddr[0] |= 2;
+-		mphy->macaddr[0] ^= BIT(7);
++		/* Increment the last four bytes of the MAC address by 1 as uint32_t, handling overflow */
++		mac_addr_last_4_bytes = (uint32_t *)(mphy->macaddr + 2);
++		*mac_addr_last_4_bytes = htonl(ntohl(*mac_addr_last_4_bytes) + 1);
+ 	}
+ 	mt76_eeprom_override(mphy);
+ 
