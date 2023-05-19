@@ -1,0 +1,22 @@
+--- mt76-2023-05-13-969b7b5e/mt7915/init.c	2023-05-19 12:03:47.116652118 +0800
++++ mt76-2023-05-13-969b7b5e/mt7915/init.c.mod	2023-05-19 12:03:19.620651603 +0800
+@@ -647,6 +647,7 @@
+ {
+ 	struct mt76_phy *mphy = phy->mt76;
+ 	int ret;
++	uint32_t *mac_addr_last_4_bytes;
+ 
+ 	INIT_DELAYED_WORK(&mphy->mac_work, mt7915_mac_work);
+ 
+@@ -660,8 +661,9 @@
+ 	if (!is_valid_ether_addr(mphy->macaddr)) {
+ 		memcpy(mphy->macaddr, dev->mt76.eeprom.data + MT_EE_MAC_ADDR,
+ 		       ETH_ALEN);
+-		mphy->macaddr[0] |= 2;
+-		mphy->macaddr[0] ^= BIT(7);
++		/* Increment the last four bytes of the MAC address by 1 as uint32_t, handling overflow */
++		mac_addr_last_4_bytes = (uint32_t *)(mphy->macaddr + 2);
++		*mac_addr_last_4_bytes = htonl(ntohl(*mac_addr_last_4_bytes) + 1);
+ 	}
+ 	mt76_eeprom_override(mphy);
+ 
