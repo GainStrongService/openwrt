@@ -70,6 +70,16 @@ platform_do_upgrade() {
 	cudy,wr3000-v1)
 		default_do_upgrade "$1"
 		;;
+	gainstrong,oolite-mt7981b-*nand*)
+		nand_do_upgrade "$1"
+		;;
+	gainstrong,oolite-mt7981b-*emmc*|\
+	gainstrong,oolite-mt7981b-*sdcard*)
+		emmc_do_upgrade "$1"
+		;;
+	gainstrong,oolite-mt7981b-*nor*)
+		default_do_upgrade "$1"
+		;;
 	tplink,tl-xdr4288|\
 	tplink,tl-xdr6086|\
 	tplink,tl-xdr6088|\

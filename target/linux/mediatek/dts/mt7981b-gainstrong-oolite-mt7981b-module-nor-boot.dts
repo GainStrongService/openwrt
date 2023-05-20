@@ -1,0 +1,10 @@
+/dts-v1/;
+
+#include "mt7981b-gainstrong-oolite-mt7981b.dtsi"
+#include "mt7981b-gainstrong-oolite-mt7981b-nor-boot.dtsi"
+#include "mt7981b-gainstrong-oolite-mt7981b-mtd-macaddr.dtsi"
+
+/ {
+	model = "GainStrong Oolite-MT7981B V1 Module (nor boot, SODIMM4 form factor)";
+	compatible = "gainstrong,oolite-mt7981b-module-nor-boot", "mediatek,mt7981";
+};

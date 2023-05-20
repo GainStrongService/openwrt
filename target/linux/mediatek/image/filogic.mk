@@ -294,3 +294,6 @@ ifneq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),)
 endif
 endef
 TARGET_DEVICES += xiaomi_redmi-router-ax6000-ubootmod
+
+
+include gainstrong-oolite-mt7981b.mk

@@ -1,0 +1,17 @@
+/dts-v1/;
+
+#include "mt7981b-gainstrong-oolite-mt7981b.dtsi"
+
+/ {
+	model = "GainStrong Oolite-MT7981B V1 Module (sd card boot, SODIMM4 form factor)";
+	compatible = "gainstrong,oolite-mt7981b-module-sdcard-boot", "mediatek,mt7981";
+
+	chosen {
+		bootargs = "rootwait root=PARTLABEL=rootfs";
+	};
+};
+
+&mmc0 {
+	bus-width = <4>;
+ 	/delete-property/ non-removable;
+};

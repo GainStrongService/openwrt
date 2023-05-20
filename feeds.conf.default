@@ -6,3 +6,5 @@ src-git-full telephony https://git.openwrt.org/feed/telephony.git^afad179aaec9c1
 #src-git-full targets https://github.com/openwrt/targets.git
 #src-git-full oldpackages http://git.openwrt.org/packages.git
 #src-link custom /usr/src/openwrt/custom-feed
+src-git 3ginfo https://github.com/4IceG/luci-app-3ginfo-lite.git^9f090caa04d7e4453201d27ed213ca0b96b9570c
+src-git smstool https://github.com/4IceG/luci-app-sms-tool.git^100707821a1a080a1348ea22f0605c3dc4dc7026
