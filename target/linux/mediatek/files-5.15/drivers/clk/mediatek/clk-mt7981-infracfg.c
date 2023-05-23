@@ -167,6 +167,8 @@ static const struct mtk_gate infra_clks[] = {
 	GATE_INFRA1(CLK_INFRA_ADC_26M_CK, "infra_adc_26m", "infra_adc_frc", 20),
 	GATE_INFRA1(CLK_INFRA_ADC_FRC_CK, "infra_adc_frc", "csw_f26m", 21),
 	GATE_INFRA1(CLK_INFRA_FBIST2FPC_CK, "infra_fbist2fpc", "nfi1x", 23),
+	GATE_INFRA1(CLK_INFRA_I2C_MCK_CK, "infra_i2c_mck", "sysaxi", 25),
+	GATE_INFRA1(CLK_INFRA_I2C_PCK_CK, "infra_i2c_pck", "infra_66m_mck", 26),
 	/* INFRA2 */
 	GATE_INFRA2(CLK_INFRA_IUSB_133_CK, "infra_iusb_133", "sysaxi", 0),
 	GATE_INFRA2(CLK_INFRA_IUSB_66M_CK, "infra_iusb_66m", "sysaxi", 1),
