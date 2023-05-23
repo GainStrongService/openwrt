@@ -79,9 +79,18 @@
 
 &state_default {
 	gpio {
-		groups = "wdt", "wled_an";
+		groups = "wdt", "wled_an", "sdmode";
 		function = "gpio";
 	};
+};
+
+&esw {
+	mediatek,portmap = <0x7>;
+	mediatek,portdisable = <0x3a>;
+};
+
+&sdhci {
+	status = "disable";	
 };
 
 &wmac {
@@ -119,6 +128,3 @@
 	status = "okay";
 };
 
-&sdhci {
-	status = "okay";	
-};
