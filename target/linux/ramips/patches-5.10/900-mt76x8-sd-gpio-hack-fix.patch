@@ -1,0 +1,25 @@
+--- linux-5.10.179/drivers/gpio/gpio-mt7621.c	2023-05-23 19:02:23.295707580 +0800
++++ linux-5.10.179/drivers/gpio/gpio-mt7621.c.mod	2023-05-23 19:01:32.870289000 +0800
+@@ -13,6 +13,8 @@
+ #include <linux/platform_device.h>
+ #include <linux/spinlock.h>
+ 
++#include <asm/mach-ralink/ralink_regs.h>
++
+ #define MTK_BANK_CNT	3
+ #define MTK_BANK_WIDTH	32
+ 
+@@ -311,6 +313,13 @@
+ 	mtk->dev = dev;
+ 	platform_set_drvdata(pdev, mtk);
+ 
++	// Following 5 line copy from drivers/mmc/host/mtk-mmc/sd.c msdc_drv_probe(struct platform_device *pdev)
++	//FIXME: this should be done by pinconf and not by the sd driver
++	if ((ralink_soc == MT762X_SOC_MT7688 ||
++		ralink_soc == MT762X_SOC_MT7628AN) &&
++		(!(rt_sysc_r32(0x60) & BIT(15))))
++		rt_sysc_m32(0xf << 17, 0xf << 17, 0x3c);
++
+ 	for (i = 0; i < MTK_BANK_CNT; i++) {
+ 		ret = mediatek_gpio_bank_probe(dev, np, i);
+ 		if (ret)
