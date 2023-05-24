@@ -1,0 +1,82 @@
+diff -ur huge-ic-fmac-linux-driver-v2.2.1-22738.orig/hgic_fmac/core.c huge-ic-fmac-linux-driver-v2.2.1-22738/hgic_fmac/core.c
+--- huge-ic-fmac-linux-driver-v2.2.1-22738.orig/hgic_fmac/core.c	2023-04-21 18:11:46.000000000 +0800
++++ huge-ic-fmac-linux-driver-v2.2.1-22738/hgic_fmac/core.c	2023-05-09 14:39:52.056987934 +0800
+@@ -914,43 +914,43 @@
+         hgic_dbg("Enter\n");
+         clear_bit(HGICF_DEV_FLAGS_RUNNING, &hg->flags);
+ 
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+         cancel_work_sync(&hg->detect_work);
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+         del_timer_sync(&hg->detect_tmr);
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+         cancel_work_sync(&hg->detect_work);
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+         cancel_work_sync(&hg->delay_init);
+         if (hg->vif) {
+             netif_stop_queue(hg->vif->ndev);
+         }
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+         //while (!test_bit(HGICF_DEV_FLAGS_STOP, &hg->flags));
+         cancel_work_sync(&hg->tx_work);
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+         cancel_work_sync(&hg->test_work);
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+         hgicf_delete_procfs(hg);
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+         hgic_fwctrl_release(&hg->ctrl);
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+         hgic_ota_release(&hg->ota);
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+         hgic_bootdl_release(&hg->bootdl, 0);
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+         if (hg->tx_wq) {
+             flush_workqueue(hg->tx_wq);
+             destroy_workqueue(hg->tx_wq);
+         }
+-        hgic_dbg(" trace ... %p\r\n", hg->vif);
++        //hgic_dbg(" trace ... %p\r\n", hg->vif);
+         if (hg->vif) {
+             unregister_netdev(hg->vif->ndev);
+         }        
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+ 
+         hgic_clear_queue(&hg->tx_dataq);
+-        hgic_dbg(" trace ...\r\n");
++        //hgic_dbg(" trace ...\r\n");
+ #ifdef __RTOS__
+         skb_queue_head_deinit(&hg->tx_dataq);
+         deinit_completion(&hg->txwnd_cp);
+@@ -959,7 +959,7 @@
+         hgic_clear_queue(&hg->evt_list);
+ #endif
+         kfree(hg);
+-        hgic_dbg("Leave\n");
++        //hgic_dbg("Leave\n");
+     }
+ }
+ 
+diff -ur huge-ic-fmac-linux-driver-v2.2.1-22738.orig/utils/fwdl.c huge-ic-fmac-linux-driver-v2.2.1-22738/utils/fwdl.c
+--- huge-ic-fmac-linux-driver-v2.2.1-22738.orig/utils/fwdl.c	2023-03-14 17:18:34.000000000 +0800
++++ huge-ic-fmac-linux-driver-v2.2.1-22738/utils/fwdl.c	2023-05-09 14:39:50.936987913 +0800
+@@ -209,7 +209,7 @@
+         if (ret != 0) {
+             hgic_dbg("Send fw data error!ret:<%d>\n", ret);
+         } else {
+-            hgic_dbg("Send fw data success!\n");
++            //hgic_dbg("Send fw data success!\n");
+         }
+         dev_kfree_skb_any(resp_skb);
+         return ret;
