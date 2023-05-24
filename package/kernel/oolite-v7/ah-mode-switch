@@ -1,0 +1,60 @@
+#!/bin/ash
+
+display_usage() {
+    echo "Usage: $0 [ap|sta]"
+    echo "Switch 802.11ah interface mode."
+    echo
+    echo "Options:"
+    echo "  ap    Switch to 802.11ah AP mode"
+    echo "  sta   Switch to 802.11ah STA mode"
+    echo
+    echo "If no argument is provided, you will be prompted to select a mode."
+}
+
+switch_mode() {
+    mode=$1
+    UPPER_MODE=$(echo $mode | tr 'a-z' 'A-Z')
+    OPPOSITE_MODE=$( [ "$mode" = "ap" ] && echo "STA" || echo "AP")
+    echo "Switching 802.11ah interface to $mode mode..."
+    sed -i "/^mode=/c\\mode=$mode" /etc/hgicf.conf
+    hgpriv hg0 set mode=$mode
+    uci del network.11AH_$UPPER_MODE.auto
+    uci set network.11AH_$OPPOSITE_MODE.auto='0'
+    uci commit network
+    /etc/init.d/network reload
+}
+
+if [ $# -eq 0 ]; then
+    echo "Please choose an option:"
+    echo "1) 802.11ah AP mode"
+    echo "2) 802.11ah STA mode"
+    read -p "Enter your choice (1 or 2): " choice
+    case $choice in
+        1)
+            switch_mode "ap"
+            ;;
+        2)
+            switch_mode "sta"
+            ;;
+        *)
+            echo "Invalid choice. Exiting..."
+            display_usage
+            exit 1
+    esac
+elif [ $# -eq 1 ]; then
+    case $1 in
+        ap|sta)
+            switch_mode $1
+            ;;
+        *)
+            echo "Invalid argument. Exiting..."
+            display_usage
+            exit 1
+    esac
+else
+    echo "Too many arguments. Exiting..."
+    display_usage
+    exit 1
+fi
+
+exit 0
