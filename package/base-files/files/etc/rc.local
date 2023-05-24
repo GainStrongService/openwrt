@@ -1,4 +1,6 @@
 # Put your custom commands here that should be executed once
 # the system init finished. By default this file does nothing.
 
+iperf3 -s -D --logfile /tmp/iperf3.log
+
 exit 0
