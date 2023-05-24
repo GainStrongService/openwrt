@@ -1,0 +1,9 @@
+--- huge-ic-fmac-linux-driver-v2.2.1-22961/hgic_fmac/Makefile	2022-06-21 00:37:18.000000000 +0800
++++ huge-ic-fmac-linux-driver-v2.2.1-22961/hgic_fmac/Makefile.remove.Werror	2023-05-12 16:05:39.894371352 +0800
+@@ -13,3 +13,6 @@
+ 
+ 
+ obj-$(CONFIG_HGICF)     += hgicf.o
++
++
++KBUILD_CFLAGS := $(filter-out -Werror, $(KBUILD_CFLAGS))
