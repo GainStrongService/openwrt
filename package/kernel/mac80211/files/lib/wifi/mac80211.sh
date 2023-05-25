@@ -196,6 +196,11 @@ detect_mac80211() {
 				;;
 		esac
 
+		last_4_mac=$(echo $macaddr | awk -F ":" '{printf toupper($5$6)}')
+		board_name=$(grep 'DISTRIB_ID' /etc/openwrt_release | awk -F "'" '{print $2}')
+		mode_band_upper=$(echo $mode_band | awk '{print toupper($0)}')
+		ssid="${board_name}_${last_4_mac}_${mode_band_upper}"
+
 		uci -q batch <<-EOF
 			set wireless.${name}=wifi-device
 			set wireless.${name}.type=mac80211
@@ -203,13 +208,12 @@ detect_mac80211() {
 			set wireless.${name}.channel=${channel}
 			set wireless.${name}.band=${mode_band}
 			set wireless.${name}.htmode=$htmode
-			set wireless.${name}.disabled=1
 
 			set wireless.default_${name}=wifi-iface
 			set wireless.default_${name}.device=${name}
 			set wireless.default_${name}.network=lan
 			set wireless.default_${name}.mode=ap
-			set wireless.default_${name}.ssid=OpenWrt
+			set wireless.default_${name}.ssid=${ssid}
 			set wireless.default_${name}.encryption=none
 EOF
 		uci -q commit wireless

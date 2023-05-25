@@ -335,3 +335,6 @@ define Device/zyxel_ex5601-t0-stock
   DTC_FLAGS += -@ --space 32768
 endef
 TARGET_DEVICES += zyxel_ex5601-t0-stock
+
+
+include gainstrong-oolite-mt7981b.mk
