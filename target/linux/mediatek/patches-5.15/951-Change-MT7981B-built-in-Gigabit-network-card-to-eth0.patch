@@ -1,0 +1,30 @@
+--- linux-5.15.112/drivers/net/ethernet/mediatek/mtk_eth_soc.c	2023-05-25 18:54:01.123024217 +0800
++++ linux-5.15.112/drivers/net/ethernet/mediatek/mtk_eth_soc.c.mod	2023-05-25 18:55:22.842451470 +0800
+@@ -4917,6 +4917,7 @@
+ 	struct device_node *mac_np;
+ 	struct mtk_eth *eth;
+ 	int err, i;
++	int start, end, step;
+ 
+ 	eth = devm_kzalloc(&pdev->dev, sizeof(*eth), GFP_KERNEL);
+ 	if (!eth)
+@@ -5157,7 +5158,18 @@
+ 			goto err_free_dev;
+ 	}
+ 
+-	for (i = 0; i < eth->soc->num_devs; i++) {
++	// If SoC is MT7981B, generate network devices in reverse order to map eth0 to the built-in Gigabit Ethernet
++	if (eth->soc->caps == MT7981_CAPS) {
++		start = eth->soc->num_devs - 1;
++		end = -1;
++		step = -1;
++	} else {
++		start = 0;
++		end = eth->soc->num_devs;
++		step = 1;
++	}
++
++	for (i = start; i != end; i += step) {
+ 		if (!eth->netdev[i])
+ 			continue;
+ 
