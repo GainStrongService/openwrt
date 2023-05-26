@@ -3,6 +3,7 @@
 #include "mt7981b-gainstrong-oolite-mt7981b-v1.dtsi"
 #include "mt7981b-gainstrong-oolite-mt7981b-v1-nor.dtsi"
 #include "mt7981b-gainstrong-oolite-mt7981b-v1-mtd-macaddr.dtsi"
+#include "mt7981b-gainstrong-oolite-mt7981b-v1-mmc.dtsi"
 
 / {
 	model = "GainStrong Oolite-MT7981B V1 SoM (NOR boot)";
