@@ -15,6 +15,13 @@ case "$FIRMWARE" in
 		;;
 	esac
 	;;
+"mediatek/mt7981_eeprom_mt7976_dbdc.bin")
+	case "$board" in
+	gainstrong,oolite-mt7981b-v1-*emmc*)
+		caldata_extract_mmc "factory" 0x0 0x1000
+		;;
+	esac
+	;;
 *)
 	exit 1
 	;;

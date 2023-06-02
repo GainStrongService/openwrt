@@ -1,0 +1,165 @@
+
+/ {
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			linux,code = <KEY_RESTART>;
+			gpios = <&pio 1 GPIO_ACTIVE_LOW>;
+		};
+
+		wps {
+			label = "wps";
+			linux,code = <KEY_WPS_BUTTON>;
+			gpios = <&pio 0 GPIO_ACTIVE_HIGH>;
+		};
+	};
+
+	/delete-node/ leds;
+	/delete-node/ aliases;
+
+	aliases {
+		serial0 = &uart0;
+		led-boot = &led_green_system;
+		led-failsafe = &led_green_system;
+		led-running = &led_green_system;
+		led-upgrade = &led_green_system;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led_green_system: led_green_system {
+			label = "led_green_system";
+			gpios = <&pio 12 GPIO_ACTIVE_LOW>;
+			default-state = "on";
+		};
+
+		led_green_lan {
+			label = "led_green_lan";
+			gpios = <&pio 11 GPIO_ACTIVE_LOW>;
+		};
+
+		led_green_2g {
+			label = "led_green_2g";
+			gpios = <&pio 34 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "phy0tpt";
+		};
+
+		led_green_5g {
+			label = "led_green_5g";
+			gpios = <&pio 35 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "phy1tpt";
+		};
+	};
+
+	gpio-export {
+		compatible = "gpio-export";
+
+		5g-module1-reset {
+			gpio-export,name = "5g-module1-reset";
+			gpio-export,output = <1>;
+			gpios = <&gpio_ext 0 GPIO_ACTIVE_LOW>;
+		};
+
+		5g-module2-reset {
+			gpio-export,name = "5g-module2-reset";
+			gpio-export,output = <1>;
+			gpios = <&gpio_ext 1 GPIO_ACTIVE_LOW>;
+		};
+
+		5g-module3-reset {
+			gpio-export,name = "5g-module3-reset";
+			gpio-export,output = <1>;
+			gpios = <&gpio_ext 2 GPIO_ACTIVE_LOW>;
+		};
+
+		5g-module1-sim-detect {
+			gpio-export,name = "5g-module1-sim-detect";
+			gpios = <&gpio_ext 5 GPIO_ACTIVE_HIGH>;
+		};
+
+		5g-module2-sim-detect {
+			gpio-export,name = "5g-module2-sim-detect";
+			gpios = <&gpio_ext 4 GPIO_ACTIVE_HIGH>;
+		};
+
+		5g-module3-sim-detect {
+			gpio-export,name = "5g-module3-sim-detect";
+			gpios = <&gpio_ext 3 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
+
+
+
+&pio {
+	i2c0_pins: i2c0-pins {
+		mux {
+			function = "i2c";
+			groups = "i2c0_0";
+		};
+	};
+
+	uart1_pins: uart1-pins {
+		mux {
+			function = "uart";
+			groups = "uart1_2";
+		};
+	};
+
+	uart2_pins: uart2-pins {
+		mux {
+			function = "uart";
+			groups = "uart2_0_tx_rx";
+		};
+	};
+
+	wf2g-led-pins {
+		mux {
+			function = "led";
+			groups = "wf2g_led1";
+		};
+	};
+
+	wf5g-led-pins {
+		mux {
+			function = "led";
+			groups = "wf5g_led1";
+		};
+	};
+};
+
+&i2c0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c0_pins>;
+	status = "okay";
+
+	gpio_ext: gpio_expander@3c {
+		compatible = "nxp,pca9554";
+		gpio-controller;
+		#gpio-cells = <2>;
+		reg = <0x3c>;
+		status = "okay";
+	};
+
+	rtc@51 {
+		compatible = "nxp,pcf8563";
+		reg = <0x51>;
+		#clock-cells = <0>;
+	};
+};
+
+&uart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart1_pins>;
+	status = "okay";
+};
+
+&uart2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart2_pins>;
+	status = "okay";
+};
