@@ -24,6 +24,9 @@ mediatek_setup_interfaces()
 	cudy,wr3000-v1)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3" "wan"
 		;;
+	gainstrong,oolite-mt7981b*)
+		ucidef_set_interfaces_lan_wan eth1 eth0
+		;;
 	glinet,gl-mt3000)
 		ucidef_set_interfaces_lan_wan eth1 eth0
 		;;
@@ -81,6 +84,11 @@ mediatek_setup_macs()
 		;;
 	bananapi,bpi-r3)
 		wan_mac=$(macaddr_add $(cat /sys/class/net/eth0/address) 1)
+		;;
+	gainstrong,oolite-mt7981b-v1-*emmc*)
+		label_mac=$(mmc_get_mac_binary factory 0x4)
+		lan_mac=$(macaddr_add $label_mac 2)
+		wan_mac=$(macaddr_add $label_mac 3)
 		;;
 	h3c,magic-nx30-pro)
 		wan_mac=$(mtd_get_mac_ascii pdt_data_1 ethaddr)

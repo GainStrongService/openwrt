@@ -84,6 +84,16 @@ platform_do_upgrade() {
 	cudy,wr3000-v1)
 		default_do_upgrade "$1"
 		;;
+	gainstrong,oolite-mt7981b-v1-*nand*)
+		nand_do_upgrade "$1"
+		;;
+	gainstrong,oolite-mt7981b-v1-*emmc*|\
+	gainstrong,oolite-mt7981b-v1-*sdcard*)
+		emmc_do_upgrade "$1"
+		;;
+	gainstrong,oolite-mt7981b-v1-*nor*)
+		default_do_upgrade "$1"
+		;;
 	mercusys,mr90x-v1)
 		CI_UBIPART="ubi0"
 		nand_do_upgrade "$1"
