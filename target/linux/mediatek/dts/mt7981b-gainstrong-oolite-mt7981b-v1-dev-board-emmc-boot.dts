@@ -1,0 +1,14 @@
+/dts-v1/;
+
+#include "mt7981b-gainstrong-oolite-mt7981b-v1.dtsi"
+#include "mt7981b-gainstrong-oolite-mt7981b-v1-mmc.dtsi"
+#include "mt7981b-gainstrong-oolite-mt7981b-v1-dev-board.dtsi"
+
+/ {
+	model = "GainStrong Oolite-MT7981B V1 Dev Board (eMMC boot)";
+	compatible = "gainstrong,oolite-mt7981b-v1-dev-board-emmc-boot", "mediatek,mt7981";
+
+	chosen {
+		bootargs = "rootwait root=PARTLABEL=rootfs rootfstype=squashfs,f2fs";
+	};
+};

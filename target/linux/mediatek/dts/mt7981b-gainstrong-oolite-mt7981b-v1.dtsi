@@ -1,0 +1,87 @@
+#include "mt7981.dtsi"
+
+/ {
+	model = "GainStrong Oolite-MT7981B V1";
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+	};
+
+	aliases {
+		serial0 = &uart0;
+		led-boot = &led_system;
+		led-failsafe = &led_system;
+		led-running = &led_system;
+		led-upgrade = &led_system;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led_system: led_blue_system {
+			label = "led_blue_system";
+			gpios = <&pio 35 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+
+		led_blue_wifi {
+			label = "led_blue_wifi";
+			gpios = <&pio 34 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&watchdog {
+	status = "okay";
+};
+
+&eth {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mdio_pins>;
+	status = "okay";
+
+	// LAN: CPU built-in Gigabit Ethernet
+	eth1: eth1 {
+		compatible = "mediatek,eth-mac";
+		reg = <1>;
+		phy-mode = "gmii";
+		phy-handle = <&int_gbe_phy>;
+	};
+
+	// WAN: RTL8221B-VB-CG 2.5G Ethernet PHY on the dev board
+	eth0: eth0 {
+		compatible = "mediatek,eth-mac";
+		reg = <0>;
+		phy-mode = "2500base-x";
+		phy-handle = <&phy5>;
+		status = "okay";
+	};
+};
+
+&mdio_bus {
+	phy5: ethernet-phy@5 {
+		compatible = "ethernet-phy-ieee802.3-c45";
+		reg = <5>;
+		reset-assert-us = <100000>;
+		reset-deassert-us = <100000>;
+		reset-gpios = <&pio 39 GPIO_ACTIVE_LOW>;
+		realtek,aldps-enable;
+		realtek,led-link-select = <0xa7 0x0 0x0>;
+	};
+};
+
+&usb_phy {
+	status = "okay";
+};
+
+&xhci {
+	status = "okay";
+};
+
+&wifi {
+	status = "okay";
+};

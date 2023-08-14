@@ -116,6 +116,16 @@ platform_do_upgrade() {
 	yuncore,ax835)
 		default_do_upgrade "$1"
 		;;
+	gainstrong,oolite-mt7981b-v1-*nand*)
+		nand_do_upgrade "$1"
+		;;
+	gainstrong,oolite-mt7981b-v1-*emmc*|\
+	gainstrong,oolite-mt7981b-v1-*sdcard*)
+		emmc_do_upgrade "$1"
+		;;
+	gainstrong,oolite-mt7981b-v1-*nor*)
+		default_do_upgrade "$1"
+		;;
 	glinet,gl-mt6000)
 		CI_KERNPART="kernel"
 		CI_ROOTPART="rootfs"

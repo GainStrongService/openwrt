@@ -1,0 +1,25 @@
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr: macaddr@4 {
+		reg = <0x4 0x6>;
+	};
+};
+
+&eth0 {
+	nvmem-cells = <&macaddr>;
+	nvmem-cell-names = "mac-address";
+	mac-address-increment = <3>;
+};
+
+&eth1 {
+	nvmem-cells = <&macaddr>;
+	nvmem-cell-names = "mac-address";
+	mac-address-increment = <2>;
+};
+
+&wifi {
+	mediatek,mtd-eeprom = <&factory 0x0>;
+};

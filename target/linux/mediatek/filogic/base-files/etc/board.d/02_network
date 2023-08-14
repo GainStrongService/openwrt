@@ -42,6 +42,9 @@ mediatek_setup_interfaces()
 	zbtlink,zbt-z8103ax)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3" eth1
 		;;
+	gainstrong,oolite-mt7981b*)
+		ucidef_set_interfaces_lan_wan eth1 eth0
+		;;
 	comfast,cf-e393ax)
 		ucidef_set_interfaces_lan_wan "lan1" eth1
 		;;
@@ -139,6 +142,11 @@ mediatek_setup_macs()
 		label_mac=$(mmc_get_mac_binary factory 0x0a)
 		wan_mac=$label_mac
 		lan_mac=$(macaddr_add "$label_mac" 2)
+		;;
+	gainstrong,oolite-mt7981b-v1-*emmc*)
+		label_mac=$(mmc_get_mac_binary factory 0x4)
+		lan_mac=$(macaddr_add $label_mac 2)
+		wan_mac=$(macaddr_add $label_mac 3)
 		;;
 	h3c,magic-nx30-pro)
 		wan_mac=$(mtd_get_mac_ascii pdt_data_1 ethaddr)
