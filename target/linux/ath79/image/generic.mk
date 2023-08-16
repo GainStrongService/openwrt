@@ -198,6 +198,16 @@ define Device/seama
   SEAMA_SIGNATURE :=
 endef
 
+define Device/gainstrong_oolite-v1.0
+	$(Device/tplink-v1)
+	SOC := ar9331
+	DEVICE_VENDOR := GainStrong
+	TPLINK_FLASHLAYOUT := 16Mlzma
+	DEVICE_PACKAGES := kmod-usb-chipidea2
+	DEVICE_MODEL := Oolite V1.0
+	SUPPORTED_DEVICES += oolite-v1.0
+endef
+TARGET_DEVICES += gainstrong_oolite-v1.0
 
 define Device/8dev_carambola2
   SOC := ar9331

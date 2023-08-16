@@ -224,6 +224,7 @@ ath79_setup_interfaces()
 	comfast,cf-e120a-v3|\
 	comfast,cf-e314n-v2|\
 	compex,wpj531-16m|\
+	gainstrong,oolite-v1.0|\
 	openmesh,a40|\
 	openmesh,a60|\
 	openmesh,om2p-v1|\
