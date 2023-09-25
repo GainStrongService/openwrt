@@ -102,6 +102,16 @@ define Device/dsa-migration
   DEVICE_COMPAT_MESSAGE := Config cannot be migrated from swconfig to DSA
 endef
 
+define Device/gainstrong_oolite-v8.2
+  $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := Oolite V8.2
+  DEVICE_PACKAGES := kmod-mt7915e kmod-usb3 kmod-sdhci-mt7620
+  IMAGE_SIZE := 32448k
+endef
+TARGET_DEVICES += gainstrong_oolite-v8.2
+
 define Device/adslr_g7
   $(Device/dsa-migration)
   IMAGE_SIZE := 16064k
