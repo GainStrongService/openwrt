@@ -1,0 +1,228 @@
+diff -Nur sx1302-hal-2.1.0/libloragw/src/loragw_hal.c sx1302-hal-2.1.0.mod/libloragw/src/loragw_hal.c
+--- sx1302-hal-2.1.0/libloragw/src/loragw_hal.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/libloragw/src/loragw_hal.c	2023-09-27 18:40:21.088715759 +0800
+@@ -123,7 +123,7 @@
+ static lgw_context_t lgw_context = {
+     .is_started = false,
+     .board_cfg.com_type = LGW_COM_SPI,
+-    .board_cfg.com_path = "/dev/spidev0.0",
++    .board_cfg.com_path = "/dev/spidev1.0",
+     .board_cfg.lorawan_public = true,
+     .board_cfg.clksrc = 0,
+     .board_cfg.full_duplex = false,
+diff -Nur sx1302-hal-2.1.0/libloragw/tst/test_loragw_cal_sx125x.c sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_cal_sx125x.c
+--- sx1302-hal-2.1.0/libloragw/tst/test_loragw_cal_sx125x.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_cal_sx125x.c	2023-09-27 18:40:21.092715782 +0800
+@@ -53,7 +53,7 @@
+ /* --- PRIVATE CONSTANTS ---------------------------------------------------- */
+ 
+ #define COM_TYPE_DEFAULT LGW_COM_SPI
+-#define COM_PATH_DEFAULT "/dev/spidev0.0"
++#define COM_PATH_DEFAULT "/dev/spidev1.0"
+ 
+ #define DEFAULT_CLK_SRC     0
+ #define DEFAULT_FREQ_HZ     868500000U
+diff -Nur sx1302-hal-2.1.0/libloragw/tst/test_loragw_capture_ram.c sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_capture_ram.c
+--- sx1302-hal-2.1.0/libloragw/tst/test_loragw_capture_ram.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_capture_ram.c	2023-09-27 18:40:21.088715759 +0800
+@@ -42,7 +42,7 @@
+ #define DEBUG_MSG(str) fprintf(stdout, str)
+ 
+ #define COM_TYPE_DEFAULT LGW_COM_SPI
+-#define COM_PATH_DEFAULT "/dev/spidev0.0"
++#define COM_PATH_DEFAULT "/dev/spidev1.0"
+ 
+ #define CAPTURE_RAM_SIZE 0x4000
+ 
+diff -Nur sx1302-hal-2.1.0/libloragw/tst/test_loragw_com.c sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_com.c
+--- sx1302-hal-2.1.0/libloragw/tst/test_loragw_com.c	2023-09-27 18:26:05.085014591 +0800
++++ sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_com.c	2023-09-27 18:40:21.092715782 +0800
+@@ -52,7 +52,7 @@
+ #define SX1302_REG_AGC_MCU  0x5780
+ 
+ #define COM_TYPE_DEFAULT LGW_COM_SPI
+-#define COM_PATH_DEFAULT "/dev/spidev0.0"
++#define COM_PATH_DEFAULT "/dev/spidev1.0"
+ 
+ /* -------------------------------------------------------------------------- */
+ /* --- GLOBAL VARIABLES ----------------------------------------------------- */
+diff -Nur sx1302-hal-2.1.0/libloragw/tst/test_loragw_com_sx1250.c sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_com_sx1250.c
+--- sx1302-hal-2.1.0/libloragw/tst/test_loragw_com_sx1250.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_com_sx1250.c	2023-09-27 18:40:21.092715782 +0800
+@@ -46,7 +46,7 @@
+ #define BUFF_SIZE           16
+ 
+ #define COM_TYPE_DEFAULT    LGW_COM_SPI
+-#define COM_PATH_DEFAULT    "/dev/spidev0.0"
++#define COM_PATH_DEFAULT    "/dev/spidev1.0"
+ 
+ /* -------------------------------------------------------------------------- */
+ /* --- GLOBAL VARIABLES ----------------------------------------------------- */
+diff -Nur sx1302-hal-2.1.0/libloragw/tst/test_loragw_com_sx1261.c sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_com_sx1261.c
+--- sx1302-hal-2.1.0/libloragw/tst/test_loragw_com_sx1261.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_com_sx1261.c	2023-09-27 18:40:21.088715759 +0800
+@@ -45,7 +45,7 @@
+ #define BUFF_SIZE           16
+ 
+ #define COM_TYPE_DEFAULT    LGW_COM_SPI
+-#define COM_PATH_DEFAULT    "/dev/spidev0.0"
++#define COM_PATH_DEFAULT    "/dev/spidev1.0"
+ #define SX1261_PATH_DEFAULT "/dev/spidev0.1"
+ 
+ /* -------------------------------------------------------------------------- */
+diff -Nur sx1302-hal-2.1.0/libloragw/tst/test_loragw_counter.c sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_counter.c
+--- sx1302-hal-2.1.0/libloragw/tst/test_loragw_counter.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_counter.c	2023-09-27 18:40:21.088715759 +0800
+@@ -39,7 +39,7 @@
+ /* --- PRIVATE MACROS ------------------------------------------------------- */
+ 
+ #define COM_TYPE_DEFAULT LGW_COM_SPI
+-#define COM_PATH_DEFAULT "/dev/spidev0.0"
++#define COM_PATH_DEFAULT "/dev/spidev1.0"
+ 
+ #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+ #define RAND_RANGE(min, max) (rand() % (max + 1 - min) + min)
+diff -Nur sx1302-hal-2.1.0/libloragw/tst/test_loragw_gps.c sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_gps.c
+--- sx1302-hal-2.1.0/libloragw/tst/test_loragw_gps.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_gps.c	2023-09-27 18:40:21.088715759 +0800
+@@ -44,7 +44,7 @@
+ /* --- PRIVATE CONSTANTS ---------------------------------------------------- */
+ 
+ #define COM_TYPE_DEFAULT LGW_COM_SPI
+-#define COM_PATH_DEFAULT "/dev/spidev0.0"
++#define COM_PATH_DEFAULT "/dev/spidev1.0"
+ 
+ /* -------------------------------------------------------------------------- */
+ /* --- PRIVATE VARIABLES ---------------------------------------------------- */
+diff -Nur sx1302-hal-2.1.0/libloragw/tst/test_loragw_hal_rx.c sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_hal_rx.c
+--- sx1302-hal-2.1.0/libloragw/tst/test_loragw_hal_rx.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_hal_rx.c	2023-09-27 18:40:21.088715759 +0800
+@@ -40,7 +40,7 @@
+ /* --- PRIVATE MACROS ------------------------------------------------------- */
+ 
+ #define COM_TYPE_DEFAULT LGW_COM_SPI
+-#define COM_PATH_DEFAULT "/dev/spidev0.0"
++#define COM_PATH_DEFAULT "/dev/spidev1.0"
+ 
+ #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+ #define RAND_RANGE(min, max) (rand() % (max + 1 - min) + min)
+diff -Nur sx1302-hal-2.1.0/libloragw/tst/test_loragw_hal_tx.c sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_hal_tx.c
+--- sx1302-hal-2.1.0/libloragw/tst/test_loragw_hal_tx.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_hal_tx.c	2023-09-27 18:40:21.088715759 +0800
+@@ -45,7 +45,7 @@
+ /* --- PRIVATE CONSTANTS ---------------------------------------------------- */
+ 
+ #define COM_TYPE_DEFAULT LGW_COM_SPI
+-#define COM_PATH_DEFAULT "/dev/spidev0.0"
++#define COM_PATH_DEFAULT "/dev/spidev1.0"
+ 
+ #define DEFAULT_CLK_SRC     0
+ #define DEFAULT_FREQ_HZ     868500000U
+diff -Nur sx1302-hal-2.1.0/libloragw/tst/test_loragw_reg.c sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_reg.c
+--- sx1302-hal-2.1.0/libloragw/tst/test_loragw_reg.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_reg.c	2023-09-27 18:40:21.088715759 +0800
+@@ -38,7 +38,7 @@
+ /* --- PRIVATE MACROS ------------------------------------------------------- */
+ 
+ #define COM_TYPE_DEFAULT LGW_COM_SPI
+-#define COM_PATH_DEFAULT "/dev/spidev0.0"
++#define COM_PATH_DEFAULT "/dev/spidev1.0"
+ 
+ /* -------------------------------------------------------------------------- */
+ /* --- PRIVATE CONSTANTS ---------------------------------------------------- */
+diff -Nur sx1302-hal-2.1.0/libloragw/tst/test_loragw_sx1261_rssi.c sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_sx1261_rssi.c
+--- sx1302-hal-2.1.0/libloragw/tst/test_loragw_sx1261_rssi.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/libloragw/tst/test_loragw_sx1261_rssi.c	2023-09-27 18:40:21.088715759 +0800
+@@ -45,7 +45,7 @@
+ #define BUFF_SIZE           16
+ 
+ #define COM_TYPE_DEFAULT    LGW_COM_SPI
+-#define COM_PATH_DEFAULT    "/dev/spidev0.0"
++#define COM_PATH_DEFAULT    "/dev/spidev1.0"
+ #define SX1261_PATH_DEFAULT "/dev/spidev0.1"
+ 
+ #define DEFAULT_FREQ_HZ     868500000U
+diff -Nur sx1302-hal-2.1.0/packet_forwarder/global_conf.json.sx1250.CN490 sx1302-hal-2.1.0.mod/packet_forwarder/global_conf.json.sx1250.CN490
+--- sx1302-hal-2.1.0/packet_forwarder/global_conf.json.sx1250.CN490	2023-09-27 18:26:05.085014591 +0800
++++ sx1302-hal-2.1.0.mod/packet_forwarder/global_conf.json.sx1250.CN490	2023-09-27 18:40:21.096715805 +0800
+@@ -1,7 +1,7 @@
+ {
+     "SX130x_conf": {
+         "com_type": "SPI",
+-        "com_path": "/dev/spidev0.0",
++        "com_path": "/dev/spidev1.0",
+         "lorawan_public": true,
+         "clksrc": 0,
+         "antenna_gain": 0, /* antenna gain, in dBi */
+diff -Nur sx1302-hal-2.1.0/packet_forwarder/global_conf.json.sx1250.EU868 sx1302-hal-2.1.0.mod/packet_forwarder/global_conf.json.sx1250.EU868
+--- sx1302-hal-2.1.0/packet_forwarder/global_conf.json.sx1250.EU868	2023-09-27 18:26:05.089014852 +0800
++++ sx1302-hal-2.1.0.mod/packet_forwarder/global_conf.json.sx1250.EU868	2023-09-27 18:40:21.096715805 +0800
+@@ -1,7 +1,7 @@
+ {
+     "SX130x_conf": {
+         "com_type": "SPI",
+-        "com_path": "/dev/spidev0.0",
++        "com_path": "/dev/spidev1.0",
+         "lorawan_public": true,
+         "clksrc": 0,
+         "antenna_gain": 0, /* antenna gain, in dBi */
+diff -Nur sx1302-hal-2.1.0/packet_forwarder/global_conf.json.sx1250.US915 sx1302-hal-2.1.0.mod/packet_forwarder/global_conf.json.sx1250.US915
+--- sx1302-hal-2.1.0/packet_forwarder/global_conf.json.sx1250.US915	2023-09-27 18:26:05.089014852 +0800
++++ sx1302-hal-2.1.0.mod/packet_forwarder/global_conf.json.sx1250.US915	2023-09-27 18:40:21.096715805 +0800
+@@ -1,7 +1,7 @@
+ {
+     "SX130x_conf": {
+         "com_type": "SPI",
+-        "com_path": "/dev/spidev0.0",
++        "com_path": "/dev/spidev1.0",
+         "lorawan_public": true,
+         "clksrc": 0,
+         "antenna_gain": 0, /* antenna gain, in dBi */
+diff -Nur sx1302-hal-2.1.0/packet_forwarder/global_conf.json.sx1255.CN490.full-duplex sx1302-hal-2.1.0.mod/packet_forwarder/global_conf.json.sx1255.CN490.full-duplex
+--- sx1302-hal-2.1.0/packet_forwarder/global_conf.json.sx1255.CN490.full-duplex	2023-09-27 18:26:05.089014852 +0800
++++ sx1302-hal-2.1.0.mod/packet_forwarder/global_conf.json.sx1255.CN490.full-duplex	2023-09-27 18:40:21.096715805 +0800
+@@ -1,7 +1,7 @@
+ {
+     "SX130x_conf": {
+         "com_type": "SPI",
+-        "com_path": "/dev/spidev0.0",
++        "com_path": "/dev/spidev1.0",
+         "lorawan_public": true,
+         "clksrc": 0,
+         "antenna_gain": 0, /* antenna gain, in dBi */
+diff -Nur sx1302-hal-2.1.0/packet_forwarder/global_conf.json.sx1257.EU868 sx1302-hal-2.1.0.mod/packet_forwarder/global_conf.json.sx1257.EU868
+--- sx1302-hal-2.1.0/packet_forwarder/global_conf.json.sx1257.EU868	2023-09-27 18:26:05.089014852 +0800
++++ sx1302-hal-2.1.0.mod/packet_forwarder/global_conf.json.sx1257.EU868	2023-09-27 18:40:21.096715805 +0800
+@@ -1,7 +1,7 @@
+ {
+     "SX130x_conf": {
+         "com_type": "SPI",
+-        "com_path": "/dev/spidev0.0",
++        "com_path": "/dev/spidev1.0",
+         "lorawan_public": true,
+         "clksrc": 0,
+         "antenna_gain": 0, /* antenna gain, in dBi */
+diff -Nur sx1302-hal-2.1.0/util_chip_id/src/chip_id.c sx1302-hal-2.1.0.mod/util_chip_id/src/chip_id.c
+--- sx1302-hal-2.1.0/util_chip_id/src/chip_id.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/util_chip_id/src/chip_id.c	2023-09-27 18:40:21.084715736 +0800
+@@ -47,7 +47,7 @@
+ /* --- PRIVATE CONSTANTS ---------------------------------------------------- */
+ 
+ #define COM_TYPE_DEFAULT    LGW_COM_SPI
+-#define COM_PATH_DEFAULT    "/dev/spidev0.0"
++#define COM_PATH_DEFAULT    "/dev/spidev1.0"
+ 
+ #define DEFAULT_CLK_SRC     0
+ #define DEFAULT_FREQ_HZ     868500000U
+diff -Nur sx1302-hal-2.1.0/util_spectral_scan/src/spectral_scan.c sx1302-hal-2.1.0.mod/util_spectral_scan/src/spectral_scan.c
+--- sx1302-hal-2.1.0/util_spectral_scan/src/spectral_scan.c	2021-04-22 20:34:46.000000000 +0800
++++ sx1302-hal-2.1.0.mod/util_spectral_scan/src/spectral_scan.c	2023-09-27 18:40:21.096715805 +0800
+@@ -44,7 +44,7 @@
+ /* --- PRIVATE CONSTANTS ---------------------------------------------------- */
+ 
+ #define COM_TYPE_DEFAULT    LGW_COM_SPI
+-#define COM_PATH_DEFAULT    "/dev/spidev0.0"
++#define COM_PATH_DEFAULT    "/dev/spidev1.0"
+ #define SX1261_PATH_DEFAULT "/dev/spidev0.1"
+ 
+ #define DEFAULT_CLK_SRC     0

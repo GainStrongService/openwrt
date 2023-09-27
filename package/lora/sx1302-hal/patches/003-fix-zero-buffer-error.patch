@@ -1,0 +1,14 @@
+--- sx1302-hal-hnt-2.1.0/libloragw/tst/test_loragw_com.c	2022-04-20 17:29:59.070042466 +0800
++++ sx1302-hal-hnt-2.1.0/libloragw/tst/test_loragw_com-mod.c	2022-04-20 17:30:46.221517568 +0800
+@@ -189,6 +189,11 @@
+          * ***********************************************/
+ 
+         size = rand() % max_buff_size;
++        if (size == 0) {
++            printf("!!!!!!!!!!!!!!出现缓冲区为0的情况");
++            size = max_buff_size;
++        }
++
+         for (i = 0; i < size; ++i) {
+             test_buff[i] = rand() & 0xFF;
+         }
