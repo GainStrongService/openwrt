@@ -89,6 +89,8 @@ endef
 
 include $(SUBTARGET).mk
 
+include gainstrong.mk
+
 ifeq ($(SUBTARGET),generic)
 include generic-tp-link.mk
 include generic-ubnt.mk
