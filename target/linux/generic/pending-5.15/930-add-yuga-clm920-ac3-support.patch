@@ -1,0 +1,23 @@
+--- linux-5.15.134/drivers/usb/serial/option.c	2023-10-10 14:28:46.779042184 +0800
++++ linux-5.15.134/drivers/usb/serial/option.c	2023-10-10 14:35:45.619110801 +0800
+@@ -536,6 +536,9 @@
+ #define YUGA_PRODUCT_CLU528			0x360D
+ #define YUGA_PRODUCT_CLU526			0x360F
+ 
++#define YUGA_VENDOR_AC3				0x1286
++#define YUGA_PRODUCT_AC3			0x4E3C
++
+ /* Viettel products */
+ #define VIETTEL_VENDOR_ID			0x2262
+ #define VIETTEL_PRODUCT_VT1000			0x0002
+@@ -1148,6 +1151,10 @@
+ 	/* Yuga products use Qualcomm vendor ID */
+ 	{ USB_DEVICE(QUALCOMM_VENDOR_ID, YUGA_PRODUCT_CLM920_NC5),
+ 	  .driver_info = RSVD(1) | RSVD(4) },
++
++	{ USB_DEVICE(YUGA_VENDOR_AC3, YUGA_PRODUCT_AC3),
++	  .driver_info = RSVD(0) | RSVD(1) },
++
+ 	/* u-blox products using Qualcomm vendor ID */
+ 	{ USB_DEVICE(QUALCOMM_VENDOR_ID, UBLOX_PRODUCT_R410M),
+ 	  .driver_info = RSVD(1) | RSVD(3) },
