@@ -165,6 +165,17 @@ define Device/nand
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
 
+define Device/gainstrong_oolite-v8.1
+  $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := Oolite V8.1
+  DEVICE_PACKAGES := kmod-mt7603 kmod-mt7615e kmod-mt7663-firmware-ap \
+    kmod-usb3 kmod-sdhci-mt7620
+  IMAGE_SIZE := 32448k
+endef
+TARGET_DEVICES += gainstrong_oolite-v8.1
+
 define Device/adslr_g7
   $(Device/dsa-migration)
   IMAGE_SIZE := 16064k
