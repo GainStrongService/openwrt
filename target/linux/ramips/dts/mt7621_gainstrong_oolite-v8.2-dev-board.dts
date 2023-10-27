@@ -1,0 +1,239 @@
+#include "mt7621.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+
+/ {
+	compatible = "gainstrong,oolite-v8.2-dev-board", "mediatek,mt7621-soc";
+	model = "GainStrong Oolite V8.2 Dev Board";
+
+	keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&gpio 27 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART>;
+		};
+
+		wps {
+			label = "wps";
+			gpios = <&gpio 29 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_WPS_BUTTON>;
+		};
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		system {
+			label = "green:system";
+			gpios = <&gpio 32 GPIO_ACTIVE_HIGH>;
+		};
+	};
+
+	gpio-export {
+		compatible = "gpio-export";
+
+		minipcie-power {
+			gpio-export,name = "minipcie-power";
+			gpio-export,output = <1>;
+			gpios = <&gpio 22 GPIO_ACTIVE_HIGH>;
+		};
+
+		minipcie1-enable {
+			gpio-export,name = "minipcie1-enable";
+			gpio-export,output = <1>;
+			gpios = <&gpio 25 GPIO_ACTIVE_HIGH>;
+		};
+
+		minipcie2-enable {
+			gpio-export,name = "minipcie2-enable";
+			gpio-export,output = <1>;
+			gpios = <&gpio 24 GPIO_ACTIVE_HIGH>;
+		};
+
+		minipcie1-sim-detect {
+			gpio-export,name = "minipcie1-sim-detect";
+			gpios = <&gpio 26 GPIO_ACTIVE_HIGH>;
+		};
+
+		minipcie2-sim-detect {
+			gpio-export,name = "minipcie2-sim-detect";
+			gpios = <&gpio 28 GPIO_ACTIVE_HIGH>;
+		};
+
+		minipcie2-lora-enable {
+			gpio-export,name = "minipcie2-lora-enable";
+			gpio-export,output = <1>;
+			gpios = <&gpio 31 GPIO_ACTIVE_HIGH>;
+		};
+	};
+
+	lora-spi-pcie2 {
+		compatible = "spi-gpio";
+		#address-cells = <1>;
+		gpio-mosi = <&gpio 13 0>;
+		gpio-miso = <&gpio 14 0>;
+		cs-gpios = <&gpio 15 0>;
+		gpio-sck = <&gpio 16 0>;
+		num-chipselects = <1>;
+		
+		spidev@0 {
+			#address-cells = <1>;
+			compatible = "linux,spidev";
+			spi-max-frequency = <1000000>;
+			reg = <0>;
+		};
+	};
+
+	watchdog {
+		compatible = "linux,wdt-gpio";
+		gpios = <&gpio 18 GPIO_ACTIVE_HIGH>;
+		hw_algo = "toggle";
+		hw_margin_ms = <200>;
+		always-running;
+	};
+};
+
+&sdhci {
+	status = "okay";
+};
+
+&spi0 {
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <40000000>;
+		m25p,fast-read;
+
+		partitions {
+			compatible = "gainstrong-dynamic-mtd";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "u-boot";
+				reg = <0x0 0x30000>;
+				read-only;
+			};
+
+			partition@30000 {
+				label = "u-boot-env";
+				reg = <0x30000 0x10000>;
+			};
+
+			factory: partition@40000 {
+				label = "factory";
+				reg = <0x40000 0x10000>;
+				read-only;
+			};
+
+			partition@50000 {
+				compatible = "denx,uimage";
+				label = "firmware";
+				dynamic-end;
+				reg = <0x50000 0x0>;
+			};
+
+			// Whole flash size, available for full flash backup
+			all {
+				label = "all";
+				reg = <0x0 0x0>;
+				read-only;
+			};
+
+		};
+	};
+};
+
+&pcie {
+	status = "okay";
+	reset-gpios =
+		// MT7915 reset
+		<&gpio 19 GPIO_ACTIVE_LOW>,
+	    <>,
+		// MiniPCIe Slot1 reset
+	    <&gpio 25 GPIO_ACTIVE_LOW>;
+};
+
+&pcie1 {
+	wifi@0,0 {
+		compatible = "mediatek,mt76";
+		reg = <0x0000 0 0 0 0>;
+		mediatek,mtd-eeprom = <&factory 0x0>;
+	};
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_wifi: macaddr@4 {
+		reg = <0x4 0x6>;
+	};
+};
+
+&ethernet {
+	pinctrl-0 = <&rgmii1_pins>;
+};
+
+&gmac0 {
+	nvmem-cells = <&macaddr_wifi>;
+	nvmem-cell-names = "mac-address";
+	mac-address-increment = <2>;
+};
+
+&switch0 {
+	ports {
+		port@0 {
+			status = "okay";
+			label = "wan";
+			nvmem-cells = <&macaddr_wifi>;
+			nvmem-cell-names = "mac-address";
+			mac-address-increment = <3>;
+		};
+
+		port@1 {
+			status = "okay";
+			label = "lan1";
+		};
+
+		port@2 {
+			status = "okay";
+			label = "lan2";
+		};
+
+		port@3 {
+			status = "okay";
+			label = "lan3";
+		};
+
+		port@4 {
+			status = "okay";
+			label = "lan4";
+		};
+	};
+};
+
+&state_default {
+	gpio {
+		groups = "jtag", "wdt", "rgmii2", "uart2", "i2c";
+		function = "gpio";
+	};
+};
+
+&uartlite2 {
+	status = "okay";
+};
+
+&uartlite3 {
+	status = "okay";
+};
+
+&i2c {
+	status = "okay";
+};
