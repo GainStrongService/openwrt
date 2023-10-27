@@ -1,0 +1,11 @@
+--- linux-5.15.134/net/core/dev.c
++++ linux-5.15.134/net/core/dev.c.mod
+@@ -1253,7 +1253,7 @@
+ 		return err;
+ 	}
+ 
+-	if (oldname[0] && !strchr(oldname, '%'))
++	if (oldname[0] && !strchr(oldname, '%') && !strstr(oldname, "ppp"))
+ 		netdev_info(dev, "renamed from %s%s\n", oldname,
+ 			    dev->flags & IFF_UP ? " (while UP)" : "");
+ 
