@@ -1,0 +1,30 @@
+--- linux-5.15.158/drivers/gpio/gpiolib.c	2024-05-28 10:53:18.250887668 +0800
++++ linux-5.15.158/drivers/gpio/gpiolib-mod.c	2024-05-28 13:34:53.098686475 +0800
+@@ -183,18 +183,20 @@
+ static int gpiochip_find_base(int ngpio)
+ {
+ 	struct gpio_device *gdev;
+-	int base = ARCH_NR_GPIOS - ngpio;
++	int base = 0;
+ 
+-	list_for_each_entry_reverse(gdev, &gpio_devices, list) {
++	/* GPIO numbers are changed by GainStrong to be allocated starting from 0 */
++	list_for_each_entry(gdev, &gpio_devices, list) {
++		pr_info("Checking GPIO device: base=%d, ngpio=%d\n", gdev->base, gdev->ngpio);
+ 		/* found a free space? */
+-		if (gdev->base + gdev->ngpio <= base)
++		if (base + ngpio <= gdev->base)
+ 			break;
+-		/* nope, check the space right before the chip */
+-		base = gdev->base - ngpio;
++		/* nope, check the space right after the chip */
++		base = gdev->base + gdev->ngpio;
+ 	}
+ 
+-	if (gpio_is_valid(base)) {
+-		pr_debug("%s: found new base at %d\n", __func__, base);
++	if (gpio_is_valid(base) && gpio_is_valid(base + ngpio - 1)) {
++		pr_info("%s: found new base at %d\n", __func__, base);
+ 		return base;
+ 	} else {
+ 		pr_err("%s: cannot find free range\n", __func__);
