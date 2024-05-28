@@ -1,0 +1,11 @@
+--- a/include/linux/gpio.h
++++ b/include/linux/gpio.h
+@@ -73,7 +73,7 @@ static inline bool gpio_is_valid(int num
+  * However, some legacy drivers still perform fixed allocation.
+  * Until they are all fixed, leave 0-512 space for them.
+  */
+-#define GPIO_DYNAMIC_BASE	512
++#define GPIO_DYNAMIC_BASE	0
+ 
+ /* Always use the library code for GPIO management calls,
+  * or when sleeping may be involved.
