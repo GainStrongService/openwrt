@@ -187,7 +187,7 @@ menu "Global build settings"
 		  Packages can opt-out via setting PKG_BUILD_FLAGS:=no-mold
 
 	config IPV6
-		def_bool y
+		def_bool n
 
 	comment "Stripping options"
 
