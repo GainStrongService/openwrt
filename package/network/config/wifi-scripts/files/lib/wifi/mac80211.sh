@@ -196,6 +196,11 @@ detect_mac80211() {
 				;;
 		esac
 
+		mac_last_4="$(awk -F ":" '{printf toupper($5$6)}' /sys/class/net/eth0/address)"
+		board_name=$(awk -F ',' '{print $2}' /tmp/sysinfo/board_name | awk -F "-" '{print $1"-"$2}')
+		ssid="${board_name}_${mac_last_4}"
+		ssid=$(echo $ssid | tr 'a-z' 'A-Z')
+
 		uci -q batch <<-EOF
 			set wireless.${name}=wifi-device
 			set wireless.${name}.type=mac80211
@@ -209,8 +214,16 @@ detect_mac80211() {
 			set wireless.default_${name}.device=${name}
 			set wireless.default_${name}.network=lan
 			set wireless.default_${name}.mode=ap
-			set wireless.default_${name}.ssid=OpenWrt
+			set wireless.default_${name}.ssid=${ssid}
 			set wireless.default_${name}.encryption=none
+
+			set wireless.pnmsta=wifi-iface
+			set wireless.pnmsta.device=${name}
+			set wireless.pnmsta.mode=sta
+			set wireless.pnmsta.network=wwan
+			set wireless.pnmsta.ssid=PNM_Device_Test
+			set wireless.pnmsta.key=Pnm@2022
+			set wireless.pnmsta.encryption=sae-mixed
 EOF
 		uci -q commit wireless
 	done
