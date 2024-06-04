@@ -1,0 +1,11 @@
+--- 6.6__sunxi__armhf/include/linux/gpio.h	2024-05-27 14:39:09.250565263 +0800
++++ 6.6__sunxi__armhf/include/linux/gpio-mod.h	2024-06-04 09:19:24.559011384 +0800
+@@ -73,7 +73,7 @@
+  * However, some legacy drivers still perform fixed allocation.
+  * Until they are all fixed, leave 0-512 space for them.
+  */
+-#define GPIO_DYNAMIC_BASE	512
++#define GPIO_DYNAMIC_BASE	0
+ 
+ /* Always use the library code for GPIO management calls,
+  * or when sleeping may be involved.
