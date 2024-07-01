@@ -77,6 +77,9 @@ mediatek_setup_interfaces()
 	bananapi,bpi-r4-poe)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 eth1" "wan eth2"
 		;;
+	gainstrong,oolite-mt7981b*)
+		ucidef_set_interfaces_lan_wan eth1 eth0
+		;;
 	comfast,cf-e393ax)
 		ucidef_set_interfaces_lan_wan "lan1" eth1
 		;;
@@ -167,6 +170,11 @@ mediatek_setup_macs()
 	bananapi,bpi-r3-mini|\
 	bananapi,bpi-r4)
 		wan_mac=$(macaddr_add $(cat /sys/class/net/eth0/address) 1)
+		;;
+	gainstrong,oolite-mt7981b-v1-*emmc*)
+		label_mac=$(mmc_get_mac_binary factory 0x4)
+		lan_mac=$(macaddr_add $label_mac 2)
+		wan_mac=$(macaddr_add $label_mac 3)
 		;;
 	h3c,magic-nx30-pro)
 		wan_mac=$(mtd_get_mac_ascii pdt_data_1 ethaddr)

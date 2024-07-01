@@ -1,0 +1,20 @@
+/dts-v1/;
+
+#include "mt7981b-gainstrong-oolite-mt7981b-v1.dtsi"
+#include "mt7981b-gainstrong-oolite-mt7981b-v1-mmc.dtsi"
+
+/ {
+	model = "GainStrong Oolite-MT7981B V1 SoM (SD Card boot)";
+	compatible = "gainstrong,oolite-mt7981b-v1-som-sdcard-boot", "mediatek,mt7981";
+
+	chosen {
+		bootargs-append = " root=PARTLABEL=rootfs rootwait";
+	};
+};
+
+&mmc0 {
+	bus-width = <4>;
+	cap-sd-highspeed;
+ 	/delete-property/ non-removable;
+	/delete-property/ cap-mmc-highspeed;
+};

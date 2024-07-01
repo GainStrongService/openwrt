@@ -135,6 +135,18 @@ platform_do_upgrade() {
 	wavlink,wl-wn573hx3)
 		default_do_upgrade "$1"
 		;;
+	gainstrong,oolite-mt7981b-v1-*nand*)
+		nand_do_upgrade "$1"
+		;;
+	gainstrong,oolite-mt7981b-v1-*emmc*|\
+	gainstrong,oolite-mt7981b-v1-*sdcard*)
+		CI_KERNPART="kernel"
+		CI_ROOTPART="rootfs"
+		emmc_do_upgrade "$1"
+		;;
+	gainstrong,oolite-mt7981b-v1-*nor*)
+		default_do_upgrade "$1"
+		;;
 	dlink,aquila-pro-ai-m30-a1|\
 	dlink,aquila-pro-ai-m60-a1)
 		fw_setenv sw_tryactive 0
