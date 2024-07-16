@@ -1,0 +1,13 @@
+--- linux-5.15.162/drivers/mtd/spi-nor/core.c	2024-07-16 15:04:54.618771395 +0800
++++ linux-5.15.162/drivers/mtd/spi-nor/core.c.mod	2024-07-16 15:18:20.586786490 +0800
+@@ -2859,8 +2859,10 @@
+ 		 * reboots (e.g., crashes). Warn the user (or hopefully, system
+ 		 * designer) that this is bad.
+ 		 */
++        /*
+ 		WARN_ONCE(nor->flags & SNOR_F_BROKEN_RESET,
+ 			  "enabling reset hack; may not recover from unexpected reboots\n");
++        */
+ 		nor->params->set_4byte_addr_mode(nor, true);
+ 	}
+ 
