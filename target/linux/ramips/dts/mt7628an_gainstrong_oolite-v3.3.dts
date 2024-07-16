@@ -36,8 +36,29 @@
 };
 
 &state_default {
+	/* 
+		Please refer to the MT7628 datasheet 
+		and code linux-5.15.158/drivers/pinctrl/ralink/pinctrl-mt7620.c 
+		for the following settings. 
+	*/
 	gpio {
-		groups = "wdt";
+		groups = 
+			"i2s",      // GPIO 0,1,2,3
+			"i2c",      // GPIO 4,5 
+			"spi cs1",  // GPIO 6
+			"gpio",     // GPIO 11
+			"pwm0",     // GPIO 18
+			"pwm1",     // GPIO 19
+			"uart2",    // GPIO 20,21
+			"refclk",   // GPIO 37
+			"wdt",      // GPIO 38
+			"p4led_an", // GPIO 39
+			"p3led_an", // GPIO 40
+			"p2led_an", // GPIO 41
+			"p1led_an", // GPIO 42
+			"p0led_an", // GPIO 43
+			"wled",     // GPIO 44
+			"uart1";    // GPIO 45,46
 		function = "gpio";
 	};
 };
