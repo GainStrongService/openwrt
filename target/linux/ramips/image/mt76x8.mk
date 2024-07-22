@@ -28,6 +28,13 @@ define Build/ravpower-wd009-factory
 	@mv $@.new $@
 endef
 
+define Device/gainstrong_oolite-v3.3
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := Oolite V3.3
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-storage
+  IMAGE_SIZE := 32448k
+endef
+TARGET_DEVICES += gainstrong_oolite-v3.3
 
 define Device/alfa-network_awusfree1
   IMAGE_SIZE := 7872k
