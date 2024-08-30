@@ -95,7 +95,7 @@
 
 &state_default {
 	gpio {
-		groups = "wled";
+		groups = "ephy", "wled";
 		function = "gpio";
 	};
 };
