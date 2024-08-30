@@ -10,6 +10,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+patch -fp1 < 0001-Remove-luci-proto-ipv6-depend.patch
+
 make defconfig
 make package/busybox/clean
 make -j8 V=sc
