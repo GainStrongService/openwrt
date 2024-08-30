@@ -19,7 +19,7 @@
 
 		reset {
 			label = "reset";
-			gpios = <&gpio2 3 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_RESTART>;
 		};
 	};
@@ -95,7 +95,7 @@
 
 &state_default {
 	gpio {
-		groups = "ephy", "wled";
+		groups = "wled", "wdt";
 		function = "gpio";
 	};
 };
