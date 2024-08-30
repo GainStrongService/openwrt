@@ -75,6 +75,7 @@ ramips_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"1:lan" "2:lan" "3:lan" "4:lan" "6t@eth0"
 		;;
+	oolite,mt7620a|\
 	asus,rt-ac51u|\
 	asus,rt-ac54u|\
 	asus,rt-n14u|\
