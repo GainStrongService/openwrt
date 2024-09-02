@@ -230,6 +230,10 @@ define Package/dropbear/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_DATA) ./files/dropbear.defaults $(1)/etc/uci-defaults/50-dropbear
 	$(foreach f,$(filter /etc/dropbear/%,$(Package/dropbear/conffiles)),$(if $(wildcard $(TOPDIR)/files/$(f)),chmod 0600 $(TOPDIR)/files/$(f) || :; ))
+	$(INSTALL_CONF) ./files/dropbear_ed25519_host_key $(1)/etc/dropbear/dropbear_ed25519_host_key
+	$(INSTALL_CONF) ./files/dropbear_rsa_host_key $(1)/etc/dropbear/dropbear_rsa_host_key
+	chmod 0600 $(1)/etc/dropbear//dropbear_ed25519_host_key
+	chmod 0600 $(1)/etc/dropbear/dropbear_rsa_host_key
 endef
 
 define Package/dropbearconvert/install
