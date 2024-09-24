@@ -73,6 +73,11 @@ EOF
 
   # Execute the build commands
   make package/symlinks
+  if [ $? -ne 0 ]; then
+      echo "Error: Package feeds update failed, please try again."
+      exit 1
+  fi
+
   make defconfig
   make -j8 V=sc
 }
