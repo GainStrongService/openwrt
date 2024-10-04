@@ -41,7 +41,7 @@
 &eth0 {
 	status = "okay";
 
-	nvmem-cells = <&macaddr_art_1002>;
+	nvmem-cells = <&macaddr_mac_part_0>;
 	nvmem-cell-names = "mac-address";
     mac-address-increment = <1>;
 };
@@ -49,7 +49,7 @@
 &eth1 {
 	status = "okay";
 
-	nvmem-cells = <&macaddr_art_1002>;
+	nvmem-cells = <&macaddr_mac_part_0>;
 	nvmem-cell-names = "mac-address";
     mac-address-increment = <2>;
 };
@@ -70,33 +70,35 @@
 			uboot: partition@0 {
 				label = "u-boot";
 				reg = <0x000000 0x020000>;
-				//read-only;
+				read-only;
 			};
 
 			firmware: partition@20000 {
 				label = "firmware";
-				reg = <0x020000 0xfd0000>;
+				reg = <0x020000 0xfb0000>;
 				compatible = "tplink,firmware";
 			};
 
-			env: partition@env {
+			env: partition@fd0000 {
 				label = "u-boot-env";
+	            reg = <0xfd0000 0x10000>;
+			};
+
+			mac_part: partition@fe0000 {
+				label = "mac-address";
 	            reg = <0xfe0000 0x10000>;
 			};
 
-			art: partition@art {
+			art: partition@ff0000 {
 				label = "art";
 	            reg = <0xff0000 0x10000>;
+				read-only;
 			};
     
-			unused {
-				label = "unused";
-	            reg = <0x1000000 0x0>;
-			};
-
 			partition@all {
 	            reg = <0x0 0x0>;
 				label = "all";
+				read-only;
 			};
 		};
 	};
@@ -114,14 +116,16 @@
 &wmac {
 	status = "okay";
 	mtd-cal-data = <&art 0x1000>;
+	nvmem-cells = <&macaddr_mac_part_0>;
+	nvmem-cell-names = "mac-address";
 };
 
-&art {
+&mac_part {
 	compatible = "nvmem-cells";
 	#address-cells = <1>;
 	#size-cells = <1>;
 
-	macaddr_art_1002: macaddr@1002 {
-		reg = <0x1002 0x6>;
+	macaddr_mac_part_0: macaddr@0 {
+		reg = <0x0 0x6>;
 	};
 };
