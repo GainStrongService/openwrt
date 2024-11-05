@@ -44,6 +44,7 @@ for (let phy_name, phy in board.wlan) {
 
 		let s = "wireless." + name;
 		let si = "wireless.default_" + name;
+		let sta = "wireless.sta_" + name;
 
 		let band_name = filter(bands_order, (b) => radio.bands[b])[0];
 		if (!band_name)
@@ -90,6 +91,15 @@ for (let phy_name, phy in board.wlan) {
 		if (length(info.radios) > 0)
 			id += `\nset ${s}.radio='${radio.index}'`;
 
+		if (band_name == "6g") {
+			band_name = "5g";
+			channel = 36;
+		}
+
+		let mac_last_4 = uc(trim(substr(replace(readfile("/sys/class/net/eth0/address"), ":", ""), -5)));
+		let board_name = "MiniBox-V1";
+		let ssid = `${board_name}-${mac_last_4}_${uc(band_name)}`;
+
 		print(`set ${s}=wifi-device
 set ${s}.type='mac80211'
 set ${s}.${id}
@@ -98,15 +108,22 @@ set ${s}.channel='${channel}'
 set ${s}.htmode='${htmode}'
 set ${s}.country='${country || ''}'
 set ${s}.num_global_macaddr='${num_global_macaddr || ''}'
-set ${s}.disabled='${defaults ? 0 : 1}'
 
 set ${si}=wifi-iface
 set ${si}.device='${name}'
 set ${si}.network='lan'
 set ${si}.mode='ap'
-set ${si}.ssid='${defaults?.ssid || "OpenWrt"}'
-set ${si}.encryption='${defaults?.encryption || "none"}'
-set ${si}.key='${defaults?.key || ""}'
+set ${si}.ssid='${ssid}'
+set ${si}.encryption='none'
+set ${si}.key=''
+
+set ${sta}=wifi-iface
+set ${sta}.device=${name}
+set ${sta}.mode=sta
+set ${sta}.network=wwan_${lc(band_name)}
+set ${sta}.ssid=test_${band_name}
+set ${sta}.key=testpassword
+set ${sta}.encryption=sae-mixed
 
 `);
 		config[name] = {};
