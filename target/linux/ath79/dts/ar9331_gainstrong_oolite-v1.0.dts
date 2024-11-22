@@ -104,10 +104,10 @@
 
 &usb {
 	status = "okay";
+	dr_mode = "peripheral";
 };
 
 &usb_phy {
-	dr_mode = "host";
 	status = "okay";
 };
 
