@@ -78,6 +78,15 @@ for (let phy_name, phy in board.wlan) {
 
 		band_name = lc(band_name);
 
+		// Get last 4 digits of phy0 MAC address for SSID
+		let phy0_macaddr = trim(readfile(`/sys/class/ieee80211/phy0/macaddress`));
+		let mac_suffix = "";
+		if (phy0_macaddr) {
+			let mac_clean = replace(phy0_macaddr, ":", "");
+			if (length(mac_clean) >= 4)
+				mac_suffix = uc(substr(mac_clean, -4));
+		}
+
 		let country, defaults, num_global_macaddr;
 		if (board.wlan.defaults) {
 			defaults = board.wlan.defaults.ssids?.[band_name]?.ssid ? board.wlan.defaults.ssids?.[band_name] : board.wlan.defaults.ssids?.all;
@@ -98,13 +107,13 @@ set ${s}.channel='${channel}'
 set ${s}.htmode='${htmode}'
 set ${s}.country='${country || ''}'
 set ${s}.num_global_macaddr='${num_global_macaddr || ''}'
-set ${s}.disabled='${defaults ? 0 : 1}'
+set ${s}.disabled='0'
 
 set ${si}=wifi-iface
 set ${si}.device='${name}'
 set ${si}.network='lan'
 set ${si}.mode='ap'
-set ${si}.ssid='${defaults?.ssid || "OpenWrt"}'
+set ${si}.ssid='Oolite-V1_${mac_suffix}'
 set ${si}.encryption='${defaults?.encryption || "none"}'
 set ${si}.key='${defaults?.key || ""}'
 
