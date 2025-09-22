@@ -90,6 +90,10 @@ for (let phy_name, phy in board.wlan) {
 		if (length(info.radios) > 0)
 			id += `\nset ${s}.radio='${radio.index}'`;
 
+		let mac_suffix = uc(trim(substr(replace(readfile("/sys/class/net/eth0/address"), ":", ""), -5)));
+		let board_name = replace(trim(split(split(readfile("/etc/openwrt_release"), "DISTRIB_ID=")[1], "\n")[0], "'"), " ", "-");
+		let ssid = `${board_name}_${mac_suffix}`;
+
 		print(`set ${s}=wifi-device
 set ${s}.type='mac80211'
 set ${s}.${id}
@@ -98,13 +102,12 @@ set ${s}.channel='${channel}'
 set ${s}.htmode='${htmode}'
 set ${s}.country='${country || ''}'
 set ${s}.num_global_macaddr='${num_global_macaddr || ''}'
-set ${s}.disabled='${defaults ? 0 : 1}'
 
 set ${si}=wifi-iface
 set ${si}.device='${name}'
 set ${si}.network='lan'
 set ${si}.mode='ap'
-set ${si}.ssid='${defaults?.ssid || "OpenWrt"}'
+set ${si}.ssid='${ssid}'
 set ${si}.encryption='${defaults?.encryption || "none"}'
 set ${si}.key='${defaults?.key || ""}'
 
