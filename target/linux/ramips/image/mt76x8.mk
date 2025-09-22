@@ -238,6 +238,14 @@ define Device/elecom_wrc-1167fs
 endef
 TARGET_DEVICES += elecom_wrc-1167fs
 
+define Device/gainstrong_oolite-v3.x
+  IMAGE_SIZE := 32448k
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := Oolite V3.X
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci kmod-sdhci-mt7620
+endef
+TARGET_DEVICES += gainstrong_oolite-v3.x
+
 define Device/glinet_gl-mt300n-v2
   IMAGE_SIZE := 16064k
   DEVICE_VENDOR := GL.iNet
