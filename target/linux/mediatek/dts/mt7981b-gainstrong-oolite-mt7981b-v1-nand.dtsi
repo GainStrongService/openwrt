@@ -62,6 +62,64 @@
 	};
 };
 
+&spi2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi2_flash_pins>;
+	status = "okay";
+	spi_nor@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <52000000>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			// The bootloader partition, consisting of two sub-partitions:
+			// ATF (including BL2, FIP metadata, and BL31) and U-Boot.
+			// Updating the bootloader will update both ATF and U-Boot simultaneously.
+			nor_bootloader {
+				label = "nor_bootloader";
+				reg = <0x0 0x160000>; // 1408KB
+			};
+
+			// The ARM Trusted Firmware (ATF) partition, including:
+			// BL2, FIP metadata, and BL31
+			nor_bootloader_atf {
+				label = "ATF";
+				reg = <0x0 0x60000>; // 384KB
+			};
+
+			// The Universal Boot Loader (U-Boot) partition
+			nor_bootloader_uboot {
+				label = "nor_U-Boot";
+				reg = <0x60000 0x100000>; // 1MB
+			};
+
+			nor_ubootenv {
+				label = "nor_u-boot-env";
+				reg = <0x160000 0x10000>;  // 64KB
+			};
+
+			nor_factory: factory {
+				label = "nor_factory";
+				reg = <0x170000 0x10000>;  // 64KB
+			};
+
+			nor_firmware {
+				label = "nor_firmware";
+				reg = <0x180000 0x0>;
+			};
+
+			nor_all {
+				label = "nor_all";
+				reg = <0 0>; // full flash
+			};
+		};
+	};
+};
+
 &pio {
 	spi0_flash_pins: spi0-pins {
 		mux {
@@ -77,6 +135,25 @@
 
 		conf-pd {
 			pins = "SPI0_CLK", "SPI0_MOSI", "SPI0_MISO";
+			drive-strength = <MTK_DRIVE_8mA>;
+			bias-pull-down = <MTK_PUPD_SET_R1R0_11>;
+		};
+	};
+
+	spi2_flash_pins: spi2-pins {
+		mux {
+			function = "spi";
+			groups = "spi2", "spi2_wp_hold";
+		};
+
+		conf-pu {
+			pins = "SPI2_CS", "SPI2_HOLD", "SPI2_WP";
+			drive-strength = <MTK_DRIVE_8mA>;
+			bias-pull-up = <MTK_PUPD_SET_R1R0_11>;
+		};
+
+		conf-pd {
+			pins = "SPI2_CLK", "SPI2_MOSI", "SPI2_MISO";
 			drive-strength = <MTK_DRIVE_8mA>;
 			bias-pull-down = <MTK_PUPD_SET_R1R0_11>;
 		};
