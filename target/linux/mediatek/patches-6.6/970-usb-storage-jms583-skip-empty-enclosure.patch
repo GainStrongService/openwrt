@@ -1,0 +1,73 @@
+--- a/drivers/usb/storage/scsiglue.c
++++ b/drivers/usb/storage/scsiglue.c
+@@ -30,6 +30,8 @@
+ 
+ #include <linux/blkdev.h>
+ #include <linux/dma-mapping.h>
++#include <linux/delay.h>
++#include <linux/jiffies.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ 
+@@ -68,6 +70,61 @@
+ static int slave_alloc (struct scsi_device *sdev)
+ {
+ 	struct us_data *us = host_to_us(sdev->host);
++	unsigned int vid, pid;
++
++	/*
++	 * JMS583 empty enclosure quirk:
++	 * When no NVMe is installed, it still exposes a Direct-Access LUN and
++	 * replies NOT READY with vendor-specific ASC/ASCQ 0x44/0x81. This can
++	 * cause long retry loops and high IO wait. Detect early and skip.
++	 */
++	if (us && us->pusb_dev) {
++		vid = le16_to_cpu(us->pusb_dev->descriptor.idVendor);
++		pid = le16_to_cpu(us->pusb_dev->descriptor.idProduct);
++
++		if (vid == 0x152d && pid == 0x0583) {
++			unsigned char cmd[10] = { READ_CAPACITY, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
++			u8 buf[8] = { 0, };
++			struct scsi_sense_hdr sshdr = { 0, };
++			const struct scsi_exec_args exec_args = {
++				.sshdr = &sshdr,
++			};
++			int result, i;
++
++			/*
++			 * Note: on some hosts/kernels (e.g. UAS on Ubuntu) the same
++			 * empty JMS583 enclosure reports ASC/ASCQ 0x44/0x81 with
++			 * sense_key = HARDWARE_ERROR (0x4) instead of NOT_READY.
++			 * Therefore match by ASC/ASCQ and don't depend on sense_key.
++			 *
++			 * Also, even with a real NVMe inserted, the bridge may transiently
++			 * return 44/81 during early init. Retry a few times with short
++			 * sleeps; only skip if it persists.
++			 */
++			for (i = 0; i < 3; i++) {
++				memset(&sshdr, 0, sizeof(sshdr));
++				result = scsi_execute_cmd(sdev, cmd, REQ_OP_DRV_IN,
++							  buf, sizeof(buf),
++							  2 * HZ, 0, &exec_args);
++				if (!result)
++					break;
++				if ((scsi_sense_valid(&sshdr) &&
++				     sshdr.asc == 0x44 && sshdr.ascq == 0x81) ||
++				    host_byte(result) == DID_TIME_OUT ||
++				    host_byte(result) == DID_ERROR) {
++					if (i < 2) {
++						msleep(500);
++						continue;
++					}
++					dev_info(&sdev->sdev_gendev,
++						"JMS583 empty enclosure detected (no NVMe), skipping\n");
++					return -ENXIO;
++				}
++				break;
++			}
++		}
++	}
++
+ 
+ 	/*
+ 	 * Set the INQUIRY transfer length to 36.  We don't use any of
