@@ -11,3 +11,10 @@
 	compatible = "gainstrong,oolite-mt7981b-v1-dev-board-nor-boot", "mediatek,mt7981";
 
 };
+
+&mmc0 {
+	bus-width = <4>;
+	cap-sd-highspeed;
+ 	/delete-property/ non-removable;
+	/delete-property/ cap-mmc-highspeed;
+};
