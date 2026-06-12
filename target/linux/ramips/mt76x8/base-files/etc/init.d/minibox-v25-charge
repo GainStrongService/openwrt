@@ -1,0 +1,13 @@
+#!/bin/sh /etc/rc.common
+
+START=96
+
+boot()
+{
+	/usr/sbin/minibox-v25-charge-set
+}
+
+start()
+{
+	boot
+}

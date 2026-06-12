@@ -1,0 +1,87 @@
+#!/bin/sh
+
+. /lib/functions/system.sh
+
+[ "$(board_name)" = "gainstrong,minibox-v2.5" ] || exit 0
+
+bus="${MINIBOX_V25_CHARGER_BUS:-0}"
+addr="${MINIBOX_V25_CHARGER_ADDR:-0x4b}"
+dev="/dev/i2c-${bus}"
+dt_reset_prop=""
+dt_init_prop=""
+
+log()
+{
+	logger -t minibox-v25-charge "$*"
+}
+
+if ! command -v i2cset >/dev/null 2>&1; then
+	log "i2cset is not available"
+	exit 1
+fi
+
+tries=20
+while [ ! -e "$dev" ] && [ "$tries" -gt 0 ]; do
+	sleep 1
+	tries=$((tries - 1))
+done
+
+if [ ! -e "$dev" ]; then
+	log "$dev is not available"
+	exit 1
+fi
+
+write_reg()
+{
+	i2cset -y "$bus" "$addr" "$1" "$2"
+}
+
+find_dt_props()
+{
+	local prop
+
+	for prop in $(find /proc/device-tree -path "*/charger@4b/gainstrong,charger-reset-reg" 2>/dev/null); do
+		dt_reset_prop="$prop"
+		break
+	done
+
+	for prop in $(find /proc/device-tree -path "*/charger@4b/gainstrong,charger-init-regs" 2>/dev/null); do
+		dt_init_prop="$prop"
+		break
+	done
+}
+
+write_dt_pairs()
+{
+	local bytes
+
+	[ -s "$1" ] || return 1
+
+	bytes="$(hexdump -v -e '1/1 "%02x "' "$1" 2>/dev/null)" || return 1
+	set -- $bytes
+
+	while [ "$#" -ge 2 ]; do
+		write_reg "0x$1" "0x$2" || return 1
+		shift 2
+	done
+
+	[ "$#" -eq 0 ]
+}
+
+# The charger does not keep these settings across power loss.
+find_dt_props
+
+if [ -n "$dt_reset_prop" ] && [ -n "$dt_init_prop" ]; then
+	write_dt_pairs "$dt_reset_prop" || exit 1
+	sleep 1
+	write_dt_pairs "$dt_init_prop" || exit 1
+else
+	write_reg 0x01 0x86 || exit 1
+	sleep 1
+	write_reg 0x01 0x0a || exit 1
+	write_reg 0x05 0xa0 || exit 1
+	write_reg 0x00 0x60 || exit 1
+	write_reg 0x08 0x85 || exit 1
+fi
+
+log "applied charger defaults"

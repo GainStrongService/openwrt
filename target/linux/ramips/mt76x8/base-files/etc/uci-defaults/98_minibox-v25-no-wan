@@ -1,0 +1,53 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /lib/functions/system.sh
+
+[ "$(board_name)" = "gainstrong,minibox-v2.5" ] || exit 0
+
+network_changed=0
+firewall_changed=0
+
+if uci -q delete network.wan; then
+	network_changed=1
+fi
+
+if uci -q delete network.wan6; then
+	network_changed=1
+fi
+
+delete_wan_zone() {
+	local section="$1"
+	local name
+
+	config_get name "$section" name
+	[ "$name" = "wan" ] || return 0
+
+	if uci -q delete "firewall.$section"; then
+		firewall_changed=1
+	fi
+}
+
+delete_wan_ref() {
+	local section="$1"
+	local src dest
+
+	config_get src "$section" src
+	config_get dest "$section" dest
+
+	[ "$src" = "wan" ] || [ "$dest" = "wan" ] || return 0
+
+	if uci -q delete "firewall.$section"; then
+		firewall_changed=1
+	fi
+}
+
+config_load firewall
+config_foreach delete_wan_zone zone
+config_foreach delete_wan_ref forwarding
+config_foreach delete_wan_ref rule
+
+[ "$network_changed" = "1" ] && uci -q commit network
+[ "$firewall_changed" = "1" ] && uci -q commit firewall
+
+exit 0

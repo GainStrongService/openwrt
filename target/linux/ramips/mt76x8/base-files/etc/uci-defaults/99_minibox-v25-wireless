@@ -1,0 +1,77 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /lib/functions/system.sh
+
+[ "$(board_name)" = "gainstrong,minibox-v2.5" ] || exit 0
+
+if [ ! -s /etc/config/wireless ]; then
+	command -v wifi >/dev/null 2>&1 && wifi config >/dev/null 2>&1 || true
+fi
+
+[ -s /etc/config/wireless ] || exit 0
+
+label_mac="$(get_mac_label)"
+[ -n "$label_mac" ] || label_mac="$(cat /sys/class/net/eth0/address 2>/dev/null)"
+ssid_suffix="$(printf "%s" "$label_mac" | tr -d ':' | tail -c 4 | tr 'abcdef' 'ABCDEF')"
+
+[ -n "$ssid_suffix" ] || exit 0
+
+changed=0
+
+enable_minibox_v25_ap() {
+	local section="$1"
+	local mode device band ssid
+
+	config_get mode "$section" mode
+	[ "$mode" = "ap" ] || return 0
+
+	config_get device "$section" device
+	[ -n "$device" ] || return 0
+
+	band="$(uci -q get "wireless.${device}.band")"
+	case "$band" in
+	2g)
+		ssid="Minibox-V2.5-${ssid_suffix}-2G"
+		;;
+	5g)
+		ssid="Minibox-V2.5-${ssid_suffix}-5G"
+		if [ "$(uci -q get "wireless.${device}.channel")" != "36" ]; then
+			uci -q set "wireless.${device}.channel=36"
+			changed=1
+		fi
+		;;
+	*)
+		return 0
+		;;
+	esac
+
+	if [ "$(uci -q get "wireless.${device}.disabled")" != "0" ]; then
+		uci -q set "wireless.${device}.disabled=0"
+		changed=1
+	fi
+
+	if [ "$(uci -q get "wireless.${section}.disabled")" != "0" ]; then
+		uci -q set "wireless.${section}.disabled=0"
+		changed=1
+	fi
+
+	if [ "$(uci -q get "wireless.${section}.ssid")" != "$ssid" ]; then
+		uci -q set "wireless.${section}.ssid=$ssid"
+		changed=1
+	fi
+
+	if [ "$(uci -q get "wireless.${section}.encryption")" != "none" ]; then
+		uci -q set "wireless.${section}.encryption=none"
+		changed=1
+	fi
+}
+
+config_load wireless
+config_foreach enable_minibox_v25_ap wifi-iface
+
+if [ "$changed" = "1" ]; then
+	uci -q commit wireless
+fi
+
+exit 0

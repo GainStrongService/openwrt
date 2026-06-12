@@ -1,0 +1,255 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+
+#include "mt7628an.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/leds/common.h>
+
+/ {
+	compatible = "gainstrong,minibox-v2.5", "mediatek,mt7628an-soc";
+	model = "GainStrong Minibox V2.5";
+
+	chosen {
+		bootargs = "console=ttyS0,57600";
+	};
+
+	aliases {
+		led-boot = &led_power_green;
+		led-failsafe = &led_power_green;
+		led-running = &led_power_green;
+		led-upgrade = &led_power_green;
+		label-mac-device = &wmac;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		ethernet {
+			function = LED_FUNCTION_LAN;
+			color = <LED_COLOR_ID_GREEN>;
+			gpios = <&gpio 3 GPIO_ACTIVE_LOW>;
+		};
+
+		wifi_5g {
+			function = LED_FUNCTION_WLAN_5GHZ;
+			color = <LED_COLOR_ID_GREEN>;
+			gpios = <&gpio 46 GPIO_ACTIVE_LOW>;
+		};
+
+		wifi_2g {
+			function = LED_FUNCTION_WLAN_2GHZ;
+			color = <LED_COLOR_ID_GREEN>;
+			gpios = <&gpio 44 GPIO_ACTIVE_LOW>;
+		};
+
+		usb {
+			function = LED_FUNCTION_USB;
+			color = <LED_COLOR_ID_GREEN>;
+			gpios = <&gpio 0 GPIO_ACTIVE_LOW>;
+			trigger-sources = <&ohci_port1>, <&ehci_port1>;
+			linux,default-trigger = "usbport";
+		};
+
+		sdcard {
+			function = LED_FUNCTION_SD;
+			color = <LED_COLOR_ID_GREEN>;
+			gpios = <&gpio 37 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+
+		led_power_green: power_green {
+			function = LED_FUNCTION_POWER;
+			color = <LED_COLOR_ID_GREEN>;
+			gpios = <&gpio 39 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+
+		power_red {
+			function = LED_FUNCTION_POWER;
+			color = <LED_COLOR_ID_RED>;
+			gpios = <&gpio 2 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	gpio_export {
+		compatible = "gpio-export";
+		#size-cells = <0>;
+
+		usbpower {
+			gpio-export,name = "usbpower";
+			gpio-export,output = <1>;
+			gpios = <&gpio 11 GPIO_ACTIVE_HIGH>;
+		};
+
+		power_control {
+			gpio-export,name = "power_control";
+			gpio-export,output = <1>;
+			gpios = <&gpio 43 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&gpio 38 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART>;
+		};
+
+		power {
+			label = "power";
+			gpios = <&gpio 40 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_POWER>;
+		};
+	};
+
+};
+
+&state_default {
+	gpio {
+		groups = "gpio", "i2s", "uart1", "refclk", "p0led_an",
+			 "p1led_an", "p2led_an", "p3led_an", "p4led_an",
+			 "wled_an";
+		function = "gpio";
+	};
+};
+
+&ehci {
+	status = "okay";
+};
+
+&ohci {
+	status = "okay";
+};
+
+&spi0 {
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <40000000>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "u-boot";
+				reg = <0x0 0x30000>;
+				read-only;
+			};
+
+			partition@30000 {
+				label = "u-boot-env";
+				reg = <0x30000 0x10000>;
+			};
+
+			partition@40000 {
+				label = "factory";
+				reg = <0x40000 0x10000>;
+				read-only;
+
+				nvmem-layout {
+					compatible = "fixed-layout";
+					#address-cells = <1>;
+					#size-cells = <1>;
+
+					eeprom_factory_0: eeprom@0 {
+						reg = <0x0 0x400>;
+					};
+
+					macaddr_factory_4: macaddr@4 {
+						compatible = "mac-base";
+						reg = <0x4 0x6>;
+						#nvmem-cell-cells = <1>;
+					};
+
+					eeprom_factory_8000: eeprom@8000 {
+						reg = <0x8000 0x4da8>;
+					};
+				};
+			};
+
+			partition@50000 {
+				compatible = "denx,uimage";
+				label = "firmware";
+				reg = <0x50000 0x0>;
+			};
+		};
+	};
+};
+
+&ethernet {
+	nvmem-cells = <&macaddr_factory_4 1>;
+	nvmem-cell-names = "mac-address";
+};
+
+&wmac {
+	status = "okay";
+
+	nvmem-cells = <&eeprom_factory_0>, <&macaddr_factory_4 0>;
+	nvmem-cell-names = "eeprom", "mac-address";
+};
+
+&pcie {
+	status = "okay";
+};
+
+&pcie0 {
+	wifi@0,0 {
+		compatible = "mediatek,mt76";
+		reg = <0x0000 0 0 0 0>;
+		nvmem-cells = <&eeprom_factory_8000>, <&macaddr_factory_4 3>;
+		nvmem-cell-names = "eeprom", "mac-address";
+		ieee80211-freq-limit = <5000000 6000000>;
+	};
+};
+
+&i2c {
+	status = "okay";
+	clock-frequency = <100000>;
+
+	fuel-gauge@55 {
+		compatible = "ti,bq27546";
+		reg = <0x55>;
+	};
+
+	charger@4b {
+		compatible = "mps,mp2624";
+		reg = <0x4b>;
+		gainstrong,charger-reset-reg = /bits/ 8 <0x01 0x86>;
+		gainstrong,charger-init-regs = /bits/ 8 <
+			0x01 0x0a
+			0x05 0xa0
+			0x00 0x60
+			0x08 0x85
+		>;
+
+		regulators {
+			vsys_reg: vsys-regulator {
+				regulator-compatible = "bq2429x-vsys";
+				regulator-name = "vsys";
+				regulator-min-microvolt = <3500000>;
+				regulator-max-microvolt = <4200000>;
+				regulator-always-on;
+				regulator-boot-on;
+			};
+
+			otg_reg: otg-regulator {
+				regulator-compatible = "bq2429x-otg";
+				regulator-name = "otg";
+				regulator-min-microvolt = <4900000>;
+				regulator-max-microvolt = <5100000>;
+			};
+		};
+	};
+
+	cryptoauth@64 {
+		compatible = "atmel,atsha204a";
+		reg = <0x64>;
+	};
+};

@@ -318,6 +318,18 @@ define Device/glinet_vixmini
 endef
 TARGET_DEVICES += glinet_vixmini
 
+define Device/gainstrong_minibox-v25
+  IMAGE_SIZE := 16064k
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := Minibox V2.5
+  SUPPORTED_DEVICES := gainstrong,minibox-v2.5
+  DEVICE_PACKAGES := kmod-mt7615e kmod-mt7663-firmware-ap \
+	kmod-usb2 kmod-usb-ohci kmod-usb-storage kmod-usb-storage-uas \
+	kmod-i2c-mt7628 kmod-battery-bq27xxx kmod-crypto-hw-atmel \
+	i2c-tools bqtool
+endef
+TARGET_DEVICES += gainstrong_minibox-v25
+
 define Device/hak5_wifi-pineapple-mk7
   IMAGE_SIZE := 32448k
   DEVICE_VENDOR := Hak5

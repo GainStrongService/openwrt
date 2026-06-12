@@ -1,0 +1,56 @@
+#!/bin/sh
+
+. /lib/functions/system.sh
+
+[ "$(board_name)" = "gainstrong,minibox-v2.5" ] || {
+	echo "This command is only for GainStrong Minibox V2.5." >&2
+	exit 1
+}
+
+battery_dir="/usr/share/minibox-v25/battery"
+bqfs_file="${battery_dir}/0546_2_01-bq27546G1.bq.fs"
+
+usage()
+{
+	cat <<EOF
+Usage: $(basename "$0") [<bqfs-file>]
+
+Flash the Minibox V2.5 BQ27546 fuel-gauge configuration.
+
+With no argument, this command flashes the packaged BQFS profile.
+EOF
+}
+
+case "${1:-}" in
+"" )
+	;;
+-h|--help)
+	usage
+	exit 0
+	;;
+*)
+	bqfs_file="$1"
+	;;
+esac
+
+if ! command -v bqtool >/dev/null 2>&1; then
+	echo "bqtool is not installed." >&2
+	exit 1
+fi
+
+if [ ! -s "$bqfs_file" ]; then
+	echo "Missing BQFS file: $bqfs_file" >&2
+	exit 1
+fi
+
+echo "Flashing BQ27546 BQFS image: $bqfs_file"
+rmmod bq27xxx_battery_i2c 2>/dev/null || true
+
+if bqtool --bqfs-flash --bqfs-file="$bqfs_file"; then
+	rc=0
+else
+	rc=$?
+fi
+
+modprobe bq27xxx_battery_i2c 2>/dev/null || true
+exit "$rc"

@@ -123,6 +123,11 @@ ramips_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"1:lan" "0:wan" "6@eth0"
 		;;
+	gainstrong,minibox-v2.5)
+		ucidef_add_switch "switch0"
+		ucidef_add_switch_attr "switch0" "enable" "false"
+		ucidef_set_interface_lan "eth0"
+		;;
 	hiwifi,hc5761a)
 		ucidef_add_switch "switch0" \
 			"0:lan" "1:lan" "4:wan" "6@eth0"
@@ -266,6 +271,10 @@ ramips_setup_macs()
 	local label_mac=""
 
 	case $board in
+	gainstrong,minibox-v2.5)
+		label_mac=$(mtd_get_mac_binary factory 0x4)
+		lan_mac=$(macaddr_add "$label_mac" 1)
+		;;
 	asus,rt-ac1200)
 		wan_mac=$(mtd_get_mac_binary factory 0x22)
 		;;
@@ -386,10 +395,30 @@ ramips_setup_macs()
 	[ -n "$label_mac" ] && ucidef_set_label_macaddr $label_mac
 }
 
+ramips_setup_wireless()
+{
+	local board="$1"
+	local label_mac=""
+	local ssid_suffix=""
+
+	case $board in
+	gainstrong,minibox-v2.5)
+		label_mac=$(mtd_get_mac_binary factory 0x4)
+		[ -n "$label_mac" ] || label_mac=$(cat /sys/class/net/eth0/address 2>/dev/null)
+		ssid_suffix=$(printf "%s" "$label_mac" | tr -d ':' | tail -c 4 | tr 'abcdef' 'ABCDEF')
+		[ -n "$ssid_suffix" ] || return 0
+
+		ucidef_set_wireless 2g "Minibox-V2.5-${ssid_suffix}-2G" none
+		ucidef_set_wireless 5g "Minibox-V2.5-${ssid_suffix}-5G" none
+		;;
+	esac
+}
+
 board_config_update
 board=$(board_name)
 ramips_setup_interfaces $board
 ramips_setup_macs $board
+ramips_setup_wireless $board
 board_config_flush
 
 exit 0

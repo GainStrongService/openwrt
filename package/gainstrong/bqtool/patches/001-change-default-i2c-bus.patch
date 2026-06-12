@@ -1,0 +1,11 @@
+--- a/interface-linux-i2c.c
++++ b/interface-linux-i2c.c
+@@ -24,7 +24,7 @@
+ #include <sys/ioctl.h>
+ #include <fcntl.h>
+ 
+-#define I2C_BUS			2
++#define I2C_BUS			0
+ #define I2C_DEV_FILE_BASE	"/dev/i2c-"
+ #define I2C_SLAVE_ADDR_DEFUALT	0xAA
+ #define SYSFS_POLL_INTVL "/sys/module/bq27x00_battery/parameters/poll_interval"

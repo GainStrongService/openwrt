@@ -10,6 +10,11 @@ case $board in
 7links,wlr-1230)
 	ucidef_set_led_switch "lan" "lan" "orange:lan" "switch0" "0x10"
 	;;
+gainstrong,minibox-v2.5)
+	ucidef_set_led_netdev "ethernet" "Ethernet" "green:lan" "eth0"
+	ucidef_set_led_wlan "wlan2g" "WLAN 2GHz" "green:wlan-2ghz" "phy0tpt"
+	ucidef_set_led_wlan "wlan5g" "WLAN 5GHz" "green:wlan-5ghz" "phy1tpt"
+	;;
 alfa-network,awusfree1)
 	ucidef_set_led_netdev "wifi_led" "wifi" "blue:wlan" "wlan0"
 	;;
