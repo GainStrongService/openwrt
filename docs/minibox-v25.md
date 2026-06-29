@@ -92,10 +92,19 @@ unlocked service samples can still be detected on the I2C bus but may be
 rejected by the kernel crypto driver.
 
 The charger register defaults are described in DTS under `charger@4b` and
-applied on every boot by `/usr/sbin/minibox-v25-charge-set`, because the
-charger does not keep these settings after power loss. The startup service
-programs the input voltage limit, charge current, input current limit, and
-disables the charger watchdog.
+applied on every boot by `/usr/sbin/minibox-v25-charge-set`, because the charger
+does not keep these settings after power loss. After a cold power-up the charger
+starts with conservative input and charge-current limits. If OpenWrt leaves those
+defaults in place until the late boot sequence, the board can reboot when the
+Ethernet bridge and WiFi radios start drawing more current.
+
+The charger setup service therefore runs at `START=18`, before the normal
+network and WiFi services. It programs the input voltage limit, charge current,
+input current limit, and disables the charger watchdog early enough that the
+board is not left running on the default current limit during the network and
+WiFi power-up window. The source tree only carries the init script; OpenWrt
+generates the matching `/etc/rc.d/S18minibox-v25-charge` symlink from `START=18`
+while building the root filesystem.
 
 Battery capacity and alert thresholds are stored in the packaged BQFS profile.
 The upstream BQ27xxx driver does not provide a data-memory map for the BQ27546
@@ -192,8 +201,12 @@ Before publishing or flashing a release build, verify:
 - The GPIO keys expose reset and power only.
 - The green power LED turns on during kernel startup, blinks during OpenWrt
   boot, and stays on after startup.
-- The boot-time charger setup leaves register `0x00` at `0x60`, register `0x01`
-  at `0x0a`, register `0x05` at `0xa0`, and register `0x08` at `0x85`.
+- The boot-time charger setup completes before Ethernet and WiFi startup, so the
+  board does not reboot when network load rises during boot.
+- The charger setup leaves register `0x00` at `0x60`, register `0x01` at
+  `0x0a`, register `0x05` at `0xa0`, and register `0x08` at `0x85`.
+- The charger setup service starts before `wpad` and `network`; the generated
+  rootfs contains `/etc/rc.d/S18minibox-v25-charge`.
 - The secure element is visible at I2C address `0x64`.
 - The packaged battery directory contains only the BQ27546 BQFS profile.
 - The fuel gauge reports a 3400 mAh design capacity after the BQ27546 BQFS
