@@ -11,6 +11,19 @@ full customization, to use the device in ways never envisioned.
 
 Sunshine!
 
+## GainStrong Oolite-MT7981B V1
+
+This branch contains GainStrong Oolite-MT7981B V1 support for OpenWrt 25.12.
+Use `./build.sh <nand|emmc|sdcard|nor|all>` to generate firmware images for
+the supported boot media.
+
+Taixin Wi-Fi HaLow support uses a commercial Linux driver source package. The
+driver source archive is not provided in this public repository by default. To
+build firmware with Wi-Fi HaLow support, place the technical-support supplied
+archive at `dl/taixin-fmac-linux-driver-v2.2.1-41305.zip` before running
+`build.sh`. If the archive is absent, `build.sh` leaves Wi-Fi HaLow packages
+disabled and continues with the base Oolite-MT7981B V1 firmware build.
+
 ## Download
 
 Built firmware images are available for many architectures and come with a

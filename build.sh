@@ -7,6 +7,8 @@ CONFIG_FILE="MT7981.config"
 TARGET_NAME="filogic"
 DEVICE_PREFIX="CONFIG_TARGET_DEVICE_mediatek_${TARGET_NAME}_DEVICE_gainstrong_oolite-mt7981b-v1"
 FLASH_TYPES=("nand" "emmc" "sdcard" "nor" "all")
+HALOW_SOURCE="taixin-fmac-linux-driver-v2.2.1-41305.zip"
+HALOW_SOURCE_SHA256="66941241c8562f276320ec0816e767b84c5b9c917fca394e8f2dddce2116ac1d"
 JOBS="${JOBS:-$(nproc)}"
 LOG_DIR="${LOG_DIR:-logs}"
 BUILD_STAMP="$(date +%Y%m%d-%H%M%S)"
@@ -55,6 +57,37 @@ choose_flash_type() {
 	done
 }
 
+append_halow_packages() {
+	local source_path="dl/${HALOW_SOURCE}"
+	local source_hash
+
+	if [ ! -f "$source_path" ]; then
+		cat >> .config <<EOF
+
+# CONFIG_PACKAGE_kmod-taixin-fmac is not set
+# CONFIG_PACKAGE_taixin-fmac-tools is not set
+EOF
+		printf 'Taixin Wi-Fi HaLow driver source not found: %s\n' "$source_path"
+		printf 'Wi-Fi HaLow support will not be included. Contact GainStrong technical support for the commercial source package.\n'
+		return
+	fi
+
+	source_hash="$(sha256sum "$source_path" | awk '{print $1}')"
+	if [ "$source_hash" != "$HALOW_SOURCE_SHA256" ]; then
+		printf 'Error: unexpected Taixin Wi-Fi HaLow driver source hash for %s\n' "$source_path" >&2
+		printf 'Expected: %s\n' "$HALOW_SOURCE_SHA256" >&2
+		printf 'Actual:   %s\n' "$source_hash" >&2
+		exit 1
+	fi
+
+	cat >> .config <<EOF
+
+CONFIG_PACKAGE_kmod-taixin-fmac=y
+CONFIG_PACKAGE_taixin-fmac-tools=y
+EOF
+	printf 'Taixin Wi-Fi HaLow driver source found; enabling HaLow packages.\n'
+}
+
 append_device_profiles() {
 	local flash_type="$1"
 	local flash_type_option
@@ -100,6 +133,7 @@ CONFIG_KERNEL_BUILD_DOMAIN="$revision"
 CONFIG_VERSION_DIST="$PRODUCT_NAME"
 EOF
 
+append_halow_packages
 append_device_profiles "$flash_type"
 
 run_logged "feeds-update" ./scripts/feeds update -a

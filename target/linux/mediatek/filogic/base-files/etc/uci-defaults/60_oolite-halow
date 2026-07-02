@@ -1,0 +1,69 @@
+. /lib/functions.sh
+
+case "$(board_name)" in
+gainstrong,oolite-mt7981b-v1-*)
+	;;
+*)
+	exit 0
+	;;
+esac
+
+[ -f /etc/hgicf.conf ] || exit 0
+[ -e "/lib/modules/$(uname -r)/hgicf.ko" ] || exit 0
+
+add_network_to_zone() {
+	local zone_name="$1"
+	local network_name="$2"
+	local zone_section
+
+	zone_section="$(uci -q show firewall | sed -n "s/^\(firewall\.[^=]*\)\.name='${zone_name}'$/\1/p" | head -n 1)"
+	[ -n "$zone_section" ] || return 0
+
+	uci -q del_list "${zone_section}.network=${network_name}"
+	uci -q add_list "${zone_section}.network=${network_name}"
+}
+
+uci -q batch <<-'EOF'
+	delete network.11AH_AP
+	set network.11AH_AP=interface
+	set network.11AH_AP.proto='static'
+	set network.11AH_AP.device='hg0'
+	set network.11AH_AP.ipaddr='10.10.10.10'
+	set network.11AH_AP.netmask='255.255.255.0'
+
+	delete network.11AH_STA
+	set network.11AH_STA=interface
+	set network.11AH_STA.proto='dhcp'
+	set network.11AH_STA.device='hg0'
+	set network.11AH_STA.auto='0'
+	set network.11AH_STA.metric='77'
+
+	delete dhcp.11AH_AP
+	set dhcp.11AH_AP=dhcp
+	set dhcp.11AH_AP.interface='11AH_AP'
+	set dhcp.11AH_AP.start='1'
+	set dhcp.11AH_AP.limit='9'
+	set dhcp.11AH_AP.leasetime='2d'
+	set dhcp.@dnsmasq[0].sequential_ip='1'
+
+	delete firewall.ah_bridge
+	set firewall.ah_bridge=zone
+	set firewall.ah_bridge.name='bridge'
+	set firewall.ah_bridge.input='ACCEPT'
+	set firewall.ah_bridge.output='ACCEPT'
+	set firewall.ah_bridge.forward='ACCEPT'
+
+	delete firewall.lan_to_ah_bridge
+	set firewall.lan_to_ah_bridge=forwarding
+	set firewall.lan_to_ah_bridge.src='lan'
+	set firewall.lan_to_ah_bridge.dest='bridge'
+EOF
+
+add_network_to_zone lan 11AH_AP
+add_network_to_zone wan 11AH_STA
+
+uci commit network
+uci commit dhcp
+uci commit firewall
+
+exit 0
