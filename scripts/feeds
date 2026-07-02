@@ -900,11 +900,12 @@ sub update {
 sub feed_config() {
 	foreach my $feed (@feeds) {
 		my $installed = (-f "feeds/$feed->[1].index");
+		my $no_apk_repo = $feed->[3]->{'no_apk_repo'};
 
 		printf "\tconfig FEED_%s\n", $feed->[1];
 		printf "\t\ttristate \"Enable feed %s\"\n", $feed->[1];
 		printf "\t\tdepends on PER_FEED_REPO\n";
-		printf "\t\tdefault y\n" if $installed;
+		printf "\t\tdefault y\n" if $installed && !$no_apk_repo;
 		printf "\t\thelp\n";
 		printf "\t\t Enable the \\\"%s\\\" feed in opkg distfeeds.conf and apk repositories.\n", $feed->[1];
 		printf "\t\t Say M to add the feed commented out.\n";
