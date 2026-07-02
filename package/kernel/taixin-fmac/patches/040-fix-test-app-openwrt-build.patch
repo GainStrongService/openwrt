@@ -1,0 +1,84 @@
+--- a/tools/test_app/hgota.c
++++ b/tools/test_app/hgota.c
+@@ -1,4 +1,3 @@
+-#include <error.h>
+ #include <stdio.h>
+ #include <errno.h>
+ #include <unistd.h>
+@@ -16,6 +15,7 @@
+ #include <sys/ioctl.h>
+ #include <linux/if_ether.h>
+ #include "libota.h"
++#include "fwinfo.h"
+ 
+ struct hgicOTA {
+     uint8 rxbuf[2048];
+--- a/tools/test_app/fwinfo.c
++++ b/tools/test_app/fwinfo.c
+@@ -1,4 +1,3 @@
+-#include <error.h>
+ #include <stdio.h>
+ #include <errno.h>
+ #include <unistd.h>
+--- a/tools/test_app/hgicf.c
++++ b/tools/test_app/hgicf.c
+@@ -13,7 +13,6 @@
+   ******************************************************************************
+   */
+ 
+-#include <error.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <stdarg.h>
+--- a/tools/test_app/hgpriv.c
++++ b/tools/test_app/hgpriv.c
+@@ -13,7 +13,6 @@
+   ******************************************************************************
+   */
+ 
+-#include <error.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <stdarg.h>
+--- a/tools/test_app/libnetat.c
++++ b/tools/test_app/libnetat.c
+@@ -1,5 +1,4 @@
+ 
+-#include <error.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <errno.h>
+--- a/tools/test_app/iwpriv.c
++++ b/tools/test_app/iwpriv.c
+@@ -13,7 +13,6 @@
+   ******************************************************************************
+   */
+ 
+-#include <error.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+--- a/tools/test_app/fwinfo.h
++++ b/tools/test_app/fwinfo.h
+@@ -105,7 +105,7 @@ uint32 fwinfo_get_fw_svn_version(const u
+ uint16 fwinfo_get_fw_chipid(const uint8 *data, int32 *err_code);
+ uint8  fwinfo_get_fw_cpuid(const uint8 *data, int32 *err_code);
+ int32 fwinfo_get_fw_code_checksum(const uint8 *data, int32 len);
+-uint32  fwinfo_get_fw_lenght(const uint8 *data, int32 *err_code);
++uint32  fwinfo_get_fw_length(const uint8 *data, int32 *err_code);
+ 
+ 
+ #ifdef __cplusplus
+--- a/tools/test_app/libota.h
++++ b/tools/test_app/libota.h
+@@ -146,6 +146,10 @@ int libota_scan(int clear);
+ 
+ int libota_send_fw_data(char *sta_mac, struct hgota_fw_info *info, int off, char *data, int len);
+ 
++int libota_query_config(char *sta_mac);
++
++int libota_sta_config(char *sta_mac, struct eth_ota_fwparam *param);
++
+ int libota_rx_proc(char *buff, int len);
+ 
+ int libota_init(raw_send_hdl send);

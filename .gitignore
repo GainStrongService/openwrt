@@ -18,6 +18,7 @@
 /overlay
 /package/feeds
 /package/openwrt-packages
+/package/kernel/taixin-fmac/taixin-fmac-linux-driver-*.zip
 /*.patch
 /llvm-bpf*
 key-build*

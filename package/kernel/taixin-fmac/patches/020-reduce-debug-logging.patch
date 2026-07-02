@@ -1,0 +1,18 @@
+--- a/hgic_def.h
++++ b/hgic_def.h
+@@ -32,11 +32,11 @@
+ #define HGIC_TX_COOKIE_MASK 0x7FFF
+ #define HGIC_BLOCK_ACK_CNT  256
+ 
+-#define hgic_dbg(fmt, ...) printk("%s:%d::"fmt, __FUNCTION__, __LINE__, ##__VA_ARGS__)
+-#define hgic_err(fmt, ...) printk("%s:%d::"fmt, __FUNCTION__, __LINE__, ##__VA_ARGS__)
++#define hgic_dbg(fmt, ...) pr_debug("hgicf: %s:%d::" fmt, __func__, __LINE__, ##__VA_ARGS__)
++#define hgic_err(fmt, ...) pr_warn("hgicf: %s:%d::" fmt, __func__, __LINE__, ##__VA_ARGS__)
+ 
+-#define hgic_enter()       printk("enter %s\r\n", __FUNCTION__)
+-#define hgic_leave()       printk("leave %s\r\n", __FUNCTION__)
++#define hgic_enter()       pr_debug("hgicf: enter %s\n", __func__)
++#define hgic_leave()       pr_debug("hgicf: leave %s\n", __func__)
+ 
+ #ifndef ARRAYSIZE
+ #define ARRAYSIZE(arr) (sizeof(arr) / sizeof((arr)[0]))

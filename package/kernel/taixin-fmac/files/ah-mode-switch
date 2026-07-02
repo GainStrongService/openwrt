@@ -1,0 +1,49 @@
+#!/bin/ash
+
+usage() {
+	echo "Usage: $0 [ap|sta]"
+	echo "Switch the 802.11ah interface mode."
+}
+
+switch_mode() {
+	local mode="$1"
+	local upper_mode opposite_mode
+
+	upper_mode="$(echo "$mode" | tr 'a-z' 'A-Z')"
+	opposite_mode="$([ "$mode" = "ap" ] && echo "STA" || echo "AP")"
+
+	echo "Switching 802.11ah interface to $mode mode..."
+	sed -i "/^mode=/c\\mode=$mode" /etc/hgicf.conf
+	hgpriv hg0 set mode="$mode"
+
+	uci -q delete "network.11AH_${upper_mode}.auto"
+	uci -q set "network.11AH_${opposite_mode}.auto=0"
+	uci commit network
+	/etc/init.d/network reload
+}
+
+case "$#" in
+0)
+	echo "Please choose an option:"
+	echo "1) 802.11ah AP mode"
+	echo "2) 802.11ah STA mode"
+	read -r -p "Enter your choice (1 or 2): " choice
+	case "$choice" in
+	1) switch_mode ap ;;
+	2) switch_mode sta ;;
+	*) usage; exit 1 ;;
+	esac
+	;;
+1)
+	case "$1" in
+	ap|sta) switch_mode "$1" ;;
+	*) usage; exit 1 ;;
+	esac
+	;;
+*)
+	usage
+	exit 1
+	;;
+esac
+
+exit 0

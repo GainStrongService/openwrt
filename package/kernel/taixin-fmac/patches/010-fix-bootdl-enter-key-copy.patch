@@ -1,0 +1,13 @@
+--- a/utils/fwdl.c
++++ b/utils/fwdl.c
+@@ -271,7 +271,9 @@ int hgic_bootdl_cmd_enter(struct hgic_bo
+     skb = hgic_bootdl_alloc_cmd_skb(hg, HG_BOOTDL_CMD_ENTER);
+     if (skb) {
+         cmd_hdr = (struct hgic_bootdl_cmd_hdr *)skb->data;
+-        memcpy((void *)cmd_hdr->addr, (void *)BOOT_CMD_KEY, BOOT_CMD_KEY_SIZE);
++        memcpy(cmd_hdr->addr, BOOT_CMD_KEY, sizeof(cmd_hdr->addr));
++        memcpy(cmd_hdr->len, BOOT_CMD_KEY + sizeof(cmd_hdr->addr),
++               BOOT_CMD_KEY_SIZE - sizeof(cmd_hdr->addr));
+         cmd_hdr->check = hgic_bootdl_cmd_check_val(hg->checksum_mode, (u8 *)&cmd_hdr->cmd, 11);
+     } else {
+         hgic_err("malloc skb failed!\n");
