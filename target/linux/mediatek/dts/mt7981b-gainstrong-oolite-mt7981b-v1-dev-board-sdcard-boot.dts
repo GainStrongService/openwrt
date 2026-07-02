@@ -1,0 +1,119 @@
+/dts-v1/;
+
+#include "mt7981b-gainstrong-oolite-mt7981b-v1.dtsi"
+#include "mt7981b-gainstrong-oolite-mt7981b-v1-mmc.dtsi"
+#include "mt7981b-gainstrong-oolite-mt7981b-v1-dev-board.dtsi"
+
+/ {
+	model = "GainStrong Oolite-MT7981B V1 Dev Board (SD Card boot)";
+	compatible = "gainstrong,oolite-mt7981b-v1-dev-board-sdcard-boot", "mediatek,mt7981";
+};
+
+&pio {
+	mmc0_pins_sd: mmc0-pins-sd {
+		mux {
+			groups = "emmc_4";
+			function = "flash";
+		};
+	};
+
+	/* Keep SPI-NOR enabled for SD boot so the running SD system can provision NOR. */
+	spi2_flash_pins: spi2-pins {
+		mux {
+			function = "spi";
+			groups = "spi2", "spi2_wp_hold";
+		};
+
+		conf-pu {
+			pins = "SPI2_CS", "SPI2_HOLD", "SPI2_WP";
+			drive-strength = <MTK_DRIVE_8mA>;
+			bias-pull-up = <MTK_PUPD_SET_R1R0_11>;
+		};
+
+		conf-pd {
+			pins = "SPI2_CLK", "SPI2_MOSI", "SPI2_MISO";
+			drive-strength = <MTK_DRIVE_8mA>;
+			bias-pull-down = <MTK_PUPD_SET_R1R0_11>;
+		};
+	};
+};
+
+&mmc0 {
+	pinctrl-names = "default", "state_uhs";
+	pinctrl-0 = <&mmc0_pins_sd>;
+	pinctrl-1 = <&mmc0_pins_sd>;
+	bus-width = <4>;
+	cap-sd-highspeed;
+	/delete-property/ non-removable;
+	/delete-property/ cap-mmc-highspeed;
+	broken-cd;
+	no-mmc;
+	no-sdio;
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	card@0 {
+		compatible = "mmc-card";
+		reg = <0>;
+
+		block {
+			compatible = "block-device";
+			partitions {
+				sd_firmware: block-partition-firmware {
+					partname = "firmware";
+				};
+			};
+		};
+	};
+};
+
+&chosen {
+	bootargs-append = " root=/dev/fit0 rootwait";
+	rootdisk-sd = <&sd_firmware>;
+};
+
+&spi2 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi2_flash_pins>;
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <52000000>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "bootloader";
+				reg = <0x0 0x160000>;
+			};
+
+			partition@160000 {
+				label = "ubootenv";
+				reg = <0x160000 0x10000>;
+			};
+
+			partition@170000 {
+				label = "factory";
+				reg = <0x170000 0x10000>;
+			};
+
+			partition@180000 {
+				label = "firmware";
+				reg = <0x180000 0x0>;
+			};
+
+			/* Raw access to the whole SPI-NOR for maintenance operations. */
+			nor-all {
+				label = "nor-all";
+				reg = <0x0 0x0>;
+			};
+		};
+	};
+};

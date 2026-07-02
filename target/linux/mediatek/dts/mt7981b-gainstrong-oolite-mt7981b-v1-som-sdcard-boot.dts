@@ -1,0 +1,56 @@
+/dts-v1/;
+
+#include "mt7981b-gainstrong-oolite-mt7981b-v1.dtsi"
+#include "mt7981b-gainstrong-oolite-mt7981b-v1-mmc.dtsi"
+
+/ {
+	model = "GainStrong Oolite-MT7981B V1 SoM (SD Card boot)";
+	compatible = "gainstrong,oolite-mt7981b-v1-som-sdcard-boot", "mediatek,mt7981";
+};
+
+&pio {
+	mmc0_pins_sd: mmc0-pins-sd {
+		mux {
+			groups = "emmc_4";
+			function = "flash";
+		};
+	};
+};
+
+&mmc0 {
+	pinctrl-names = "default", "state_uhs";
+	pinctrl-0 = <&mmc0_pins_sd>;
+	pinctrl-1 = <&mmc0_pins_sd>;
+	bus-width = <4>;
+	cap-sd-highspeed;
+	/delete-property/ non-removable;
+	/delete-property/ cap-mmc-highspeed;
+	broken-cd;
+	no-mmc;
+	no-sdio;
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	card@0 {
+		compatible = "mmc-card";
+		reg = <0>;
+
+		block {
+			compatible = "block-device";
+			partitions {
+				sd_firmware: block-partition-firmware {
+					partname = "firmware";
+				};
+			};
+		};
+	};
+};
+
+&chosen {
+	bootargs-append = " root=/dev/fit0 rootwait";
+	rootdisk-sd = <&sd_firmware>;
+};
+
+&spi0 {
+	status = "disabled";
+};

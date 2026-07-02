@@ -1,0 +1,32 @@
+&factory {
+	nvmem-layout {
+		compatible = "fixed-layout";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		eeprom_factory_0: eeprom@0 {
+			reg = <0x0 0x1000>;
+		};
+
+		macaddr_factory_4: macaddr@4 {
+			compatible = "mac-base";
+			reg = <0x4 0x6>;
+			#nvmem-cell-cells = <1>;
+		};
+	};
+};
+
+&eth0 {
+	nvmem-cell-names = "mac-address";
+	nvmem-cells = <&macaddr_factory_4 0>;
+};
+
+&eth1 {
+	nvmem-cell-names = "mac-address";
+	nvmem-cells = <&macaddr_factory_4 2>;
+};
+
+&wifi {
+	nvmem-cells = <&eeprom_factory_0>;
+	nvmem-cell-names = "eeprom";
+};

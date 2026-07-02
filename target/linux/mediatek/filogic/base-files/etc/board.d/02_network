@@ -144,6 +144,7 @@ mediatek_setup_interfaces()
 	cudy,tr3000-256mb-v1|\
 	cudy,tr3000-v1|\
 	cudy,tr3000-v1-ubootmod|\
+	gainstrong,oolite-mt7981b-v1-*|\
 	glinet,gl-mt2500|\
 	glinet,gl-mt2500-airoha|\
 	glinet,gl-mt3000|\
@@ -263,6 +264,12 @@ mediatek_setup_macs()
 		wan_mac=$(mtd_get_mac_ascii pdt_data_1 ethaddr)
 		lan_mac=$(macaddr_add "$wan_mac" 1)
 		label_mac=$wan_mac
+		;;
+	gainstrong,oolite-mt7981b-v1-*emmc*|\
+	gainstrong,oolite-mt7981b-v1-*sdcard*)
+		label_mac=$(mmc_get_mac_binary factory 0x4)
+		lan_mac=$(macaddr_add "$label_mac" 2)
+		wan_mac=$(macaddr_add "$label_mac" 3)
 		;;
 	jiorouter,ax6000-jidu6101)
 		label_mac=$(mtd_get_mac_ascii u-boot-env mac)

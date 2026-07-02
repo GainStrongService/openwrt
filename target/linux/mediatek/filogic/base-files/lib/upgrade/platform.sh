@@ -120,6 +120,9 @@ platform_do_upgrade() {
 	cudy,wr3000h-v1-ubootmod|\
 	cudy,wr3000p-v1-ubootmod|\
 	gatonetworks,gdsp|\
+	gainstrong,oolite-mt7981b-v1-*emmc*|\
+	gainstrong,oolite-mt7981b-v1-*nor*|\
+	gainstrong,oolite-mt7981b-v1-*sdcard*|\
 	h3c,magic-nx30-pro|\
 	imou,hx21|\
 	jcg,q30-pro|\
@@ -225,6 +228,9 @@ platform_do_upgrade() {
 		esac
 		nand_do_upgrade "$1"
 		;;
+	gainstrong,oolite-mt7981b-v1-*nand*)
+		nand_do_upgrade "$1"
+		;;
 	mercusys,mr80x-v3|\
 	mercusys,mr85x|\
 	mercusys,mr90x-v1|\
@@ -326,6 +332,9 @@ platform_check_image() {
 	cudy,wr3000h-v1-ubootmod|\
 	cudy,wr3000p-v1-ubootmod|\
 	gatonetworks,gdsp|\
+	gainstrong,oolite-mt7981b-v1-*emmc*|\
+	gainstrong,oolite-mt7981b-v1-*nor*|\
+	gainstrong,oolite-mt7981b-v1-*sdcard*|\
 	h3c,magic-nx30-pro|\
 	jcg,q30-pro|\
 	jdcloud,re-cp-03|\
@@ -350,6 +359,10 @@ platform_check_image() {
 	xiaomi,mi-router-wr30u-ubootmod|\
 	zyxel,ex5601-t0-ubootmod)
 		fit_check_image "$1"
+		return $?
+		;;
+	gainstrong,oolite-mt7981b-v1-*nand*)
+		nand_do_platform_check "$board" "$1"
 		return $?
 		;;
 	creatlentem,clt-r30b1|\
@@ -384,6 +397,7 @@ platform_copy_config() {
 	bananapi,bpi-r4-lite|\
 	cmcc,rax3000m|\
 	gatonetworks,gdsp|\
+	gainstrong,oolite-mt7981b-v1-*|\
 	mediatek,mt7988a-rfb)
 		if [ "$CI_METHOD" = "emmc" ]; then
 			emmc_copy_config

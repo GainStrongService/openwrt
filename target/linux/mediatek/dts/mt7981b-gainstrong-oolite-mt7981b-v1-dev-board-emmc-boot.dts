@@ -1,0 +1,34 @@
+/dts-v1/;
+
+#include "mt7981b-gainstrong-oolite-mt7981b-v1.dtsi"
+#include "mt7981b-gainstrong-oolite-mt7981b-v1-mmc.dtsi"
+#include "mt7981b-gainstrong-oolite-mt7981b-v1-dev-board.dtsi"
+
+/ {
+	model = "GainStrong Oolite-MT7981B V1 Dev Board (eMMC boot)";
+	compatible = "gainstrong,oolite-mt7981b-v1-dev-board-emmc-boot", "mediatek,mt7981";
+};
+
+&mmc0 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	card@0 {
+		compatible = "mmc-card";
+		reg = <0>;
+
+		block {
+			compatible = "block-device";
+			partitions {
+				emmc_firmware: block-partition-firmware {
+					partname = "firmware";
+				};
+			};
+		};
+	};
+};
+
+&chosen {
+	bootargs-append = " root=/dev/fit0 rootwait";
+	rootdisk-emmc = <&emmc_firmware>;
+};

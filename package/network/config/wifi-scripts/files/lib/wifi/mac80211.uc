@@ -11,6 +11,9 @@ if (!board.wlan)
 
 let idx = 0;
 let commit;
+let system_board_name = readfile("/tmp/sysinfo/board_name");
+system_board_name = system_board_name ? trim(system_board_name) : "";
+let is_oolite_mt7981b = match(system_board_name, /^gainstrong,oolite-mt7981b-v1-/);
 
 let config = uci.cursor().get_all("wireless") ?? {};
 
@@ -29,6 +32,19 @@ function radio_exists(path, macaddr, phy, radio) {
 		if (substr(s.path, -length(path)) == path)
 			return true;
 	}
+}
+
+function oolite_default_ssid(band_name) {
+	let phy0_macaddr = readfile("/sys/class/ieee80211/phy0/macaddress");
+	let mac_suffix = "";
+
+	if (phy0_macaddr) {
+		let mac_clean = join("", split(trim(phy0_macaddr), ":"));
+		if (length(mac_clean) >= 4)
+			mac_suffix = uc(substr(mac_clean, -4));
+	}
+
+	return "MT7981_" + mac_suffix + "_" + uc(band_name);
 }
 
 for (let phy_name, phy in board.wlan) {
@@ -78,7 +94,7 @@ for (let phy_name, phy in board.wlan) {
 
 		band_name = lc(band_name);
 
-		let country, encryption, defaults, num_global_macaddr;
+		let country, encryption, defaults, num_global_macaddr, default_ssid, default_disabled;
 		if (band_name == '6g') {
 			country = '00';
 			encryption = 'owe';
@@ -91,6 +107,13 @@ for (let phy_name, phy in board.wlan) {
 			if (!country && band_name != '2g')
 				defaults = null;
 			num_global_macaddr = board.wlan.defaults.ssids?.[band_name]?.mac_count;
+		}
+		if (is_oolite_mt7981b) {
+			default_ssid = oolite_default_ssid(band_name);
+			default_disabled = 0;
+		} else {
+			default_ssid = defaults?.ssid || "OpenWrt";
+			default_disabled = defaults ? 0 : 1;
 		}
 
 		if (length(info.radios) > 0)
@@ -109,10 +132,10 @@ set ${si}=wifi-iface
 set ${si}.device='${name}'
 set ${si}.network='lan'
 set ${si}.mode='ap'
-set ${si}.ssid='${defaults?.ssid || "OpenWrt"}'
+set ${si}.ssid='${default_ssid}'
 set ${si}.encryption='${defaults?.encryption || encryption}'
 set ${si}.key='${defaults?.key || ""}'
-set ${si}.disabled='${defaults ? 0 : 1}'
+set ${si}.disabled='${default_disabled}'
 
 `);
 		config[name] = {};
