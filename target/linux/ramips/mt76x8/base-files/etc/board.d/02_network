@@ -116,6 +116,7 @@ ramips_setup_interfaces()
 			"2:lan:2" "3:lan:1" "4:wan" "6@eth0"
 		;;
 	duzun,dm06|\
+	gainstrong,minibox-v2|\
 	glinet,gl-mt300n-v2|\
 	hongdian,h7920-v40|\
 	teltonika,rut200|\
@@ -266,6 +267,21 @@ ramips_setup_interfaces()
 	esac
 }
 
+ramips_setup_wireless()
+{
+	local board="$1"
+	local label_mac=""
+	local ssid_suffix=""
+
+	case $board in
+	gainstrong,minibox-v2)
+		label_mac=$(mtd_get_mac_binary factory 0x4)
+		ssid_suffix=$(printf "%s" "$label_mac" | tr -d ':' | tail -c 4 | tr 'abcdef' 'ABCDEF')
+		[ -n "$ssid_suffix" ] && ucidef_set_wireless all "Minibox-V2-$ssid_suffix" none
+		;;
+	esac
+}
+
 ramips_setup_macs()
 {
 	local board="$1"
@@ -316,6 +332,10 @@ ramips_setup_macs()
 	wrtnode,wrtnode2p|\
 	wrtnode,wrtnode2r)
 		wan_mac=$(macaddr_add "$(mtd_get_mac_binary factory 0x4)" 1)
+		;;
+	gainstrong,minibox-v2)
+		label_mac=$(mtd_get_mac_binary factory 0x4)
+		wan_mac=$(macaddr_add "$label_mac" 2)
 		;;
 	iptime,a3|\
 	iptime,a604m|\
@@ -398,6 +418,7 @@ board_config_update
 board=$(board_name)
 ramips_setup_interfaces $board
 ramips_setup_macs $board
+ramips_setup_wireless $board
 board_config_flush
 
 exit 0

@@ -313,6 +313,14 @@ define Device/elecom_wrc-1167fs
 endef
 TARGET_DEVICES += elecom_wrc-1167fs
 
+define Device/gainstrong_minibox-v2
+  IMAGE_SIZE := 16064k
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := Minibox V2.0
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci
+endef
+TARGET_DEVICES += gainstrong_minibox-v2
+
 define Device/glinet_gl-mt300n-v2
   IMAGE_SIZE := 16064k
   DEVICE_VENDOR := GL.iNet
