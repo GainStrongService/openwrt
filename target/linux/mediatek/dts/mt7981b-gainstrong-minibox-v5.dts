@@ -1,0 +1,242 @@
+// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+/dts-v1/;
+
+#include "mt7981b.dtsi"
+
+/ {
+	model = "GainStrong Minibox V5";
+	compatible = "gainstrong,minibox-v5", "mediatek,mt7981";
+
+	chosen: chosen {
+		stdout-path = "serial0:115200n8";
+		bootargs-append = " root=/dev/fit0 rootwait";
+	};
+
+	aliases {
+		serial0 = &uart0;
+		led-boot = &led_blue_status;
+		led-failsafe = &led_blue_status;
+		led-running = &led_blue_status;
+		led-upgrade = &led_blue_status;
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			linux,code = <KEY_RESTART>;
+			gpios = <&pio 1 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led_blue_status: led-status {
+			color = <LED_COLOR_ID_BLUE>;
+			function = LED_FUNCTION_STATUS;
+			label = "blue:status";
+			gpios = <&pio 14 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_blue_lan: led-lan {
+			color = <LED_COLOR_ID_BLUE>;
+			function = LED_FUNCTION_LAN;
+			label = "blue:lan";
+			gpios = <&pio 34 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_blue_wifi: led-wifi {
+			color = <LED_COLOR_ID_BLUE>;
+			function = LED_FUNCTION_WLAN;
+			label = "blue:wifi";
+			gpios = <&gpio_ext 4 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "phy0radio";
+		};
+	};
+
+	gpio-export {
+		compatible = "gpio-export";
+
+		sim-detect {
+			gpio-export,name = "sim-detect";
+			gpios = <&pio 0 GPIO_ACTIVE_HIGH>;
+		};
+
+		mini-pcie-power {
+			gpio-export,name = "mini-pcie-power";
+			gpio-export,output = <1>;
+			gpios = <&pio 3 GPIO_ACTIVE_HIGH>;
+		};
+
+		mini-pcie-reset {
+			gpio-export,name = "mini-pcie-reset";
+			/* RESET#: active low, keep deasserted by default */
+			gpio-export,output = <1>;
+			gpios = <&pio 8 GPIO_ACTIVE_LOW>;
+		};
+
+		eeprom-write-protect {
+			gpio-export,name = "eeprom-write-protect";
+			/* EEWP_HOLD: high = write protect, low = writable */
+			gpio-export,output = <1>;
+			gpios = <&gpio_ext 1 GPIO_ACTIVE_HIGH>;
+		};
+
+		usb-switch-ctl {
+			gpio-export,name = "usb-switch-ctl";
+			/*
+			 * USB_SWTICH_CTL (GPIO35 / PCIE_WAKE_N):
+			 * default route to USB hub.
+			 */
+			gpio-export,output = <0>;
+			gpios = <&pio 35 GPIO_ACTIVE_HIGH>;
+		};
+
+		watchdog-en {
+			gpio-export,name = "watchdog-en";
+			/*
+			 * WATCHDOG_EN: external watchdog enable switch.
+			 * External pull-up keeps this line high by default.
+			 * Low = enabled, high or input (Hi-Z) = disabled.
+			 * Firmware stage defaults to low (enabled).
+			 */
+			gpio-export,output = <0>;
+			gpios = <&pio 13 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	gpio-watchdog {
+		compatible = "linux,wdt-gpio";
+		gpios = <&pio 2 GPIO_ACTIVE_LOW>;
+		hw_algo = "toggle";
+		hw_margin_ms = <1000>;
+	};
+};
+
+&pio {
+	i2c0_pins: i2c0-pins {
+		mux {
+			function = "i2c";
+			groups = "i2c0_0";
+		};
+	};
+
+};
+
+&i2c0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c0_pins>;
+	status = "okay";
+
+	gpio_ext: gpio_expander@19 {
+		/*
+		 * U90036: PCA9557PW,118 (TSSOP16)
+		 *
+		 * I2C address straps: A0=1, A1=0, A2=0 -> 7-bit address 0x19
+		 * Note: Linux DT "reg" uses 7-bit addresses (0x19 = 0x32/0x33 in 8-bit form).
+		 */
+		compatible = "nxp,pca9557";
+		gpio-controller;
+		#gpio-cells = <2>;
+		reg = <0x19>;
+		gpio-line-names = "MUTE", "EEWP_HOLD", "ZIGBEE_RST", "KEY_BLE_ZIGBEE",
+				 "LED_WIFI", "BLE_RST", "NC_IO6", "NC_IO7";
+		status = "okay";
+	};
+
+	/* Wi-Fi calibration data */
+	wifi_eeprom@50 {
+		compatible = "atmel,24c64";
+		reg = <0x50>;
+
+		nvmem-layout {
+			compatible = "fixed-layout";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			wifi_eeprom_0: eeprom@0 {
+				reg = <0x0 0x1000>;
+			};
+
+			macaddr_eeprom_4: macaddr@4 {
+				compatible = "mac-base";
+				reg = <0x4 0x6>;
+				#nvmem-cell-cells = <1>;
+			};
+		};
+	};
+};
+
+&watchdog {
+	status = "okay";
+};
+
+&mmc0 {
+	status = "disabled";
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&spi0 {
+	status = "disabled";
+};
+
+&eth {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mdio_pins>;
+	status = "okay";
+
+	/* LAN: CPU built-in Gigabit Ethernet */
+	eth1: eth1 {
+		compatible = "mediatek,eth-mac";
+		reg = <1>;
+		phy-mode = "gmii";
+		phy-handle = <&int_gbe_phy>;
+
+		nvmem-cells = <&macaddr_eeprom_4 1>;
+		nvmem-cell-names = "mac-address";
+	};
+
+	/* WAN: RTL8221B-VB-CG 2.5G Ethernet */
+	eth0: eth0 {
+		compatible = "mediatek,eth-mac";
+		reg = <0>;
+		phy-mode = "2500base-x";
+		phy-handle = <&phy7>;
+		status = "okay";
+
+		nvmem-cells = <&macaddr_eeprom_4 0>;
+		nvmem-cell-names = "mac-address";
+	};
+};
+
+&mdio_bus {
+	phy7: ethernet-phy@7 {
+		compatible = "ethernet-phy-ieee802.3-c45";
+		reg = <7>;
+		reset-gpios = <&pio 39 GPIO_ACTIVE_LOW>;
+		interrupts = <38 IRQ_TYPE_LEVEL_LOW>;
+		reset-assert-us = <100000>;
+		reset-deassert-us = <100000>;
+		realtek,aldps-enable;
+		realtek,led-link-select = <0xa7 0x0 0x0>;
+	};
+};
+
+&usb_phy {
+	status = "okay";
+};
+
+&xhci {
+	status = "okay";
+};
+
+&wifi {
+	status = "okay";
+	nvmem-cells = <&wifi_eeprom_0>;
+	nvmem-cell-names = "eeprom";
+};

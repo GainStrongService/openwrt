@@ -3726,3 +3726,6 @@ ifneq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),)
 endif
 endef
 TARGET_DEVICES += zyxel_wx5600-t0-ubootmod
+
+# GainStrong device images
+include gainstrong-minibox-v5.mk

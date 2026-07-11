@@ -135,6 +135,7 @@ platform_do_upgrade() {
 	netis,nx31|\
 	netis,nx32u|\
 	nokia,ea0326gmp|\
+	gainstrong,minibox-v5|\
 	openwrt,one|\
 	netcore,n60|\
 	netcore,n60-pro|\
@@ -329,6 +330,7 @@ platform_check_image() {
 	cudy,wr3000s-v1-ubootmod|\
 	cudy,wr3000h-v1-ubootmod|\
 	cudy,wr3000p-v1-ubootmod|\
+	gainstrong,minibox-v5|\
 	gatonetworks,gdsp|\
 	h3c,magic-nx30-pro|\
 	jcg,q30-pro|\
@@ -388,6 +390,7 @@ platform_copy_config() {
 	bananapi,bpi-r4-lite|\
 	cmcc,rax3000m|\
 	gatonetworks,gdsp|\
+	gainstrong,minibox-v5|\
 	mediatek,mt7988a-rfb)
 		if [ "$CI_METHOD" = "emmc" ]; then
 			emmc_copy_config

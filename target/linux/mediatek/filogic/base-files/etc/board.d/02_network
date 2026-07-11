@@ -224,8 +224,32 @@ mediatek_setup_interfaces()
 	zyxel,wx5600-t0-ubootmod)
 		ucidef_set_interface_lan "lan1 lan2"
 		;;
+	gainstrong,minibox-v5*)
+		ucidef_set_interfaces_lan_wan eth1 eth0
+		;;
 	*)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4" wan
+		;;
+	esac
+}
+
+mediatek_setup_wireless()
+{
+	local board="$1"
+	local eeprom="/sys/bus/i2c/devices/0-0050/eeprom"
+	local label_mac=""
+	local ssid_suffix=""
+
+	case $board in
+	gainstrong,minibox-v5*)
+		[ -r "$eeprom" ] || return
+		label_mac="$(get_mac_binary "$eeprom" 0x4)"
+		ssid_suffix="$(printf "%s" "$label_mac" | tr -d ':' | tail -c 4 | tr '[:lower:]' '[:upper:]')"
+		[ -n "$ssid_suffix" ] || return
+
+		ucidef_set_country "US"
+		ucidef_set_wireless 2g "Minibox-V5_${ssid_suffix}_2G" none
+		ucidef_set_wireless 5g "Minibox-V5_${ssid_suffix}_5G" none
 		;;
 	esac
 }
@@ -336,6 +360,7 @@ board_config_update
 board=$(board_name)
 mediatek_setup_interfaces $board
 mediatek_setup_macs $board
+mediatek_setup_wireless $board
 board_config_flush
 
 exit 0

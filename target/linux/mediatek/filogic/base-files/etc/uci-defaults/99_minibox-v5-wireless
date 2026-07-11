@@ -1,0 +1,51 @@
+. /lib/functions.sh
+. /lib/functions/system.sh
+. /lib/functions/uci-defaults.sh
+
+board="$(board_name)"
+
+case "$board" in
+gainstrong,minibox-v5*) ;;
+*) exit 0 ;;
+esac
+
+eeprom="/sys/bus/i2c/devices/0-0050/eeprom"
+[ -r "$eeprom" ] || exit 1
+
+label_mac="$(get_mac_binary "$eeprom" 0x4)"
+ssid_suffix="$(printf "%s" "$label_mac" | tr -d ':' | tail -c 4 | tr '[:lower:]' '[:upper:]')"
+[ -n "$ssid_suffix" ] || exit 1
+
+CFG=/etc/board.json
+board_config_update
+ucidef_set_country "US"
+ucidef_set_wireless 2g "Minibox-V5_${ssid_suffix}_2G" none
+ucidef_set_wireless 5g "Minibox-V5_${ssid_suffix}_5G" none
+board_config_flush
+
+/sbin/wifi config
+
+updated=0
+for radio in $(uci show wireless | sed -n "s/^wireless\\.\\([^=]*\\)=wifi-device$/\\1/p"); do
+	band="$(uci -q get wireless.${radio}.band)"
+
+	case "$band" in
+	2g) ssid="Minibox-V5_${ssid_suffix}_2G" ;;
+	5g) ssid="Minibox-V5_${ssid_suffix}_5G" ;;
+	*) continue ;;
+	esac
+
+	iface="default_${radio}"
+	uci -q get wireless.${iface} >/dev/null || continue
+
+	uci set wireless.${radio}.country='US'
+	uci set wireless.${iface}.ssid="$ssid"
+	uci set wireless.${iface}.encryption='none'
+	uci -q delete wireless.${iface}.key
+	uci set wireless.${iface}.disabled='0'
+	updated=1
+done
+
+[ "$updated" = 1 ] || exit 1
+
+exit 0
