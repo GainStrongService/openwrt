@@ -1,0 +1,79 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	compatible = "gainstrong,oolite-mt7987a",
+		     "mediatek,mt7987a", "mediatek,mt7987";
+};
+
+&{/soc/mmc@11230000} {
+	pinctrl-names = "default", "state_uhs";
+	pinctrl-0 = <&mmc_pins_default>;
+	pinctrl-1 = <&mmc_pins_uhs>;
+	reset-gpios = <&pio 14 GPIO_ACTIVE_LOW>;
+
+	bus-width = <4>;
+	max-frequency = <48000000>;
+	cap-mmc-highspeed;
+	non-removable;
+	no-sd;
+	no-sdio;
+	vmmc-supply = <&reg_3p3v>;
+	vqmmc-supply = <&reg_3p3v>;
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	status = "okay";
+
+	card@0 {
+		compatible = "mmc-card";
+		reg = <0>;
+
+		partitions {
+			compatible = "gpt-partitions";
+
+			block-partition-env {
+				partname = "ubootenv";
+				nvmem-layout {
+					compatible = "u-boot,env-layout";
+				};
+			};
+
+			factory: block-partition-factory {
+				partname = "factory";
+
+				nvmem-layout {
+					compatible = "fixed-layout";
+					#address-cells = <1>;
+					#size-cells = <1>;
+
+					eeprom_factory_0: eeprom@0 {
+						reg = <0x0 0x1e00>;
+					};
+				};
+			};
+
+			emmc_rootfs: block-partition-firmware {
+				partname = "firmware";
+			};
+		};
+	};
+};
+
+&{/chosen} {
+	rootdisk-emmc = <&emmc_rootfs>;
+};
+
+&pcie0 {
+	pcie@0,0 {
+		mt7992@0,0 {
+			nvmem-cells = <&eeprom_factory_0>;
+			nvmem-cell-names = "eeprom";
+		};
+	};
+};

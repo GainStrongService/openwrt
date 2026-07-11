@@ -1,0 +1,95 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+
+/dts-v1/;
+#include "mt7987a.dtsi"
+
+/ {
+	model = "GainStrong Oolite-MT7987A";
+	compatible = "gainstrong,oolite-mt7987a",
+		     "mediatek,mt7987a", "mediatek,mt7987";
+
+	aliases {
+		led-boot = &led_status;
+		led-failsafe = &led_status;
+		led-running = &led_status;
+		led-upgrade = &led_status;
+		serial0 = &uart0;
+	};
+
+	chosen {
+		bootargs = "console=ttyS0,115200n1 earlycon=uart8250,mmio32,0x11000000 pci=pcie_bus_perf root=/dev/fit0 rootwait";
+		stdout-path = "serial0:115200n8";
+	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+
+		led_status: status {
+			color = <LED_COLOR_ID_BLUE>;
+			function = LED_FUNCTION_STATUS;
+			gpios = <&pio 0 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	reg_3p3v: regulator-3p3v {
+		compatible = "regulator-fixed";
+		regulator-name = "fixed-3.3V";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-boot-on;
+		regulator-always-on;
+	};
+};
+
+&gmac1 {
+	openwrt,netdev-name = "lan";
+	phy-mode = "internal";
+	phy-handle = <&phy15>;
+	status = "okay";
+};
+
+&mdio {
+	phy15: phy@15 {
+		compatible = "ethernet-phy-ieee802.3-c45";
+		reg = <15>;
+		phy-mode = "internal";
+	};
+};
+
+&pcie0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pcie0_pins>;
+	wifi-reset-gpios = <&pio 38 GPIO_ACTIVE_LOW>;
+	wifi-reset-msleep = <100>;
+	status = "okay";
+
+	pcie@0,0 {
+		reg = <0x0000 0 0 0 0>;
+		#address-cells = <3>;
+		#size-cells = <2>;
+
+		mt7992@0,0 {
+			compatible = "mediatek,mt76";
+			reg = <0x0000 0 0 0 0>;
+		};
+	};
+};
+
+&ssusb {
+	vusb33-supply = <&reg_3p3v>;
+	status = "okay";
+};
+
+&tphyu2port0 {
+	status = "okay";
+};
+
+&tphyu3port0 {
+	status = "okay";
+};
+
+&uart0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart0_pins>;
+	status = "okay";
+};

@@ -1,0 +1,92 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "gainstrong,oolite-mt7987a",
+		     "mediatek,mt7987a", "mediatek,mt7987";
+};
+
+&{/soc/spi@11007800} {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_flash_pins>;
+	status = "okay";
+
+	flash@0 {
+		compatible = "spi-nand";
+		reg = <0>;
+		spi-max-frequency = <52000000>;
+		spi-rx-bus-width = <4>;
+		spi-tx-bus-width = <4>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "bootloader";
+				reg = <0x0 0x200000>;
+				read-only;
+			};
+
+			partition@200000 {
+				label = "reserved";
+				reg = <0x200000 0x100000>;
+				read-only;
+			};
+
+			partition@300000 {
+				label = "ubi";
+				reg = <0x300000 0x0>;
+				compatible = "linux,ubi";
+
+				volumes {
+					ubi-volume-fip {
+						volname = "fip";
+					};
+
+					ubi_factory: ubi-volume-factory {
+						volname = "Factory";
+					};
+
+					ubi-volume-ubootenv {
+						volname = "ubootenv";
+					};
+
+					ubi_rootfs: ubi-volume-fit {
+						volname = "fit";
+					};
+				};
+			};
+		};
+	};
+};
+
+&ubi_factory {
+	nvmem-layout {
+		compatible = "fixed-layout";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		eeprom_factory_0: eeprom@0 {
+			reg = <0x0 0x1e00>;
+		};
+	};
+};
+
+&{/chosen} {
+	rootdisk-spim-nand = <&ubi_rootfs>;
+};
+
+&pcie0 {
+	pcie@0,0 {
+		mt7992@0,0 {
+			nvmem-cells = <&eeprom_factory_0>;
+			nvmem-cell-names = "eeprom";
+		};
+	};
+};

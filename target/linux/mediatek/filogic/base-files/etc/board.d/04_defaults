@@ -5,6 +5,11 @@ board=$(board_name)
 board_config_update
 
 case $board in
+gainstrong,oolite-mt7987a)
+	ucidef_set_country CN
+	ucidef_set_wireless 2g "Oolite-MT7987A" "psk2" "oolite7987"
+	ucidef_set_wireless 5g "Oolite-MT7987A" "psk2" "oolite7987"
+	;;
 openwrt,one)
 	ucidef_set_wireless_mac_count 2g 7
 	ucidef_set_wireless_mac_count 5g 7
