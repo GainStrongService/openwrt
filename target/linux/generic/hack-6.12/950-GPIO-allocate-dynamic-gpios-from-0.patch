@@ -1,0 +1,11 @@
+--- a/include/linux/gpio.h
++++ b/include/linux/gpio.h
+@@ -65,7 +65,7 @@ static inline bool gpio_is_valid(int num
+  * However, some legacy drivers still perform fixed allocation.
+  * Until they are all fixed, leave 0-512 space for them.
+  */
+-#define GPIO_DYNAMIC_BASE	512
++#define GPIO_DYNAMIC_BASE	0
+ /*
+  * Define the maximum of the possible GPIO in the global numberspace.
+  * While the GPIO base and numbers are positive, we limit it with signed
