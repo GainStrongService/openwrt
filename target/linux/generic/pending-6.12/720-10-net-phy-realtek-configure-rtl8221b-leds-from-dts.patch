@@ -1,0 +1,58 @@
+From 6b3d7f2f75b8d2e5e6c5f0ddc7f8b0f8a2b4c123 Mon Sep 17 00:00:00 2001
+From: Joe Guo <joe@gainstrong.cn>
+Date: Thu, 6 Feb 2026 00:00:00 +0000
+Subject: [PATCH] net: phy: realtek: configure RTL8221B LEDs from DTS
+
+Allow boards to configure RTL8221B LED link-speed selection via the existing
+DTS property "realtek,led-link-select", which provides 3 values (LED0..2).
+The registers are located at MMD 31 (VEND2), starting at 0xd032 with a stride
+of 2.
+
+This matches the existing behavior in U-Boot for the same PHY.
+
+Signed-off-by: Joe Guo <joe@gainstrong.cn>
+---
+ drivers/net/phy/realtek/realtek_main.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+--- a/drivers/net/phy/realtek/realtek_main.c
++++ b/drivers/net/phy/realtek/realtek_main.c
+@@ -165,6 +165,9 @@
+ #define RTL8221B_PHYCR1				0xa430
+ #define RTL8221B_PHYCR1_ALDPS_EN		BIT(2)
+ #define RTL8221B_PHYCR1_ALDPS_XTAL_OFF_EN	BIT(12)
++#define RTL8221B_NR_LEDS			3
++#define RTL8221B_LED_LINK_SELECT		0xd032
++#define RTL8221B_LED_LINK_SELECT_OFFSET		0x2
+ 
+ #define RTL8366RB_POWER_SAVE			0x15
+ #define RTL8366RB_POWER_SAVE_ON			BIT(12)
+@@ -1246,6 +1249,8 @@ static int rtl822x_set_serdes_option_mod
+ {
+ 	bool has_2500, has_sgmii;
+ 	int ret, val;
++	u32 link_select[RTL8221B_NR_LEDS];
++	int i;
+ 	u16 mode;
+ 
+ 	has_2500 = test_bit(PHY_INTERFACE_MODE_2500BASEX,
+@@ -1319,6 +1324,19 @@ static int rtl822x_set_serdes_option_mod
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (!of_property_read_u32_array(phydev->mdio.dev.of_node,
++					"realtek,led-link-select",
++					link_select, RTL8221B_NR_LEDS)) {
++		for (i = 0; i < RTL8221B_NR_LEDS; i++) {
++			ret = phy_write_mmd(phydev, MDIO_MMD_VEND2,
++					    RTL8221B_LED_LINK_SELECT +
++						    i * RTL8221B_LED_LINK_SELECT_OFFSET,
++					    link_select[i]);
++			if (ret < 0)
++				return ret;
++		}
++	}
++
+ 	/* Disable SGMII AN */
+ 	ret = phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x7588, 0x2);
+ 	if (ret < 0)
