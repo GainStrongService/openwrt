@@ -1,0 +1,42 @@
+From: Elwin Huang <s09289728096@gmail.com>
+Date: Thu, 17 Apr 2025 17:04:51 +0800
+Subject: [PATCH] wifi: mt76: mt7603: clean up beacon queue before empty CAB
+ return
+
+Commit c03d84c0d018 ("wifi: mt76: mt7603: improve stuck beacon
+handling") moved beacon queue cleanup to the beginning of the pre-TBTT
+tasklet. When the CAB queue is empty, the tasklet now returns immediately
+after queueing a new beacon and does not run another cleanup pass.
+
+On MT7628 this makes software scans take about four to five seconds. The AP
+does not service clients for most of that interval, which can make clients
+disconnect during a site survey.
+
+Clean up completed beacon descriptors before taking the empty-CAB return.
+This restores the cleanup timing needed by MT7603 channel changes without
+reverting the stuck-beacon recovery added by c03d84c0d018.
+
+The regression analysis and this fix were originally proposed in upstream
+mt76 issue #973, where the cleanup restored the previous scan duration.
+
+Link: https://github.com/openwrt/mt76/issues/973
+Signed-off-by: Joe Guo <joe@gainstrong.cn>
+---
+ mt7603/beacon.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+--- a/mt7603/beacon.c
++++ b/mt7603/beacon.c
+@@ -146,8 +146,11 @@ void mt7603_pre_tbtt_tasklet(struct task
+ 	} while (nframes != skb_queue_len(&data.q) &&
+ 		 skb_queue_len(&data.q) < 8);
+ 
+-	if (skb_queue_empty(&data.q))
++	if (skb_queue_empty(&data.q)) {
++		mt76_queue_tx_cleanup(dev,
++				      dev->mphy.q_tx[MT_TXQ_BEACON], false);
+ 		return;
++	}
+ 
+ 	for (i = 0; i < ARRAY_SIZE(data.tail); i++) {
+ 		if (!data.tail[i])
