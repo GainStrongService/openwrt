@@ -55,6 +55,55 @@ Minibox-V2.5-XXXX-5G
 The default APs are open (`encryption=none`). The 5 GHz radio uses channel 36 by
 default. No WiFi country code is configured by default.
 
+### WiFi Site Survey
+
+The MT7628 2.4 GHz radio uses the `mt7603` software-scan path. Elwin Huang
+reported and analyzed the regression in upstream
+[mt76 issue 973](https://github.com/openwrt/mt76/issues/973). Affected mt76
+versions can spend four to five seconds away from the AP operating channel
+during a site survey. That interruption can make an associated client
+disconnect when `iw`, `iwinfo`, or the LuCI scan action requests a scan.
+
+The regression follows mt76 commit `c03d84c0d018` (`wifi: mt76: mt7603:
+improve stuck beacon handling`). That commit moved beacon queue cleanup to the
+beginning of the pre-TBTT tasklet and changed the empty-CAB path from a shared
+cleanup exit to an immediate return. After a new beacon is queued, the early
+return therefore skips the second cleanup pass needed while software scan
+changes channels.
+
+This branch applies the solution proposed in issue 973: clean completed MT7603
+beacon descriptors immediately before the empty-CAB return. It restores the
+previous cleanup timing without reverting the stuck-beacon recovery. At the
+time this branch was validated, issue 973 remained open and mt76 master did not
+contain the corresponding fix, so the change is carried as a downstream patch
+with the original author and source recorded in its patch header.
+
+Use the host-side regression script with SSH routed over Ethernet and ping
+forced through a WiFi client already connected to the AP:
+
+```sh
+scripts/test-minibox-v25-wifi-scan.sh \
+  --client-iface wlp131s0 \
+  --radio-iface phy0-ap0 \
+  --iterations 5
+```
+
+The script does not create a WiFi connection or change routes. It records scan
+duration, packet loss, maximum round-trip time, client disconnects, and new mt76
+kernel errors under `logs/`.
+
+Reference validation with an associated 2.4 GHz client produced these results:
+
+| Test | Scan duration | Packet loss | Maximum latency | Disconnects or mt76 errors |
+| --- | --- | --- | --- | --- |
+| Unpatched single scan | 4.59 s | 10.00% | 4474 ms | 0 |
+| Patched 10-scan test | 1.20-1.29 s | 0.83-5.00% per scan | 1477 ms | 0 |
+| Patched 30-minute test | 1.19-1.30 s over 60 scans | 2.06% overall | 1428 ms | 0 |
+
+The 5 GHz radio remains on its firmware-assisted scan path. A three-scan
+control test completed in 3.52-3.56 seconds without disconnecting the client or
+adding mt76 errors.
+
 Cellular modem support is not part of the default product configuration. No WAN
 interface is created by default.
 
@@ -196,6 +245,8 @@ Before publishing or flashing a release build, verify:
   uppercase hexadecimal characters of the label MAC.
 - The 2.4 GHz and 5 GHz APs are both enabled by default.
 - The 5 GHz AP uses channel 36.
+- A 2.4 GHz site survey completes without disconnecting an associated client or
+  leaving the AP unable to transmit beacons.
 - The only Ethernet port comes up as LAN, and no WAN or WAN6 interface is
   generated.
 - The GPIO keys expose reset and power only.
