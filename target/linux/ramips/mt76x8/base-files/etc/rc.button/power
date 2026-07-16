@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ "$(cat /tmp/sysinfo/board_name 2>/dev/null)" = "gainstrong,minibox-v2.5" ]
+then
+	# The MCU cuts power after a roughly 15-second hold. Keep this event as a
+	# userspace notification so applications can flush state before that limit.
+	# Integrators needing a shorter shutdown policy may handle ACTION and SEEN
+	# here, flush persistent data, call sync, then assert power_control GPIO43.
+	exit 0
+fi
+
+[ "${ACTION}" = "released" ] || exit 0
+
+exec /sbin/poweroff
+
+return 0

@@ -83,6 +83,7 @@
 		};
 
 		power_control {
+			/* Userspace may assert this MCU input after flushing state. */
 			gpio-export,name = "power_control";
 			gpio-export,output = <1>;
 			gpios = <&gpio 43 GPIO_ACTIVE_LOW>;
@@ -99,6 +100,7 @@
 		};
 
 		power {
+			/* Notification only; the external MCU owns power-button timing. */
 			label = "power";
 			gpios = <&gpio 40 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_POWER>;

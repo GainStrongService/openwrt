@@ -24,11 +24,54 @@ style.
 | USB | USB 2.0 host with storage support |
 | I2C | I2C bus enabled; charger, fuel-gauge, and secure-element addresses are described in DTS |
 | Status LED | Green power LED on GPIO39 |
-| Buttons | Reset and power GPIO keys |
+| Buttons | Reset key and MCU power-button notification input |
 
 The green power LED is configured as the OpenWrt system LED. It turns on when
 the kernel registers the GPIO LED, blinks during OpenWrt boot and upgrade, then
 stays on after the system reaches the running state.
+
+## Power Button and Software Power Control
+
+The power button is on the Micro USB charging-connector side. The reset button
+is on the opposite, Ethernet-port side.
+
+An external power-management MCU owns the physical power-button timing. While
+the board is off, holding the power button for approximately three seconds
+turns the board on. While it is running, holding the button for approximately
+15 seconds forces the MCU to remove power independently of OpenWrt.
+
+GPIO40 is connected to the MCU's active-low power-button notification output.
+Linux exposes it as a `KEY_POWER` GPIO key, which produces normal OpenWrt
+button hotplug events with `BUTTON=power`, `ACTION=pressed|released`, and the
+release duration in `SEEN`. The Minibox V2.5 product handler intentionally
+performs no automatic action for these events. In particular, a short press
+does not run `poweroff`. Customer software may consume the event to flush
+in-memory state, commit application data, or perform other preparation before
+the MCU's 15-second forced power removal. Events can be inspected during
+development with:
+
+```sh
+ubus listen button
+```
+
+GPIO43 is an independent active-low software power-control output exported as
+`/sys/class/gpio/power_control/value`. Its normal logical value is `0`.
+Writing `1` requests the MCU to cut board power:
+
+```sh
+sync
+echo 1 > /sys/class/gpio/power_control/value
+```
+
+This is an immediate hardware power-removal request, not an orderly Linux
+shutdown service. The product firmware does not invoke it automatically.
+Customer software is responsible for stopping applications, flushing data,
+and calling `sync` before asserting the output when this capability is used.
+Integrators that need a shutdown interval shorter than the MCU's 15-second
+limit may implement their policy in `/etc/rc.button/power`: inspect `ACTION`
+and `SEEN`, finish application shutdown and persistent writes, call `sync`,
+then write `1` to `power_control`. The supplied handler deliberately leaves
+that product-specific policy disabled.
 
 ## Default Network Behavior
 
@@ -250,6 +293,10 @@ Before publishing or flashing a release build, verify:
 - The only Ethernet port comes up as LAN, and no WAN or WAN6 interface is
   generated.
 - The GPIO keys expose reset and power only.
+- A short power-button press emits `KEY_POWER` hotplug events without running
+  `poweroff` or asserting the software power-control output.
+- `/sys/class/gpio/power_control/value` is `0` during normal operation; writing
+  `1` is reserved for an explicit customer-controlled power-cut request.
 - The green power LED turns on during kernel startup, blinks during OpenWrt
   boot, and stays on after startup.
 - The boot-time charger setup completes before Ethernet and WiFi startup, so the
