@@ -13,6 +13,7 @@ define Device/gainstrong_oolite-mt7987a
   DEVICE_DTS_CONFIG := config-mt7987a-gainstrong-oolite-mt7987a
   DEVICE_DTS_DIR := ../dts
   DEVICE_DTC_FLAGS := --pad 4096
+  DEVICE_FIT_COMPACT_OVERLAYS := 1
   DEVICE_DTS_LOADADDR := 0x4ff00000
   DEVICE_PACKAGES := luci mt7987-2p5g-phy-firmware \
 	kmod-mt7990-firmware block-mount kmod-fs-vfat \

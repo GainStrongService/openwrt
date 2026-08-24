@@ -32,6 +32,7 @@ usage() {
 	printf "\n\t-d ==> include Device Tree Blob 'dtb'"
 	printf "\n\t-r ==> include RootFS blob 'rootfs'"
 	printf "\n\t-H ==> specify hash algo instead of SHA1"
+	printf "\n\t-m ==> use compact device-tree overlay nodes"
 	printf "\n\t-l ==> legacy mode character (@ etc otherwise -)"
 	printf "\n\t-o ==> create output file 'its_file'"
 	printf "\n\t-O ==> create config with dt overlay 'name:dtb'"
@@ -45,11 +46,12 @@ FDTNUM=1
 ROOTFSNUM=1
 INITRDNUM=1
 HASH=sha1
+COMPACT_OVERLAYS=0
 LOADABLES=
 DTOVERLAY=
 DTADDR=
 
-while getopts ":A:a:c:C:D:d:e:f:i:k:l:n:o:O:v:r:s:H:" OPTION
+while getopts ":A:a:c:C:D:d:e:f:i:k:l:mn:o:O:v:r:s:H:" OPTION
 do
 	case $OPTION in
 		A ) ARCH=$OPTARG;;
@@ -63,6 +65,7 @@ do
 		i ) INITRD=$OPTARG;;
 		k ) KERNEL=$OPTARG;;
 		l ) REFERENCE_CHAR=$OPTARG;;
+		m ) COMPACT_OVERLAYS=1;;
 		n ) FDTNUM=$OPTARG;;
 		o ) OUTPUT=$OPTARG;;
 		O ) DTOVERLAY="$DTOVERLAY ${OPTARG}";;
@@ -169,7 +172,30 @@ OVCONFIGS=""
 	ovnode="fdt-$ovname"
 	ovsize=$(wc -c "$overlay_blob" | awk '{print $1}')
 	echo "$ovname ($overlay_blob) : $ovsize" >&2
-	FDTOVERLAY_NODE="$FDTOVERLAY_NODE
+	if [ "$COMPACT_OVERLAYS" -eq 1 ]; then
+		# Keep CRC32 for every overlay while removing optional repeated metadata.
+		FDTOVERLAY_NODE="$FDTOVERLAY_NODE
+
+		$ovnode {
+			${COMPATIBLE_PROP}
+			data = /incbin/(\"${overlay_blob}\");
+			type = \"flat_dt\";
+			arch = \"${ARCH}\";
+			compression = \"none\";
+			hash${REFERENCE_CHAR}1 {
+				algo = \"crc32\";
+			};
+		};
+"
+		OVCONFIGS="$OVCONFIGS
+
+		$ovname {
+			fdt = \"$ovnode\";
+			${COMPATIBLE_PROP}
+		};
+	"
+	else
+		FDTOVERLAY_NODE="$FDTOVERLAY_NODE
 
 		$ovnode {
 			description = \"${ARCH_UPPER} OpenWrt ${DEVICE} device tree overlay $ovname\";
@@ -186,7 +212,7 @@ OVCONFIGS=""
 			};
 		};
 "
-	OVCONFIGS="$OVCONFIGS
+		OVCONFIGS="$OVCONFIGS
 
 		$ovname {
 			description = \"OpenWrt ${DEVICE} overlay $ovname\";
@@ -194,6 +220,7 @@ OVCONFIGS=""
 			${COMPATIBLE_PROP}
 		};
 	"
+	fi
 done
 
 # Create a default, fully populated DTS file
