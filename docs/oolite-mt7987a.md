@@ -38,9 +38,12 @@ The board uses one device profile and seven device-tree overlays:
 | `mt7987a-gainstrong-oolite-mt7987a-nor-sd` | SPI-NOR root with SD attached storage |
 | `mt7987a-gainstrong-oolite-mt7987a-nor-nand` | SPI-NOR root with SPI-NAND attached storage |
 
-The generated FIT contains the base DTB and all seven overlays. The same
-firmware artifact is used for every boot medium, and the pre-installed
-bootloader selects the active overlay.
+The generated FIT contains the base DTB and all seven overlays. Overlay nodes
+use compact metadata with CRC32 integrity hashes so the FIT structure remains
+within the legacy Oolite NOR bootloader's initial 4 KiB probe window; kernel,
+base-DTB and rootfs integrity metadata remain unchanged. The same firmware
+artifact is used for every boot medium, and the pre-installed bootloader
+selects the active overlay.
 
 The three `nor-*` attached-storage overlays keep the kernel, root filesystem,
 bootloader environment and calibration data on SPI-NOR. The secondary storage
