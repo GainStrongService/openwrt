@@ -1,0 +1,93 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /lib/functions/system.sh
+
+[ "$(board_name)" = "gainstrong,oolite-mt7987a" ] || exit 0
+
+if [ ! -s /etc/config/wireless ]; then
+	command -v wifi >/dev/null 2>&1 && wifi config >/dev/null 2>&1 || true
+fi
+
+[ -s /etc/config/wireless ] || exit 0
+
+read_oolite_mac() {
+	local candidate canonical
+
+	for candidate in \
+		"$(get_mac_label 2>/dev/null)" \
+		"$(cat /sys/class/net/lan/address 2>/dev/null)" \
+		"$(cat /sys/class/net/eth1/address 2>/dev/null)"; do
+		[ -n "$candidate" ] || continue
+		canonical="$(macaddr_canonicalize "$candidate" 2>/dev/null)"
+		case "$canonical" in
+			""|00:00:00:00:00:00) ;;
+			*)
+				printf '%s\n' "$canonical"
+				return 0
+				;;
+		esac
+	done
+
+	return 1
+}
+
+label_mac="$(read_oolite_mac || true)"
+ssid_suffix=""
+if [ -n "$label_mac" ]; then
+	ssid_suffix="$(printf '%s' "$label_mac" | tr -d ':' | tail -c 4 | tr 'abcdef' 'ABCDEF')"
+fi
+
+changed=0
+
+set_oolite_ap_defaults() {
+	local section="$1"
+	local mode device band ssid option
+
+	config_get mode "$section" mode
+	[ "$mode" = "ap" ] || return 0
+
+	config_get device "$section" device
+	[ -n "$device" ] || return 0
+
+	band="$(uci -q get "wireless.${device}.band")"
+	case "$band" in
+		2g) ssid="Oolite-MT7987A${ssid_suffix:+-$ssid_suffix}-2.4G" ;;
+		5g) ssid="Oolite-MT7987A${ssid_suffix:+-$ssid_suffix}-5G" ;;
+		*) return 0 ;;
+	esac
+
+	if [ "$(uci -q get "wireless.${device}.disabled")" != "0" ]; then
+		uci -q set "wireless.${device}.disabled=0"
+		changed=1
+	fi
+
+	if [ "$(uci -q get "wireless.${section}.disabled")" != "0" ]; then
+		uci -q set "wireless.${section}.disabled=0"
+		changed=1
+	fi
+
+	if [ "$(uci -q get "wireless.${section}.ssid")" != "$ssid" ]; then
+		uci -q set "wireless.${section}.ssid=$ssid"
+		changed=1
+	fi
+
+	if [ "$(uci -q get "wireless.${section}.encryption")" != "none" ]; then
+		uci -q set "wireless.${section}.encryption=none"
+		changed=1
+	fi
+
+	for option in key sae_password; do
+		if uci -q get "wireless.${section}.${option}" >/dev/null 2>&1; then
+			uci -q delete "wireless.${section}.${option}"
+			changed=1
+		fi
+	done
+}
+
+config_load wireless
+config_foreach set_oolite_ap_defaults wifi-iface
+
+[ "$changed" = "1" ] && uci -q commit wireless
+
+exit 0

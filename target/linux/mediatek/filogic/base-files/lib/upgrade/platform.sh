@@ -121,6 +121,7 @@ platform_do_upgrade() {
 	cudy,wr3000s-v1-ubootmod|\
 	cudy,wr3000h-v1-ubootmod|\
 	cudy,wr3000p-v1-ubootmod|\
+	gainstrong,oolite-mt7987a|\
 	gatonetworks,gdsp|\
 	globitel,bt-r320|\
 	h3c,magic-nx30-pro|\
@@ -335,6 +336,7 @@ platform_check_image() {
 	cudy,wr3000s-v1-ubootmod|\
 	cudy,wr3000h-v1-ubootmod|\
 	cudy,wr3000p-v1-ubootmod|\
+	gainstrong,oolite-mt7987a|\
 	gatonetworks,gdsp|\
 	globitel,bt-r320|\
 	h3c,magic-nx30-pro|\
@@ -398,6 +400,7 @@ platform_copy_config() {
 	bananapi,bpi-r4-poe|\
 	bananapi,bpi-r4-lite|\
 	cmcc,rax3000m|\
+	gainstrong,oolite-mt7987a|\
 	gatonetworks,gdsp|\
 	mediatek,mt7988a-rfb)
 		if [ "$CI_METHOD" = "emmc" ]; then

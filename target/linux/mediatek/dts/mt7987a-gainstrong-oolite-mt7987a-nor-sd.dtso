@@ -1,0 +1,103 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	compatible = "gainstrong,oolite-mt7987a",
+		     "mediatek,mt7987a", "mediatek,mt7987";
+};
+
+/* Keep the Oolite SPI-NOR boot layout identical to the standard NOR overlay. */
+&{/soc/spi@11009800} {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi2_flash_pins>;
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <52000000>;
+		spi-rx-bus-width = <4>;
+		spi-tx-bus-width = <4>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "bootloader";
+				reg = <0x0 0xe0000>;
+			};
+
+			partition@e0000 {
+				label = "ubootenv";
+				reg = <0xe0000 0x10000>;
+			};
+
+			factory: partition@f0000 {
+				label = "Factory";
+				reg = <0xf0000 0x10000>;
+
+				nvmem-layout {
+					compatible = "fixed-layout";
+					#address-cells = <1>;
+					#size-cells = <1>;
+
+					eeprom_factory_0: eeprom@0 {
+						reg = <0x0 0x1e00>;
+					};
+				};
+			};
+
+			nor_rootfs: partition@100000 {
+				compatible = "denx,fit";
+				label = "firmware";
+				reg = <0x100000 0x0>;
+			};
+		};
+	};
+};
+
+/* Controller values match the verified Oolite SD boot overlay. */
+&{/soc/mmc@11230000} {
+	pinctrl-names = "default", "state_uhs";
+	pinctrl-0 = <&sd_pins_default>;
+	pinctrl-1 = <&sd_pins_uhs>;
+	cd-gpios = <&pio 20 GPIO_ACTIVE_LOW>;
+
+	bus-width = <4>;
+	max-frequency = <48000000>;
+	cap-sd-highspeed;
+	no-mmc;
+	no-sdio;
+	vmmc-supply = <&reg_3p3v>;
+	vqmmc-supply = <&reg_3p3v>;
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	card@0 {
+		compatible = "mmc-card";
+		reg = <0>;
+	};
+};
+
+&{/chosen} {
+	rootdisk-nor = <&nor_rootfs>;
+};
+
+&pcie0 {
+	pcie@0,0 {
+		mt7990@0,0 {
+			nvmem-cells = <&eeprom_factory_0>;
+			nvmem-cell-names = "eeprom";
+		};
+	};
+};
