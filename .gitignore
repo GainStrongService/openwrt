@@ -35,3 +35,6 @@ git-src
 .cproject
 .ccache
 .vscode*
+*.log
+__pycache__/
+*.pyc
