@@ -10,6 +10,7 @@
 /build_dir
 /staging_dir
 /tmp
+/artifacts/tmp
 /logs
 /feeds
 /feeds.conf
