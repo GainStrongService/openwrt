@@ -2,6 +2,7 @@
 set -eu
 
 CONFIG_FILE="GS-R3000N-H4.config"
+UPSTREAM_BASELINE="7722054025462cbc4cc6225cfe49ea0ad409b302"
 BUILD_FIRMWARE=1
 BUILD_SDK=1
 
@@ -110,7 +111,8 @@ if [ "$BUILD_FIRMWARE" -eq 1 ]; then
 fi
 
 if [ "$BUILD_SDK" -eq 1 ]; then
-	make -j"$JOBS" target/sdk/compile
+	make -j"$JOBS" target/sdk/compile \
+		BASE_FEED="src-git --root=package base https://github.com/openwrt/openwrt.git^${UPSTREAM_BASELINE}"
 fi
 
 echo "OpenWrt output: bin/targets/mediatek/filogic"
