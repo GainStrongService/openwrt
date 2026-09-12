@@ -3883,3 +3883,20 @@ ifneq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),)
 endif
 endef
 TARGET_DEVICES += zyxel_wx5600-t0-ubootmod
+
+define Device/gainstrong_gs-r3000n-h4
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := GS-R3000N-H4
+  DEVICE_DTS := mt7981b-gainstrong-gs-r3000n-h4
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := -uboot-envtools kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware
+  KERNEL_IN_UBI := 1
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 65536k
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += gainstrong_gs-r3000n-h4
