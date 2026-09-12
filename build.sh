@@ -64,6 +64,7 @@ JOBS=$(nproc)
 STATE_DIR=$(mktemp -d)
 CONFIG_SAVED=0
 CONFIG_OLD_SAVED=0
+FEEDS_CONF_SAVED=0
 
 if [ -e .config ] || [ -L .config ]; then
 	mv .config "$STATE_DIR/config"
@@ -72,6 +73,10 @@ fi
 if [ -e .config.old ] || [ -L .config.old ]; then
 	mv .config.old "$STATE_DIR/config.old"
 	CONFIG_OLD_SAVED=1
+fi
+if [ -e feeds.conf ] || [ -L feeds.conf ]; then
+	mv feeds.conf "$STATE_DIR/feeds.conf"
+	FEEDS_CONF_SAVED=1
 fi
 
 cleanup() {
@@ -84,12 +89,17 @@ cleanup() {
 	if [ "$CONFIG_OLD_SAVED" -eq 1 ]; then
 		mv "$STATE_DIR/config.old" .config.old
 	fi
+	rm -f feeds.conf
+	if [ "$FEEDS_CONF_SAVED" -eq 1 ]; then
+		mv "$STATE_DIR/feeds.conf" feeds.conf
+	fi
 	rm -rf "$STATE_DIR"
 	exit "$status"
 }
 trap cleanup EXIT HUP INT TERM
 
 cp "$CONFIG_FILE" .config
+cp feeds.conf.default feeds.conf
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a
