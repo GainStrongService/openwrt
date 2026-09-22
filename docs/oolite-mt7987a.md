@@ -124,6 +124,10 @@ It does not update bootloader, U-Boot environment, Factory or reserved data.
 Use `sysupgrade -n` when settings from an older or unrelated image must not be
 retained.
 
+For step-by-step installation, recovery from a module with no carrier board,
+serial UART transfer, Wi-Fi based update, and blank-flash restore, see
+[Oolite-MT7987A Flashing Guide](oolite-mt7987a-flashing.md).
+
 ## Validation Checklist
 
 1. Run `git diff --check` and inspect the public commit sequence.
