@@ -370,6 +370,11 @@ ath79_setup_interfaces()
 	etactica,eg200)
 		ucidef_set_interface_lan "eth0" "dhcp"
 		;;
+	gainstrong,minibox-v3)
+		# LAN is the jack next to the reset button, WAN the one on the
+		# micro-USB power side.  eth0 carries LAN, eth1 carries WAN.
+		ucidef_set_interfaces_lan_wan "eth0" "eth1"
+		;;
 	glinet,gl-ar750)
 		ucidef_set_interface_wan "eth1"
 		ucidef_add_switch "switch0" \

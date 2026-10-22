@@ -1,0 +1,37 @@
+#!/bin/sh
+
+. /lib/functions/uci-defaults.sh
+. /lib/functions/system.sh
+
+board_config_update
+
+board=$(board_name)
+
+case "$board" in
+gainstrong,minibox-v3)
+	# Radios come up enabled on first boot, with an SSID built from the model
+	# name, the last four digits of the label MAC and the band, so that units
+	# shipped together do not end up with identical SSIDs.  The suffix is
+	# upper case on purpose: it is printed on the case label that way.
+	#
+	# The label MAC sits at ART 0x1002 (see the DTS); mtd_get_mac_binary
+	# returns it in aa:bb:cc:dd:ee:ff form, 12 hex digits once the colons are
+	# dropped, so the last four are characters 9 to 12.
+	mac="$(mtd_get_mac_binary art 0x1002)"
+	mac="$(echo "$mac" | tr -d ':')"
+	suffix="$(echo "$mac" | cut -c9-12 | tr 'a-f' 'A-F')"
+	[ -n "$suffix" ] || suffix="0000"
+
+	ucidef_set_wireless 2g "MiniBox-V3.X-$suffix-2.4G"
+	ucidef_set_wireless 5g "MiniBox-V3.X-$suffix-5G"
+
+	# mac80211 keeps a 5 GHz default only when a country is known, so this is
+	# what makes the second radio usable out of the box.  Change it if the
+	# units are shipped to another regulatory domain.
+	ucidef_set_country US
+	;;
+esac
+
+board_config_flush
+
+exit 0

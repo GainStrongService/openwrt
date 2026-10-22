@@ -1700,6 +1700,29 @@ define Device/glinet_6416
 endef
 TARGET_DEVICES += glinet_6416
 
+define Device/gainstrong_minibox-v3
+  $(Device/tplink-v1)
+  SOC := qca9531
+  DEVICE_VENDOR := GainStrong
+  DEVICE_MODEL := MiniBox V3.X
+  # The flash size is picked per order, so the partition table is resolved from
+  # the real chip size at boot by the gainstrong-dynamic-mtd parser (hack-6.12
+  # patch) and no size is baked into the image.  The 16Mlzma header layout is
+  # only used to keep the generated image compact and its kernel/rootfs offsets
+  # self-consistent.
+  TPLINK_FLASHLAYOUT := 16Mlzma
+  # No factory image: tplink-v1 pads it to the full layout and would overwrite
+  # the U-Boot environment that sits right below the calibration data.
+  IMAGES := sysupgrade.bin
+  # Mainline ath10k rather than ath10k-ct: the ct driver reaches the firmware
+  # through the diag window instead of the CE pipes, and on the QCA9887 its
+  # handshake never completes.  The 5 GHz module carries no EEPROM of its own,
+  # so ath10k-firmware-qca9887 pulls in ath10k-board-qca9887 on its own and the
+  # per-card calibration arrives through the nvmem cell described in the DTS.
+  DEVICE_PACKAGES := kmod-usb2 kmod-ath10k ath10k-firmware-qca9887
+endef
+TARGET_DEVICES += gainstrong_minibox-v3
+
 define Device/glinet_gl-ar150
   SOC := ar9330
   DEVICE_VENDOR := GL.iNet

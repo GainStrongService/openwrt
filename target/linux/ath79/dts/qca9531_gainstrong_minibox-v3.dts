@@ -1,0 +1,197 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+
+#include "qca953x.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+
+/ {
+	compatible = "gainstrong,minibox-v3", "qca,qca9531";
+	model = "GainStrong MiniBox V3.X";
+
+	aliases {
+		label-mac-device = &wmac;
+		led-boot = &led_system;
+		led-failsafe = &led_system;
+		led-running = &led_system;
+		led-upgrade = &led_system;
+	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		/* Reset button, GPIO17, active low */
+		reset {
+			label = "reset";
+			linux,code = <KEY_RESTART>;
+			gpios = <&gpio 17 GPIO_ACTIVE_LOW>;
+			debounce-interval = <60>;
+		};
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		/*
+		 * Single status LED on GPIO14, active low.  The board has no
+		 * per-port WAN/LAN LED.
+		 */
+		led_system: led {
+			label = "green:system";
+			gpios = <&gpio 14 GPIO_ACTIVE_LOW>;
+		};
+	};
+};
+
+&spi {
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <25000000>;
+
+		/*
+		 * The same image runs on 16/32/64 MiB boards, so the layout is
+		 * resolved from the real flash size at boot:
+		 *  - "firmware" ends 128 KiB before the end of the flash
+		 *    (64 KiB U-Boot environment + 64 KiB calibration data);
+		 *  - "u-boot-env" and "art" are anchored to the end of the flash.
+		 * The parser implementation lives in
+		 * target/linux/generic/hack-6.12/490-add-gainstrong-dynamic-mtd-partition-support.patch
+		 */
+		partitions {
+			compatible = "gainstrong-dynamic-mtd";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "u-boot";
+				reg = <0x000000 0x020000>;
+				read-only;
+			};
+
+			firmware {
+				compatible = "tplink,firmware";
+				label = "firmware";
+				dynamic-end;
+				reg = <0x020000 0x020000>;
+			};
+
+			ubootenv {
+				label = "u-boot-env";
+				tail-partition;
+				reg = <0x020000 0x010000>;
+			};
+
+			art: art {
+				label = "art";
+				tail-partition;
+				reg = <0x010000 0x010000>;
+				read-only;
+
+				nvmem-layout {
+					compatible = "fixed-layout";
+					#address-cells = <1>;
+					#size-cells = <1>;
+
+					/*
+					 * The label MAC sits at 0x1002, two
+					 * bytes into the 2.4 GHz calibration
+					 * block, and both radios pick their own
+					 * address up from their calibration
+					 * blocks.  The ethernet ports are
+					 * derived from the label address with
+					 * the increment passed as a cell
+					 * argument: LAN is label + 1 and WAN is
+					 * label + 2, which matches what the
+					 * factory wrote into the old firmware.
+					 *
+					 * mac-address-increment would express
+					 * the same thing, but that property no
+					 * longer exists in this tree; the
+					 * increment now travels as a "mac-base"
+					 * cell argument instead.
+					 */
+					macaddr_art_1002: mac-address@1002 {
+						compatible = "mac-base";
+						reg = <0x1002 0x6>;
+						#nvmem-cell-cells = <1>;
+					};
+
+					cal_art_1000: calibration@1000 {
+						reg = <0x1000 0x440>;
+					};
+
+					cal_art_5000: calibration@5000 {
+						reg = <0x5000 0x844>;
+					};
+				};
+			};
+		};
+	};
+};
+
+/*
+ * LAN is the jack next to the reset button, WAN the one on the micro-USB power
+ * side.  board.d/02_network maps LAN to eth0 and WAN to eth1.
+ *
+ * Note the naming: ag71xx takes eth%d from devm_alloc_etherdev(), so the names
+ * follow probe order and not the node order in this file.  On this board the
+ * GMAC at 1a000000 enumerates first and comes up as eth0, which makes the LAN
+ * port the &eth1 node below and the WAN port &eth0.  Keep the increments in
+ * step with that or the two ports trade addresses.
+ */
+&eth0 {
+	status = "okay";
+
+	phy-handle = <&swphy4>;
+
+	/* 19000000.eth, WAN: label + 2 */
+	nvmem-cells = <&macaddr_art_1002 2>;
+	nvmem-cell-names = "mac-address";
+};
+
+&eth1 {
+	/* 1a000000.eth, LAN: label + 1 */
+	nvmem-cells = <&macaddr_art_1002 1>;
+	nvmem-cell-names = "mac-address";
+};
+
+&wmac {
+	status = "okay";
+
+	nvmem-cells = <&cal_art_1000>;
+	nvmem-cell-names = "calibration";
+};
+
+&usb_phy {
+	status = "okay";
+};
+
+&usb0 {
+	status = "okay";
+};
+
+/*
+ * MiniBox V3.0 and V3.2 share this image.  V3.2 solders a QCA9887 5 GHz radio
+ * (PCI ID 168c:0050) onto the SoC PCIe bus; V3.0 leaves that part unpopulated.
+ * The controller therefore stays enabled on both variants - with no endpoint
+ * attached the bus stays idle and only the on-SoC 2.4 GHz radio comes up.
+ *
+ * The QCA9887 module carries no EEPROM of its own, so ath10k finds no
+ * calibration there and refuses to bring the card up.  The per-card
+ * calibration data sits in the ART partition at 0x5000 and is handed to the
+ * driver through nvmem, the same way the on-SoC radio gets its own block from
+ * 0x1000.
+ */
+&pcie0 {
+	status = "okay";
+
+	wifi@0,0 {
+		compatible = "qcom,ath10k";
+		reg = <0x0000 0 0 0 0>;
+		nvmem-cells = <&cal_art_5000>;
+		nvmem-cell-names = "calibration";
+	};
+};
