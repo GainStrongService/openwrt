@@ -14,7 +14,7 @@ Branch names generally follow:
 | Product | OpenWrt Versions | Branches | Status / Notes |
 | --- | --- | --- | --- |
 | Minibox V2.0 | 22.03, 25.12 | [22.03](https://github.com/GainStrongService/openwrt/tree/2203/MT7628-Minibox-V2.0)<br>[25.12](https://github.com/GainStrongService/openwrt/tree/2512/MT76x8-Minibox-V2) | Supported |
-| Minibox V3.X | 19.07, 22.03 | [19.07](https://github.com/GainStrongService/openwrt/tree/1907/qca9531-oolite-v5.x-minibox-v3.x)<br>[22.03 V3.0](https://github.com/GainStrongService/openwrt/tree/2203/QCA9531-MiniBox-V3.0)<br>[22.03 V3.X](https://github.com/GainStrongService/openwrt/tree/2203/QCA9531-MiniBox-V3.X) | Supported |
+| Minibox V3.X | 19.07, 22.03, 25.12 | [19.07](https://github.com/GainStrongService/openwrt/tree/1907/qca9531-oolite-v5.x-minibox-v3.x)<br>[22.03 V3.0](https://github.com/GainStrongService/openwrt/tree/2203/QCA9531-MiniBox-V3.0)<br>[22.03 V3.X](https://github.com/GainStrongService/openwrt/tree/2203/QCA9531-MiniBox-V3.X)<br>[25.12](https://github.com/GainStrongService/openwrt/tree/2512/QCA9531-Minibox-V3.X) | Supported |
 | Minibox V5.0 | 25.12 | [25.12](https://github.com/GainStrongService/openwrt/tree/2512/MT7981-Minibox-V5.0) | Supported |
 | Minibox LTE | 22.03, 23.05 | [22.03](https://github.com/GainStrongService/openwrt/tree/2203/QCA9531-MiniBox-LTE)<br>[23.05](https://github.com/GainStrongService/openwrt/tree/2305/QCA9531-MiniBox-LTE) | Supported |
 | Minibox LoRa | ESP32 SDK | [SDK](https://github.com/GainStrongService/Minibox-LoRa-SDK) | Supported |
@@ -26,8 +26,9 @@ Branch names generally follow:
 | OoliteBox V1.0 | 22.03 | [22.03](https://github.com/GainStrongService/openwrt/tree/2203/QCA9531-OoliteBox-V1.0) | Supported |
 | Oolite-IPQ4019 | 22.03 | [22.03](https://github.com/GainStrongService/openwrt/tree/2203/Oolite-IPQ4019) | Supported |
 | Oolite-MT7620A | 22.03 | [22.03](https://github.com/GainStrongService/openwrt/tree/2203/Oolite-MT7620) | Supported |
-| Oolite-MT7981B V1 | 23.05, 24.10 | [23.05](https://github.com/GainStrongService/openwrt/tree/2305/Oolite-MT7981B-V1)<br>[24.10](https://github.com/GainStrongService/openwrt/tree/2410/Oolite-MT7981B-V1) | Supported |
+| Oolite-MT7981B V1 | 23.05, 24.10, 25.12 | [23.05](https://github.com/GainStrongService/openwrt/tree/2305/Oolite-MT7981B-V1)<br>[24.10](https://github.com/GainStrongService/openwrt/tree/2410/Oolite-MT7981B-V1)<br>[25.12](https://github.com/GainStrongService/openwrt/tree/2512/Oolite-MT7981B-V1) | Supported |
 | Oolite-MT7987A | 25.12 | [25.12](https://github.com/GainStrongService/openwrt/tree/2512/Oolite-MT7987A) | Supported |
 | CeilingAP-V1 | 21.02 | [21.02](https://github.com/GainStrongService/openwrt/tree/2102/qca9531-CeilingAP-V1-QCA9886) | Supported |
 | GS-4GR11 | 22.03 | [22.03](https://github.com/GainStrongService/openwrt/tree/2203/MT7628-GS-4GR11) | Supported |
+| GS-R3000N-H4 | 25.12 | [25.12](https://github.com/GainStrongService/openwrt/tree/2512/GS-R3000N-H4) | Supported |
 | RM03-4G | 21.02 | [21.02](https://github.com/GainStrongService/openwrt/tree/2102/mt7620-rm03) | Supported |
