@@ -1,0 +1,60 @@
+From: GainStrong <support@gainstrong.cn>
+Subject: [PATCH] mtd: parsers: ofpart: add GainStrong dynamic partition support
+
+--- a/drivers/mtd/parsers/ofpart_core.c
++++ b/drivers/mtd/parsers/ofpart_core.c
+@@ -103,6 +103,7 @@
+ 		const __be32 *reg;
+ 		int len;
+ 		int a_cells, s_cells;
++		u64 part_offset, part_size;
+ 
+ 		if (!dedicated && node_has_compatible(pp))
+ 			continue;
+@@ -148,8 +149,35 @@
+ 			goto ofpart_fail;
+ 		}
+ 
+-		parts[i].offset = of_read_number(reg, a_cells);
+-		parts[i].size = of_read_number(reg + a_cells, s_cells);
++		part_offset = of_read_number(reg, a_cells);
++		part_size = of_read_number(reg + a_cells, s_cells);
++
++		/*
++		 * GainStrong layout helpers for SPI NOR boards that ship with
++		 * more than one flash size:
++		 *
++		 *  - "tail-partition": reg offset is measured from the end of
++		 *    the master device, reg size is the partition size.  Used
++		 *    for the calibration data and the bootloader environment,
++		 *    which the vendor always keeps at the very end of the
++		 *    flash.
++		 *  - "dynamic-end": reg offset is absolute, reg size is the
++		 *    distance from the end of the master device, so the
++		 *    partition grows with the flash.  Used for the firmware
++		 *    partition.
++		 */
++		if (of_property_read_bool(pp, "tail-partition")) {
++			if (part_offset > master->size)
++				goto ofpart_fail;
++			part_offset = master->size - part_offset;
++		} else if (of_property_read_bool(pp, "dynamic-end")) {
++			if (part_offset + part_size > master->size)
++				goto ofpart_fail;
++			part_size = master->size - part_offset - part_size;
++		}
++
++		parts[i].offset = part_offset;
++		parts[i].size = part_size;
+ 		parts[i].of_node = pp;
+ 
+ 		partname = of_get_property(pp, "label", &len);
+@@ -191,6 +219,8 @@
+ static const struct of_device_id parse_ofpart_match_table[] = {
+ 	/* Generic */
+ 	{ .compatible = "fixed-partitions" },
++	/* Shenzhen GainStrong: tail anchored / dynamic size partitions */
++	{ .compatible = "gainstrong-dynamic-mtd" },
+ 	/* Customized */
+ 	{ .compatible = "brcm,bcm4908-partitions", .data = &bcm4908_partitions_quirks, },
+ 	{ .compatible = "linksys,ns-partitions", .data = &linksys_ns_partitions_quirks, },
